@@ -3,7 +3,7 @@
 
 <head>
     <title>Travel Blog - Browse to Your Heart's Content</title>
-
+    
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initialscale=1">
@@ -16,30 +16,43 @@
             max-width: 97%;
         }
     </style>
+    <!-- Google fonts - Open Sans-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <!-- Theme stylesheet-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/blog/2-0/css/style.default.622904dd.css"
+        id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/blog/2-0/css/custom.0a822280.css">
 </head>
 
 <body>
-    <div class="container-fluid">
-        <header>
-            <h1>Big Five's Amazing Posts</h1>
-        </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3 fixed-top">
+        <div class="container py-1"><a class="navbar-brand text-sm fw-bold text-dark" href="index.html">Travel Blog</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link active " href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link " href="browse.html">Browse</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link " href="#"> Your Post</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link " href="contact.html">Contact</a>
+                    </li>
 
-        <nav>
-            <a href="index.html">Home</a>
-            &nbsp;
-            <a href="#">Login</a>
-            &nbsp;
-            <a href="browse.html">Browse</a>
-            &nbsp;
-            <a href="#">FAQ</a>
-            &nbsp;
-            <a href="contact.html">Contact Us</a>
-        </nav>
-
-        <h2>Discover New Experiences</h2>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div>
+            <h2>Discover New Experiences</h2>
         <p>
             Share your own travelling experiences, or check out others' travelling experiences!
         </p>
+        </div>
         <!--3x2 card gallery-->
         <section class="gallery-block cards-gallery">
             <div class="container">
@@ -120,16 +133,29 @@
             </div>
         </section>
     </div>
+    <footer>
+        <div class="copyrights text-white py-4" style="background: #090909">
+            <div class="container">
+                <div class="row text-center gy-2">
+                    <div class="col-md-12">
+                        <p class="mb-0 fw-light text-sm">Copyright &copy;2022. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!--Makes card animated-->
     <script>
         baguetteBox.run('.cards-gallery', { animation: 'slideIn' });
     </script>
+    <!-- JavaScript files-->
+    <script src="https://d19m59y37dris4.cloudfront.net/blog/2-0/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/blog/2-0/vendor/glightbox/glightbox.js"></script>
+    <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </body>
 
-<footer>
-    <div class="container-fluid">
-        <p>Made by BigFive group</p>
-    </div>
-</footer>
+
 
 </html>

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Travel Blog - Journey Never Ends</title>
+    <title>WIF3001 Travel Blog - Journey Never Ends</title>
 
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
@@ -15,44 +15,139 @@
             max-width: 97%;
         }
     </style>
+    <!-- Google fonts - Open Sans-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <!-- Theme stylesheet-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/blog/2-0/css/style.default.622904dd.css"
+        id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/blog/2-0/css/custom.0a822280.css">
+
 </head>
 
 <body>
-    <div class="container-fluid">
-        <header>
-            <h1>Big Five's Amazing Travel Blog</h1>
-        </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
+        <div class="container py-1"><a class="navbar-brand text-sm fw-bold text-dark" href="index.html">Travel
+                Blog</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link active " href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link " href="browse.html">Browse</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link " href="#">Your Post</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link " href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        <nav>
-            <a href="index.html">Home</a>
-            &nbsp;
-            <a href="#">Login</a>
-            &nbsp;
-            <a href="browse.html">Browse</a>
-            &nbsp;
-            <a href="#">FAQ</a>
-            &nbsp;
-            <a href="contact.html">Contact Us</a>
-        </nav>
+    <!-- Hero Section-->
+    <section class="hero position-relative"
+        style="background: url(https://d19m59y37dris4.cloudfront.net/blog/2-0/img/hero.68e47bad.jpg); background-size: cover; background-position: center center">
+        <div class="container text-white py-5">
+            <div class="row py-lg-5">
+                <div class="col-lg-7">
+                    <h1>WIF3001 Travel Blog - The Journey will never End.</h1>
+                    <a class="link-underline mt-3" href="browse.html">Discover More</a>
+                </div>
+            </div><a
+                class="continue text-gray-400 position-absolute bottom-0 mb-5 z-index-20 link-transition small text-uppercase"
+                href="#intro"><i class="fas fa-long-arrow-alt-down"></i> Scroll Down</a>
+        </div>
+    </section>
 
-        <h2>The Journey Will Never End</h2>
-        <p>
-            Memories are precious. They deserved to be preserved. Join us in sharing everyone's best moments!
-        </p>
-        <img src="image/all_attraction.jpg" alt="tourist attraction from all over the world" width="600" height="400">
-        <h3>What to expect:</h3>
-        <ul>
-            <li>Simple interface, easy navigation</li>
-            <li>Keep track of your own posts, check your own commitment</li>
-            <li>Inspire or be inspired!</li>
-        </ul>
-    </div>
+    <section id="intro">
+        <div class="container">
+            <div class="col-lg-8">
+                <h2><u>The Journey Will Never End</u></h2>
+                <p class="text-lg fw-light lh-lg mb-0"><strong>Memories are precious.</strong> They deserved to be
+                    preserved.
+                    Come and share with us your precious moments!
+                </p>
+                <a class="link-underline mt-3" href="browse.html"><strong>Create own travel blog</strong> </a>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Divider Section-->
+    <section class="divider"
+        style="background: url(https://d19m59y37dris4.cloudfront.net/blog/2-0/img/divider-bg.9efa09f1.jpg); background-size: cover; background-position: center bottom">
+        <div class="container text-white">
+            <div class="row">
+                <div class="col-md-7">
+                    <h2>Inspire or be inspired! Be sure to check out other latest adventures</h2>
+                    <a class="link-underline mt-3" href="#latest">View More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Posts -->
+    <section id="latest">
+        <div class="container">
+            <header class="mb-5">
+                <h2>Latest from the blog</h2>
+                <p class="text-lg fw-light">Never miss on the best moments.</p>
+            </header>
+            <div class="row gy-4">
+                <div class="col-md-4"><a class="mb-3" href="post.html"><img class="img-fluid" src="image/brazil.jpg"
+                            alt="..." /></a>
+                    <div class="d-flex align-items-center justify-content-between mb-2"><small class="text-gray-500">20
+                            May | 2016</small></div>
+                    <h3 class="h4"><a class="text-dark" href="post.html">Travel Blog 1 Title</a></h3>
+                    <p class="text-muted text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                        eiusmod tempor incididunt ut labore.</p>
+                </div>
+                <div class="col-md-4"><a class="mb-3" href="post.html"><img class="img-fluid" src="image/hawaii.jpg"
+                            alt="..." /></a>
+                    <div class="d-flex align-items-center justify-content-between mb-2"><small class="text-gray-500">20
+                            May | 2016</small>
+                    </div>
+                    <h3 class="h4"><a class="text-dark" href="post.html">Travel Blog 2 Title</a></h3>
+                    <p class="text-muted text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                        eiusmod tempor incididunt ut labore.</p>
+                </div>
+                <div class="col-md-4"><a class="mb-3" href="post.html"><img class="img-fluid" src="image/japan.jpg"
+                            alt="..." /></a>
+                    <div class="d-flex align-items-center justify-content-between mb-2"><small class="text-gray-500">20
+                            May | 2016</small>
+                    </div>
+                    <h3 class="h4"><a class="text-dark" href="post.html">Travel Blog 3 Title</a>
+                    </h3>
+                    <p class="text-muted text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                        eiusmod tempor incididunt ut labore.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="copyrights text-white py-4" style="background: #090909">
+            <div class="container">
+                <div class="row text-center gy-2">
+                    <div class="col-md-12">
+                        <p class="mb-0 fw-light text-sm">Copyright &copy;2022. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- JavaScript files-->
+    <script src="https://d19m59y37dris4.cloudfront.net/blog/2-0/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://d19m59y37dris4.cloudfront.net/blog/2-0/vendor/glightbox/glightbox.js"></script>
+
+
+    <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </body>
 
-<footer>
-    <div class="container-fluid">
-        <p>Made by BigFive group</p>
-    </div>
-</footer>
+
 
 </html>
