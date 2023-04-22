@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage your post here</title>
+
+    <!--from unpkg： https://element-plus.org/zh-CN/guide/installation.html#unpkg -->
+    <!-- Import style -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+    <!-- Import Vue 3 -->
+    <script src="https://cdn.staticfile.org/vue/3.2.36/vue.global.min.js"></script>
+    <!-- Import component library -->
+    <script src="https://unpkg.com/element-plus"></script>
+
+</head>
+<body>
+<!--============from https://codepen.io/iamkun/pen/YzWMaVr ================-->
+<div id="app">
+    <el-button>{{ message }}</el-button>
+
+
+    <el-row class="mb-4">
+        <el-button>Default</el-button>
+        <el-button type="primary">Primary</el-button>
+        <el-button type="success">Success</el-button>
+        <el-button type="info">Info</el-button>
+        <el-button type="warning">Warning</el-button>
+        <el-button type="danger">Danger</el-button>
+    </el-row>
+
+
+
+
+</div>
+<script>
+    const App = {
+        data() {
+            return {
+                message: "Manage your post in this page",
+            };
+        },
+    };
+    const app = Vue.createApp(App);
+    app.use(ElementPlus).mount("#app");
+</script>
+
+
+
+
+</body>
+</html>
