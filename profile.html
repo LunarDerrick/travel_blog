@@ -21,37 +21,50 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3 fixed-top">
-        <div class="container py-1"><a class="navbar-brand text-sm fw-bold text-dark" href="index.html">Travel Blog</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2 fixed-top">
+        <div class="container pt-1">
+            <h1>
+                <a class="navbar-brand text-md fw-bold text-dark" href="index.html">Travel Blog</a>
+            </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link active " href="index.html">Home</a>
+                    <li class="nav-item"><a class="nav-link " href="index.html">Home</a>
                     </li>
                     <li class="nav-item"><a class="nav-link " href="browse.html">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="YourPost.html"> Your Post</a>
-                    </li>
                     <li class="nav-item"><a class="nav-link " href="contact.html">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="register.html">Sign Up</a>
+                    <li class="nav-item"><a class="nav-link " href="posts.html">My posts</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="login.html">Login</a>
+                    <li class="nav-item dropdown">
+                        <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @Username
+                        </a>
+                        
+                        <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
+                            <li><a class="dropdown-item" href="#">Analysis</a></li>
+                            <li><a class="dropdown-item" href="#">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="#">Log out</a></li>
+                        </ul>
                     </li>
-
                 </ul>
             </div>
         </div>
     </nav>
+    
     <section>
         <div class="container">
             <div class="container section-title ">
                 <h2>My Profile</h2>
+                <p>
+                    Show my best side to all of the world!
+                </p>
             </div>
 
-            <form action=# method="post">
+            <form action=# method="post" class="section-content">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8">

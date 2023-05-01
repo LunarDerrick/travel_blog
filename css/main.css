@@ -5,3 +5,7 @@
 .container-fluid {
     max-width: 97%;
 }
+
+.section-content {
+    padding: 1.5em 0;
+}
