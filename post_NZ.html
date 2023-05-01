@@ -22,9 +22,6 @@
     <!--star rating library-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        .checked {
-            color: orange;
-        }
     </style>
 </head>
 
@@ -53,51 +50,69 @@
         </div>
     </nav>
 
-    <br><br><br><br>
-    <!--main post-->
-    <button onclick="history.back()" id="go_back">Go Back</button>
-    <div class="container" align="center">
-        <img src="image/new_zealand.jpg" alt="New Zealand">
-        <h3>Top country to visit. Must see.</h3>
-        <p>by John Doe</p>
-        <!--star rating-->
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <br><br>
-        <p>
-            Nice change of pace. I felt I like I can stay here forever.
-        </p>
-    </div>
-
-    <!--comment section-->
-    <div class="comment-session">
-        <div class="post-comment">
-            <div class="list">
-                <div class="user">
-                    <div class="user-image"><img src="image/profile_man.jpeg" alt="man"></div>
-                    <div class="user-meta">
-                        <div class="name">Alex</div>
-                        <div class="day">13 days ago</div>
-                    </div>
-                    <div class="comment-post">Thank you for the suggestion. Love it there.</div>
-                </div>
+    
+    <section class="pt-1">
+        <div class="mt-0">
+            
+            <!-- header background image -->
+            <div class="mb-4" style="height: 300px;
+            background-image: url('./image/new_zealand.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;">
             </div>
-            <div class="comment-box">
-                <div class="user">
-                    <div class="user-image"><img src="image/profile_woman.jpg" alt="woman"></div>
-                    <div class="name">Rachel</div>
+            
+            <!-- blog post content -->
+            <div class="container-sm pb-4">
+
+                <h2>Top country to visit. Must see.</h3>
+                <p>by John Doe</p>
+                <!--star rating-->
+                <span>
+                    <span class="fa fa-star checked-star"></span>
+                    <span class="fa fa-star checked-star"></span>
+                    <span class="fa fa-star checked-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </span>
+                <p>
+                    Nice change of pace. I felt I like I can stay here forever.
+                </p>
+                <br>
+            </div>
+
+            <!--comment section-->
+            <div class="comment-section container-sm align-items-middle">
+                <div class="list">
+                    <!-- one comment -->
+                    <div class="comment-item d-flex py-3">
+                        <!-- pfp and user info-->
+                        <div class="comment-user d-flex overflow-hidden pe-4">
+                            <div class="user-image"><img src="image/profile_man.jpeg" alt="man"></div>
+                            <div class="user-meta">
+                                <div class="name">Alex</div>
+                                <div class="day small">13 days ago</div>
+                            </div>
+                        </div>
+                        <div class="comment-post">Thank you for the suggestion. Love it there.</div>
+                    </div>
+
                 </div>
-                <form action="" method="post">
-                    <textarea name="comment" placeholder="Type your message here..."></textarea>
-                    <button class="comment-submit">Comment</button>
-                </form>
+
+                <div class="comment-box py-3 overflow-hidden">
+                    <div class="comment-user d-flex">
+                        <div class="user-image"><img src="image/profile_woman.jpg" alt="woman"></div>
+                        <div class="name">Rachel</div>
+                    </div>
+                    <form action="" method="post" class="m-2">
+                        <textarea name="comment" id="comment" class="w-100 h-100" rows="4" placeholder="Type your message here..."></textarea>
+                        <button type="submit" class="btn btn-dark float-end">Comment</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <br>
+    </section>
+        <br>
 
     <footer>
         <div class="copyrights text-white py-4" style="background: #090909">
