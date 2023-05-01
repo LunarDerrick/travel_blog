@@ -3,7 +3,7 @@
 
 <head>
     <title>Travel Blog - Browse to Your Heart's Content</title>
-    
+
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initialscale=1">
@@ -19,6 +19,13 @@
     <!--CSS overwrite-->
     <link rel="stylesheet" href="/css/cards-gallery.css">
     <link rel="stylesheet" href="/css/main.css">
+    <!--star rating library-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .checked {
+            color: orange;
+        }
+    </style>
 </head>
 
 <body>
@@ -40,7 +47,8 @@
                     </li>
                     <li class="nav-item"><a class="nav-link " href="login.html">Login</a>
                     </li>
-                    <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.html">Sign Up</a>
+                    <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.html">Sign
+                            Up</a>
                     </li>
                 </ul>
             </div>
@@ -62,26 +70,41 @@
                     <div class="row">
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
-                                <a class="lightbox" href="https://www.discovernewzealand.com/?utm_source=google&utm_medium=cpc&utm_campaign=19818433649&utm_content=152149689772&utm_term=651149520136&gad=1&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbjARc_u2v1e5mYdAV98VPXygIO-u-Px6pxTgU5ycA4MYcrc8jsBAYaAs7gEALw_wcB">
-                                    <img src="/image/new_zealand.jpg" alt="Card Image" class="card-img-top">
+                                <a class="lightbox"
+                                    href="post_NZ.html">
+                                    <img src="../../image/new_zealand.jpg" alt="Card Image" class="card-img-top">
                                 </a>
                                 <div class="card-body">
                                     <!--make a html by ourself or just give a link below-->
                                     <!--<h6><a href="./countries/countriesLink.html">New Zealand</a></h6>-->
-                                    <h6><a href="https://www.discovernewzealand.com/?utm_source=google&utm_medium=cpc&utm_campaign=19818433649&utm_content=152149689772&utm_term=651149520136&gad=1&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbjARc_u2v1e5mYdAV98VPXygIO-u-Px6pxTgU5ycA4MYcrc8jsBAYaAs7gEALw_wcB">New Zealand</a></h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Nunc quam urna.</p>
+                                    <h6><a
+                                            href="post_NZ.html">New
+                                            Zealand</a></h6>
+                                    <!--star rating-->
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <p class="text-muted card-text">
+                                        Top country to visit. Must see.<br>
+                                        John Doe
+                                    </p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
-                                <a class="lightbox" href="https://bushisgo.rezio.shop/en-US?utm_source=google&utm_medium=cpc&utm_campaign=SS_MA_EN&utm_content=ippan&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbzi5v6tvx6W1pkPM1DKH78mHR6AQXxTXplCmrWT0k-McLZqs9rgicaApIREALw_wcB">
+                                <a class="lightbox"
+                                    href="https://bushisgo.rezio.shop/en-US?utm_source=google&utm_medium=cpc&utm_campaign=SS_MA_EN&utm_content=ippan&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbzi5v6tvx6W1pkPM1DKH78mHR6AQXxTXplCmrWT0k-McLZqs9rgicaApIREALw_wcB">
                                     <img src="/image/japan.jpg" alt="Card Image" class="card-img-top">
                                 </a>
                                 <div class="card-body">
-                                    <h6><a href="https://bushisgo.rezio.shop/en-US?utm_source=google&utm_medium=cpc&utm_campaign=SS_MA_EN&utm_content=ippan&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbzi5v6tvx6W1pkPM1DKH78mHR6AQXxTXplCmrWT0k-McLZqs9rgicaApIREALw_wcB">Japan</a></h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    <h6><a
+                                            href="https://bushisgo.rezio.shop/en-US?utm_source=google&utm_medium=cpc&utm_campaign=SS_MA_EN&utm_content=ippan&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbzi5v6tvx6W1pkPM1DKH78mHR6AQXxTXplCmrWT0k-McLZqs9rgicaApIREALw_wcB">Japan</a>
+                                    </h6>
+                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit.
                                         Nunc quam urna.</p>
                                 </div>
                             </div>
@@ -93,19 +116,24 @@
                                 </a>
                                 <div class="card-body">
                                     <h6><a href="#">Korea</a></h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit.
                                         Nunc quam urna.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
-                                <a class="lightbox" href="https://www.getyourguide.com/-l169000/?cmp=ga&cq_src=google_ads&cq_cmp=16375542880&cq_con=133910963019&cq_term=brazil%20travelling&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=16375542880&adgroup_id=133910963019&target_id=kwd-3428487217&loc_physical_ms=9066768&match_type=e&ad_id=588628737836&keyword=brazil%20travelling&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbskLJ3T0Rcl_KOfYZmkGyl70Z1kneGz17xPaHD4UllTqVOrWaePGQaAlKDEALw_wcB">
+                                <a class="lightbox"
+                                    href="https://www.getyourguide.com/-l169000/?cmp=ga&cq_src=google_ads&cq_cmp=16375542880&cq_con=133910963019&cq_term=brazil%20travelling&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=16375542880&adgroup_id=133910963019&target_id=kwd-3428487217&loc_physical_ms=9066768&match_type=e&ad_id=588628737836&keyword=brazil%20travelling&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbskLJ3T0Rcl_KOfYZmkGyl70Z1kneGz17xPaHD4UllTqVOrWaePGQaAlKDEALw_wcB">
                                     <img src="/image/brazil.jpg" alt="Card Image" class="card-img-top">
                                 </a>
                                 <div class="card-body">
-                                    <h6><a href="https://www.getyourguide.com/-l169000/?cmp=ga&cq_src=google_ads&cq_cmp=16375542880&cq_con=133910963019&cq_term=brazil%20travelling&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=16375542880&adgroup_id=133910963019&target_id=kwd-3428487217&loc_physical_ms=9066768&match_type=e&ad_id=588628737836&keyword=brazil%20travelling&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbskLJ3T0Rcl_KOfYZmkGyl70Z1kneGz17xPaHD4UllTqVOrWaePGQaAlKDEALw_wcB">Brazil</a></h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    <h6><a
+                                            href="https://www.getyourguide.com/-l169000/?cmp=ga&cq_src=google_ads&cq_cmp=16375542880&cq_con=133910963019&cq_term=brazil%20travelling&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=16375542880&adgroup_id=133910963019&target_id=kwd-3428487217&loc_physical_ms=9066768&match_type=e&ad_id=588628737836&keyword=brazil%20travelling&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbskLJ3T0Rcl_KOfYZmkGyl70Z1kneGz17xPaHD4UllTqVOrWaePGQaAlKDEALw_wcB">Brazil</a>
+                                    </h6>
+                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit.
                                         Nunc quam urna.</p>
                                 </div>
                             </div>
@@ -117,19 +145,24 @@
                                 </a>
                                 <div class="card-body">
                                     <h6><a href="https://www.gohawaii.com/">Hawaii</a></h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit.
                                         Nunc quam urna.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
-                                <a class="lightbox" href="https://www.getyourguide.com/-l187018/?cmp=ga&cq_src=google_ads&cq_cmp=19626867812&cq_con=148635033554&cq_term=travel%20deal%20uk&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=19626867812&adgroup_id=148635033554&target_id=kwd-304017163341&loc_physical_ms=9066768&match_type=b&ad_id=646577894327&keyword=travel%20deal%20uk&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gad=1&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrYFQt8tBJr1Z4WIcD6CIpCcfpzrS6vphX3ssZ58cz2Q5rVi8_ExoJIaAi3sEALw_wcB">
+                                <a class="lightbox"
+                                    href="https://www.getyourguide.com/-l187018/?cmp=ga&cq_src=google_ads&cq_cmp=19626867812&cq_con=148635033554&cq_term=travel%20deal%20uk&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=19626867812&adgroup_id=148635033554&target_id=kwd-304017163341&loc_physical_ms=9066768&match_type=b&ad_id=646577894327&keyword=travel%20deal%20uk&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gad=1&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrYFQt8tBJr1Z4WIcD6CIpCcfpzrS6vphX3ssZ58cz2Q5rVi8_ExoJIaAi3sEALw_wcB">
                                     <img src="/image/united_kingdom.jpg" alt="Card Image" class="card-img-top">
                                 </a>
                                 <div class="card-body">
-                                    <h6><a href="https://www.getyourguide.com/-l187018/?cmp=ga&cq_src=google_ads&cq_cmp=19626867812&cq_con=148635033554&cq_term=travel%20deal%20uk&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=19626867812&adgroup_id=148635033554&target_id=kwd-304017163341&loc_physical_ms=9066768&match_type=b&ad_id=646577894327&keyword=travel%20deal%20uk&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gad=1&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrYFQt8tBJr1Z4WIcD6CIpCcfpzrS6vphX3ssZ58cz2Q5rVi8_ExoJIaAi3sEALw_wcB">United Kingdom</a></h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    <h6><a
+                                            href="https://www.getyourguide.com/-l187018/?cmp=ga&cq_src=google_ads&cq_cmp=19626867812&cq_con=148635033554&cq_term=travel%20deal%20uk&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=19626867812&adgroup_id=148635033554&target_id=kwd-304017163341&loc_physical_ms=9066768&match_type=b&ad_id=646577894327&keyword=travel%20deal%20uk&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gad=1&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrYFQt8tBJr1Z4WIcD6CIpCcfpzrS6vphX3ssZ58cz2Q5rVi8_ExoJIaAi3sEALw_wcB">United
+                                            Kingdom</a></h6>
+                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit.
                                         Nunc quam urna.</p>
                                 </div>
                             </div>
