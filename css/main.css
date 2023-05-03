@@ -11,7 +11,8 @@
 }
 
 /*selection star colour*/
-.checked-star {
+span .fa-star:hover,
+span .fa-star:hover ~ .fa-star {
     color: orange;
 }
 
