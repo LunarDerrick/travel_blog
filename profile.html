@@ -34,9 +34,11 @@
                     </li>
                     <li class="nav-item"><a class="nav-link " href="browse.html">Browse</a>
                     </li>
+                    <li class="nav-item"><a class="nav-link " href="browse.html">Search</a>
+                    </li>
                     <li class="nav-item"><a class="nav-link " href="contact.html">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="posts.html">My posts</a>
+                    <li class="nav-item"><a class="nav-link " href="my_posts.html">My posts</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -45,8 +47,8 @@
                         
                         <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
                             <li><a class="dropdown-item" href="#">Analysis</a></li>
-                            <li><a class="dropdown-item" href="#">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="#">Log out</a></li>
+                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="./">Log out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -63,10 +65,10 @@
                 </p>
             </div>
 
-            <form action=# method="post" class="section-content">
+            <form action="#" method="post" class="section-content">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-12 form-label">
                                     <label for="fname"><b>Username</b></label>
@@ -95,12 +97,18 @@
                                     <label for="tel"><b>Tel. Number</b></label>
                                     <input type="text" id="tel" class="form-control" required>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 form-label">
+                                    <label for="email"><b>Profile introduction</b></label>
+                                    <textarea id="message" rows="4" class="form-control"></textarea>
+                                </div>
                             </div><br>
                         </div>
-                        <div class="col-md-4 form-label float-md-end">
+                        <div class="col-md-3 form-label float-md-end">
                             <rect width="10em" height="10em" fill="#868e96"></rect>
                             <picture>
-                                <img src="" class="card-img-top" alt="...">
+                                <img src="image/profile_man.jpeg" class="img-fluid card-img-top" alt="...">
                             </picture>
                             <div class="col form-label">
                                 <input type="file" class="form-control" id="inputGroupFile01">

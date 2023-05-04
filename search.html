@@ -12,6 +12,9 @@
 
     <!-- Google fonts - Open Sans-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <!-- FontAwesome icon cdn -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.css">
+
 
     <!-- Theme stylesheet-->
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/blog/2-0/css/style.default.622904dd.css"
@@ -36,9 +39,9 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
                     <li class="nav-item"><a class="nav-link " href="index.html">Home</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link active " href="browse.html">Browse</a>
+                    <li class="nav-item"><a class="nav-link " href="browse.html">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="browse.html">Search</a>
+                    <li class="nav-item"><a class="nav-link active " href="browse.html">Search</a>
                     </li>
                     <li class="nav-item"><a class="nav-link " href="contact.html">Contact</a>
                     </li>
@@ -55,14 +58,32 @@
     <section>
         <div class="container">
             <div class="container section-title ">
-                <h2>Discover New Experiences</h2>
+                <h2>Search</h2>
                 <p>
-                    Share your own travelling experiences, or check out others' travelling experiences!
+                    Trying to find something you like?
                 </p>
             </div>
 
-            <!--3x2 card gallery-->
             <section class="gallery-block cards-gallery">
+                <div class="container">
+                    <form class="d-flex m-2">
+                        <input class="form-control" type="search" placeholder="Search posts" aria-label="Search">
+                        <button class="btn btn-dark btn-lg" type="submit">
+                            <span class="fa-solid fa-search"></span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <div class="container section-title ">
+                <h4>Or want to filter by tags?</h4>
+                <p>
+                    Try these tags!
+                </p>
+            </div>
+
+            <section class="gallery-block cards-gallery">
+                
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6 col-lg-4">
