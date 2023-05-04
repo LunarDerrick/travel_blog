@@ -37,3 +37,65 @@ span .fa-star:hover ~ .fa-star {
     .comment-section {width: 100%;}
     .comment-item {flex-direction: column;}
 }
+
+
+/** Rounded button **/
+.btn-rounded {
+    border-radius: 5rem;
+    /* margin-right: 2rem;  Icon sample spacing */
+ }
+
+ /** Button Iconed **/
+.btn-iconed {
+    transition: .15s ease-in-out;
+    padding-left: 1.3rem;
+    padding-right: 1.5rem;
+    /** Flatted button **/
+ }
+
+ /** -- Animated Button (Add post)-- **/
+.btn-iconed [class~=fa]{
+    opacity: 0;
+     -webkit-transform-origin: left right;
+     transform-origin: left right;
+     -webkit-transform: translateX(-10px) scale(1.25);
+     transform: translateX(-10px) scale(1.25);
+     transition: .15s ease-out;
+}
+
+/** -- Span on Hover properties -- **/
+.btn-iconed:hover [class=spn] {
+    left: 0px;
+ }
+
+ /** Span Class **/
+.btn-iconed [class=spn] {
+    position: relative;
+    left: -9px;
+    -webkit-transform-origin: left right;
+    transform-origin: left right;
+    -webkit-transform: translateX(-9px);
+    transform: translateX(-9px);
+    transition: .20s ease-in-out;
+ }
+
+ /** -- Icons on Hover properties -- **/
+ .btn-iconed:hover [class~=fa] {
+    opacity: 1;
+    -webkit-transform: translateX(0px) scale(0.75);
+    transform: translateX(0px) scale(0.75);
+ }
+
+ .bottom-right {
+    position: fixed;
+    bottom: 0px;
+    right: 0px; 
+    margin: 100px;
+ }
+
+ .bottom-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+ }
