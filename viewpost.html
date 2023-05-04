@@ -52,15 +52,52 @@
 
     <section>
         <div class="container">
-            <button class="btn btn-iconed btn-lg btn-rounded btn-success bottom-right"role="button">
+
+            <!-- add post button -->
+            <button class="btn btn-iconed btn-lg btn-rounded btn-success bottom-right" role="button">
                 <i class="fa fa-plus" aria-hidden="true"></i>
              <span class="spn">Add Post</span></button>
+
             <div class="container section-title ">
                 <h2>View & Edit Your Posts</h2>
                 <p>
                     Have a look at all your posts, edit them, or add a new one!
                 </p>
             </div>
+
+            <!-- edit modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="editModalLabel">Edit Post</h5>
+                      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="title" class="col-form-label">Title:</label>
+                          <input type="text" class="form-control" id="title">
+                        </div>
+                        <div class="form-group">
+                            <label for="caption" class="col-form-label">Caption:</label>
+                            <input type="text" class="form-control" id="caption">
+                          </div>
+                        <div class="form-group">
+                          <label for="description" class="col-form-label">Description:</label>
+                          <textarea class="form-control" id="desciption"></textarea>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-success">Save Changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             <!--3x2 card gallery-->
             <section class="gallery-block cards-gallery">
@@ -76,8 +113,9 @@
                                     <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
                                         elit.
                                         Nunc quam urna.</p>
-                                        <p><i class='fas fa-edit' style="font-size: 30px;"><i class="fa fa-trash" aria-hidden="true" style="font-size: 30px; margin-left: 10px;"></i>
-                                        </i>
+                                        <p>
+                                            <i class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#editModal" style="font-size: 30px;"></i>
+                                            <i class="fa fa-trash" aria-hidden="true" style="font-size: 30px; margin-left: 10px;"></i>
                                         </p>
                                 </div>
                             </div>
@@ -92,8 +130,9 @@
                                     <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
                                         elit.
                                         Nunc quam urna.</p>
-                                        <p><i class='fas fa-edit' style="font-size: 30px;"><i class="fa fa-trash" aria-hidden="true" style="font-size: 30px; margin-left: 10px;"></i>
-                                        </i>
+                                        <p>
+                                            <i class='fas fa-edit' data-bs-toggle="modal" data-bs-target="#editModal" style="font-size: 30px;"></i>
+                                            <i class="fa fa-trash" aria-hidden="true" style="font-size: 30px; margin-left: 10px;"></i>
                                         </p>
                                 </div>
                             </div>
