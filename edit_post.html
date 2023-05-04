@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Travel Blog - My Posts</title>
+    <title>Travel Blog - Edit Post</title>
 
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
@@ -38,14 +38,22 @@
                     </li>
                     <li class="nav-item"><a class="nav-link " href="browse.html">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="browse.html">Search</a>
+                    <li class="nav-item"><a class="nav-link " href="search.html">Search</a>
                     </li>
                     <li class="nav-item"><a class="nav-link " href="contact.html">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link active" href="viewpost.html">My Posts</a>
+                    <li class="nav-item"><a class="nav-link active" href="my_posts.html">My Posts</a>
                     </li>
-                    <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.html">Sign
-                            Up</a>
+                    <li class="nav-item dropdown">
+                        <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @Username
+                        </a>
+                        
+                        <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
+                            <li><a class="dropdown-item" href="#">Analysis</a></li>
+                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="./">Log out</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -54,17 +62,9 @@
 
     <section>
         <div class="container">
-
-            <!-- add post button -->
-            <button class="btn btn-iconed btn-lg btn-rounded btn-success bottom-right" role="button">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-             <span class="spn">Add Post</span></button>
-
             <div class="container section-title ">
-                <h2>View & Edit Your Posts</h2>
-                <p>
-                    Have a look at all your posts, edit them, or add a new one!
-                </p>
+                <h2>Edit Post</h2>
+                <p></p>
             </div>
 
             <!-- edit modal -->
@@ -101,52 +101,48 @@
                 </div>
               </div>
 
-            <!--3x2 card gallery-->
-            <section class="gallery-block cards-gallery">
+            <form action=# method="post">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <a class="lightbox" href="https://english.visitkorea.or.kr/enu/index.kto">
-                                    <img src="image/korea.jpg" alt="Card Image" class="card-img-top">
-                                </a>
-                                <div class="card-body">
-                                    <h6><a href="#">Korea</a></h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                        Nunc quam urna.</p>
-                                        <p>
-                                            <i class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#editModal" style="font-size: 30px;"></i>
-                                            <i class="fa fa-trash" aria-hidden="true" style="font-size: 30px; margin-left: 10px;"></i>
-                                        </p>
-                                </div>
-                            </div>
+                        <div class="col-md-12 form-label">
+                            <label for="title"><b>Title</b></label>
+                            <input type="text" id="title" name="title" class="form-control" required>
                         </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <a class="lightbox" href="https://www.gohawaii.com/">
-                                    <img src="image/hawaii.jpg" alt="Card Image" class="card-img-top">
-                                </a>
-                                <div class="card-body">
-                                    <h6><a href="https://www.gohawaii.com/">Hawaii</a></h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                        Nunc quam urna.</p>
-                                        <p>
-                                            <i class='fas fa-edit' data-bs-toggle="modal" data-bs-target="#editModal" style="font-size: 30px;"></i>
-                                            <i class="fa fa-trash" aria-hidden="true" style="font-size: 30px; margin-left: 10px;"></i>
-                                        </p>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 form-label">
+                            <label for="caption"><b>Caption</b></label>
+                            <input type="text" id="caption" name="caption" class="form-control">
+                        </div>
+                        <div class="col-md-4 form-label">
+                            <label for="location"><b>Location</b></label>
+                            <input type="text" id="location" name="location" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-label">
+                            <label for="content"><b>Content</b></label>
+                            <textarea id="content" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-label">
+                            <label for="tags"><b>Tags</b></label>
+                            <input type="text" id="tags" class=" form-control">
+                        </div>  
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <input type="submit" value="Send Message" class="btn btn-dark py-3 px-5">
                         </div>
                     </div>
                 </div>
-            </section>
+            </form>
         </div>
     </section>
 
     <footer>
-        <div class="copyrights text-white py-4 bottom-footer" style="background: #090909">
+        <div class="copyrights text-white py-4" style="background: #090909">
             <div class="container">
                 <div class="row text-center gy-2">
                     <div class="col-md-12">
