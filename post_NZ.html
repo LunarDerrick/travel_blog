@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Travel Blog - Top ccountry to visit. Must see.</title>
+    <title>Travel Blog - Top country to visit. Must see.</title>
 
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
@@ -43,17 +43,18 @@
                     </li>
                     <li class="nav-item"><a class="nav-link " href="login.html">Login</a>
                     </li>
-                    <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.html">Sign Up</a>
+                    <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.html">Sign
+                            Up</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    
+
     <section class="pt-1">
         <div class="mt-0">
-            
+
             <!-- header background image -->
             <div class="mb-4" style="height: 300px;
             background-image: url('./image/new_zealand.jpg');
@@ -61,24 +62,30 @@
             background-size: cover;
             background-position: center;">
             </div>
-            
+
             <!-- blog post content -->
             <div class="container-sm pb-4">
 
                 <h2>Top country to visit. Must see.</h3>
-                <p>by John Doe</p>
-                <!--star rating-->
-                <span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </span>
-                <p>
-                    Nice change of pace. I felt I like I can stay here forever.
-                </p>
-                <br>
+                    <p>by John Doe</p>
+                    <!--star rating-->
+                    <div class="star-widget">
+                        <input type="radio" name="rate" id="rate-5">
+                        <label for="rate-5" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-4">
+                        <label for="rate-4" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-3">
+                        <label for="rate-3" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-2">
+                        <label for="rate-2" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-1">
+                        <label for="rate-1" class="fa fa-star"></label>
+                        <form action="#">
+                    </div>
+                    <p>
+                        Nice change of pace. I felt I like I can stay here forever.
+                    </p>
+                    <br>
             </div>
 
             <!--comment section-->
@@ -105,14 +112,15 @@
                         <div class="name">Rachel</div>
                     </div>
                     <form action="" method="post" class="m-2">
-                        <textarea name="comment" id="comment" class="w-100 p-2" rows="4" placeholder="Type your message here..."></textarea>
+                        <textarea name="comment" id="comment" class="w-100 p-2" rows="4"
+                            placeholder="Type your message here..."></textarea>
                         <button type="submit" class="btn btn-dark float-end">Comment</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
-        <br>
+    <br>
 
     <footer>
         <div class="copyrights text-white py-4" style="background: #090909">
@@ -129,6 +137,16 @@
     <!-- JavaScript files-->
     <script src="https://d19m59y37dris4.cloudfront.net/blog/2-0/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://d19m59y37dris4.cloudfront.net/blog/2-0/vendor/glightbox/glightbox.js"></script>
+    <script>
+        const widget = document.querySelector(".star-widget");
+        btn.onclick = () => {
+            widget.style.display = "none";
+            editBtn.onclick = () => {
+                widget.style.display = "block";
+            }
+            return false;
+        }
+    </script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
