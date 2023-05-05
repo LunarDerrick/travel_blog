@@ -36,8 +36,8 @@
 }
 
 /* Comment Box */
-.comment-section {
-    width: 75%;
+.article-section, .comment-section {
+    width: 65%;
 }
 
 .comment-box textarea {
@@ -46,7 +46,7 @@
 }
 
 @media screen and (max-width: 720px) {
-    .comment-section {
+    .article-section, .comment-section {
         width: 100%;
     }
 
