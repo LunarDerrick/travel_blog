@@ -11,12 +11,10 @@
 }
 
 /*selection star colour*/
-.checked {
-    color: orange;
-}
-
+.checked,
 .star-widget .fa-star:hover,
-.star-widget .fa-star:hover~.fa-star {
+.star-widget .fa-star:hover~.fa-star,
+.star-widget input:checked~label {
     color: orange;
 }
 
@@ -27,14 +25,6 @@
 .star-widget label {
     float: right;
     padding: 2px;
-}
-
-div .star-widget {
-    margin-right: 90%;
-}
-
-input:checked~label {
-    color: orange;
 }
 
 /*detail post*/
@@ -111,21 +101,4 @@ input:checked~label {
     opacity: 1;
     -webkit-transform: translateX(0px) scale(0.75);
     transform: translateX(0px) scale(0.75);
-}
-
-.bottom-right {
-    position: fixed;
-    bottom: 0px;
-    right: 0px;
-    margin: 100px;
-}
-
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-footer {
-    margin-top: auto;
-}
+ }

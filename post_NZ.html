@@ -65,31 +65,27 @@
 
             <!-- blog post content -->
             <div class="container-sm pb-4">
-
+                
+                <div class="container float-end">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+                <!-- header, author -->
                 <h2>Top country to visit. Must see.</h3>
-                    <p>by John Doe</p>
-                    <!--star rating-->
-                    <div class="star-widget">
-                        <input type="radio" name="rate" id="rate-5">
-                        <label for="rate-5" class="fa fa-star"></label>
-                        <input type="radio" name="rate" id="rate-4">
-                        <label for="rate-4" class="fa fa-star"></label>
-                        <input type="radio" name="rate" id="rate-3">
-                        <label for="rate-3" class="fa fa-star"></label>
-                        <input type="radio" name="rate" id="rate-2">
-                        <label for="rate-2" class="fa fa-star"></label>
-                        <input type="radio" name="rate" id="rate-1">
-                        <label for="rate-1" class="fa fa-star"></label>
-                        <form action="#">
-                    </div>
-                    <p>
-                        Nice change of pace. I felt I like I can stay here forever.
-                    </p>
-                    <br>
+                <p>by John Doe</p>
+
+                <!-- article -->
+                <p>
+                    Nice change of pace. I felt I like I can stay here forever.
+                </p>
             </div>
 
             <!--comment section-->
             <div class="comment-section container-sm align-items-middle">
+                <h6>Comments</h6>
                 <div class="list">
                     <!-- one comment -->
                     <div class="comment-item d-flex py-3">
@@ -107,10 +103,27 @@
                 </div>
 
                 <div class="comment-box py-3 overflow-hidden">
-                    <div class="comment-user d-flex">
+                    <!--star rating-->
+                    <div class="star-widget float-end">
+                        <span class="subtitle me-2">Your rating</span>
+                        <input type="radio" name="rate" id="rate-5">
+                        <label for="rate-5" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-4">
+                        <label for="rate-4" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-3">
+                        <label for="rate-3" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-2">
+                        <label for="rate-2" class="fa fa-star"></label>
+                        <input type="radio" name="rate" id="rate-1">
+                        <label for="rate-1" class="fa fa-star"></label>
+                        <form action="#">
+                    </div>
+
+                    <div class="comment-user py-2 d-flex">
                         <div class="user-image"><img src="image/profile_woman.jpg" alt="woman"></div>
                         <div class="name">Rachel</div>
                     </div>
+                    
                     <form action="" method="post" class="m-2">
                         <textarea name="comment" id="comment" class="w-100 p-2" rows="4"
                             placeholder="Type your message here..."></textarea>

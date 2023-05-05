@@ -66,41 +66,7 @@
                 <h2>Edit Post</h2>
                 <p></p>
             </div>
-
-            <!-- edit modal -->
-            <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="editModalLabel">Edit Post</h5>
-                      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <form>
-                        <div class="form-group">
-                          <label for="title" class="col-form-label">Title:</label>
-                          <input type="text" class="form-control" id="title">
-                        </div>
-                        <div class="form-group">
-                            <label for="caption" class="col-form-label">Caption:</label>
-                            <input type="text" class="form-control" id="caption">
-                          </div>
-                        <div class="form-group">
-                          <label for="description" class="col-form-label">Description:</label>
-                          <textarea class="form-control" id="desciption"></textarea>
-                        </div>
-                      </form>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-success">Save Changes</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+            
             <form action=# method="post">
                 <div class="container">
                     <div class="row">
@@ -110,13 +76,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8 form-label">
+                        <div class="col-md-12 form-label">
                             <label for="caption"><b>Caption</b></label>
                             <input type="text" id="caption" name="caption" class="form-control">
-                        </div>
-                        <div class="col-md-4 form-label">
-                            <label for="location"><b>Location</b></label>
-                            <input type="text" id="location" name="location" class="form-control" required>
                         </div>
                     </div>
                     <div class="row">
@@ -126,14 +88,41 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 form-label">
-                            <label for="tags"><b>Tags</b></label>
-                            <input type="text" id="tags" class=" form-control">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col form-label">
+                                    <label for="location"><b>Location</b></label>
+                                    <input type="text" id="location" name="location" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col form-label">
+                                    <label for="tags"><b>Tags</b></label>
+                                    <input type="text" id="tags" class="form-control">
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-md-5">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="image_url"><b>Image</b></label>
+                                    <input type="url" id="image_url" placeholder="Type an URL here..." class="form-control">
+                                    <picture>
+                                        <img src="image/hawaii.jpg" class="img-fluid card-img-top" alt="...">
+                                    </picture>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 form-label">
+                        </div>  
+                        <div class="col-md-4">
                         </div>  
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <input type="submit" value="Send Message" class="btn btn-dark py-3 px-5">
+                            <input type="submit" value="Save Post" class="btn btn-dark px-3">
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Travel Blog - My Posts</title>
+    <title>Travel Blog - Search</title>
 
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
@@ -38,22 +38,14 @@
                     </li>
                     <li class="nav-item"><a class="nav-link " href="browse.html">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="search.html">Search</a>
+                    <li class="nav-item"><a class="nav-link active " href="search.html">Search</a>
                     </li>
                     <li class="nav-item"><a class="nav-link " href="contact.html">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link active" href="my_posts.html">My Posts</a>
+                    <li class="nav-item"><a class="nav-link " href="login.html">Login</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @Username
-                        </a>
-                        
-                        <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
-                            <li><a class="dropdown-item" href="#">Analysis</a></li>
-                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="./">Log out</a></li>
-                        </ul>
+                    <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.html">Sign
+                            Up</a>
                     </li>
                 </ul>
             </div>
@@ -63,45 +55,21 @@
     <section>
         <div class="container">
             <div class="container section-title ">
-                <!-- add post button -->
-                <a href="edit_post.html" class="btn btn-iconed btn-lg btn-rounded btn-info d-block float-end">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <span class="spn">Add Post</span>
-                </a>
-
-                <h2>My Posts</h2>
+                <h2>Search Results</h2>
                 <p>
-                    Have a look at all your posts, edit them, or add a new one!
+                    These posts matches your search term. <br>
                 </p>
             </div>
 
-            <!-- delete modal -->
-            <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">Deleting Post....</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to delete the post?</p>
-                            <strong>There is no way to revert the action!</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary mx-2">
-                                I'm sure, delete it
-                            </button>
-                            <button type="button" class="btn btn-info" data-bs-dismiss="modal">
-                                Keep the post
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="container py-4">
+                <form class="d-flex m-2">
+                    <input class="form-control" type="search" id="search_term" name="search_term" placeholder="Search posts" value="Europe" aria-label="Search">
+                    <button class="btn btn-dark btn-lg" type="submit">
+                        <span class="fa fa-solid fa-search"></span>
+                    </button>
+                </form>
             </div>
             
-
             <!--3x2 card gallery-->
             <section class="gallery-block cards-gallery">
                 <div class="container">
@@ -109,36 +77,55 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
                                 <picture>
-                                    <img src="image/korea.jpg" alt="Card Image" class="card-img-top">
+                                    <img src="image/new_zealand.jpg" alt="Card Image" class="card-img-top">
                                 </picture>
                                 <div class="card-body">
-                                    <h6>Korea</h6>
-                                    <p class="text-muted card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Nunc quam urna.
-                                    </p>
-                                    <div class="float-end">
-                                        <!-- use stretched-link class to make whole card clickable-->
-                                        <a href="edit_post.html" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
-                                        <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" aria-hidden="true"></a>
+                                    <!-- header and author -->
+                                    <h6>New Zealand and its Railcar</h6>
+                                    <small class="blockquote-footer mt-0">by John Doe</small>
+                                    <br>
+                                    <!-- star rating -->
+                                    <div class="container mt-1">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
                                     </div>
+                                    <!-- caption -->
+                                    <p class="text-muted card-text">
+                                        Top country to visit. Must see.
+                                    </p>
+                                    <!-- call to action, use stretched-link class to make whole card clickable-->
+                                    <a href="post_NZ.html" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
                                 <picture>
-                                    <img src="image/hawaii.jpg" alt="Card Image" class="card-img-top">
+                                    <img src="image/united_kingdom.jpg" alt="Card Image" class="card-img-top">
                                 </picture>
                                 <div class="card-body">
-                                    <h6>Hawaii</h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    <!-- header and author -->
+                                    <h6>The UK Travel Guide — by locals</h6>
+                                    <small class="blockquote-footer mt-0">by Mesh Transform</small>
+                                    <br>
+                                    <!-- star rating -->
+                                    <div class="container mt-1">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                    <!-- caption -->
+                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit.
                                         Nunc quam urna.
                                     </p>
-                                    <div class="float-end">
-                                        <!-- use stretched-link class to make whole card clickable-->
-                                        <a href="edit_post.html" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
-                                        <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" aria-hidden="true"></a>
-                                    </div>
+                                    <!-- call to action, use stretched-link class to make whole card clickable-->
+                                    <a href="" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
                                 </div>
                             </div>
                         </div>
@@ -159,9 +146,9 @@
             </div>
         </div>
     </footer>
+    <!--Makes card animated-->
 
-     <!--Makes card animated-->
-     <script>
+    <script>
         baguetteBox.run('.cards-gallery', { animation: 'slideIn' });
     </script>
     <!-- JavaScript files-->
@@ -170,4 +157,9 @@
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 </body>
+
+
+
+</html>
