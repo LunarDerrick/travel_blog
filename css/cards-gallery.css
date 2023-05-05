@@ -45,3 +45,14 @@
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.15) !important;
   }
 }
+
+@media (max-width: 576px) {
+  .gallery-block.cards-gallery .card picture, .gallery-block.cards-gallery .card img {
+    object-fit: cover;
+    height: 15vh;
+  }
+  
+  .gallery-block.cards-gallery .card-body a.btn {
+    display: none;
+  }
+}

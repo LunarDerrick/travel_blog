@@ -27,11 +27,17 @@
     padding: 2px;
 }
 
-/*detail post*/
+/*comment profile picture*/
 .comment-user img {
     height: 38px;
     width: 38px;
     margin-right: 10px;
+    border-radius: 50%;
+}
+
+.author-pfp img {
+    min-width: 35px;
+    width: 100%;
     border-radius: 50%;
 }
 
@@ -101,14 +107,5 @@
     opacity: 1;
     -webkit-transform: translateX(0px) scale(0.75);
     transform: translateX(0px) scale(0.75);
- }
+}
 
- body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  footer {
-    margin-top: auto;
-  }
