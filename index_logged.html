@@ -32,7 +32,7 @@
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link active " href="index.html">Home</a>
+                    <li class="nav-item"><a class="nav-link " href="index.html">Home</a>
                     </li>
                     <li class="nav-item"><a class="nav-link " href="browse.html">Browse</a>
                     </li>
@@ -40,13 +40,18 @@
                     </li>
                     <li class="nav-item"><a class="nav-link " href="contact.html">Contact</a>
                     </li>
+                    <li class="nav-item"><a class="nav-link active" href="my_posts.html">My Posts</a>
                     </li>
-                    <!--隐藏my_posts.html, 用script修改style="display: table"-->
-                    <li class="nav-item "><a class="nav-link " href="my_posts.html" style="display: none">My Posts</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link " href="login.html">Login</a>
-                    </li>
-                    <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.html">Sign Up</a>
+                    <li class="nav-item dropdown">
+                        <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @Username
+                        </a>
+                        
+                        <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
+                            <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
+                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="./">Log out</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -150,11 +155,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
 </body>
 
-<script>
-    //todo
-    let posts = document.getElementsByClassName("nav-item");
-    //if login, even go home page, then should be still can see the MyPosts.html
-    //style="display: none"
-</script>
+
 
 </html>
