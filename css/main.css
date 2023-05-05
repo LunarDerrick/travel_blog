@@ -109,3 +109,25 @@
     transform: translateX(0px) scale(0.75);
 }
 
+/*Analysis Graph CSS*/
+.piechart {
+    margin: 11% auto;
+    display: block;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-image: conic-gradient(
+        pink 72deg, 
+        lightblue 0 144deg, 
+        orange 0 216deg,
+        lightgreen 0 288deg,
+        lightyellow 0 360deg);
+}
+
+body,
+.piechart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
