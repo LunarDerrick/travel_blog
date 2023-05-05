@@ -128,11 +128,7 @@
 /* for footer dont reach bottom page (page not tall enough to fill screen)*/
 body {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-footer {
-    margin-top: auto;
+    display: grid;
+    grid-template-rows: 1fr auto;
 }
 /* end footer fix */
