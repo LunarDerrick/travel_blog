@@ -125,12 +125,14 @@
         lightyellow 0 360deg);
 }
 
+/* for footer dont reach bottom page (page not tall enough to fill screen)*/
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-  }
-  
-  footer {
+}
+
+footer {
     margin-top: auto;
-  }
+}
+/* end footer fix */
