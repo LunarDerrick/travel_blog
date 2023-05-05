@@ -124,3 +124,13 @@
         lightgreen 0 288deg,
         lightyellow 0 360deg);
 }
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  footer {
+    margin-top: auto;
+  }
