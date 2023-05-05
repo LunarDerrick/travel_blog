@@ -124,10 +124,3 @@
         lightgreen 0 288deg,
         lightyellow 0 360deg);
 }
-
-body,
-.piechart {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
