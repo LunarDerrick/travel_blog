@@ -15,5 +15,8 @@ if ($conn -> connect_error) {
 
 
 // Sample code for access, delete before run
-$result = $conn -> query("SELECT * FROM users");
-var_dump($result -> fetch_assoc());
+// $result = $conn -> query("SELECT * FROM users");
+// var_dump($result -> fetch_assoc());
+
+
+date_default_timezone_set('Asia/Kuala_Lumpur');
