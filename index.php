@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+include_once("init_db.php");
+include_once("init_session.php");
+?>
+
 <head>
     <title>Travalog - Journey Never Ends</title>
 
@@ -25,25 +30,47 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2 fixed-top">
         <div class="container pt-1">
             <h1>
-                <a class="navbar-brand text-md fw-bold text-dark" href="index.html">Travalog</a>
+                <a class="navbar-brand text-md fw-bold text-dark" href="index.php">Travalog</a>
             </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link active " href="index.html">Home</a>
+                    <li class="nav-item"><a class="nav-link active " href="index.php">Home</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="browse.html">Browse</a>
+                    <li class="nav-item"><a class="nav-link " href="browse.php">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="search.html">Search</a>
+                    <li class="nav-item"><a class="nav-link " href="search.php">Search</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="contact.html">Contact</a>
+                    <li class="nav-item"><a class="nav-link " href="contact.php">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="login.html">Login</a>
-                    </li>
-                    <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.html">Sign Up</a>
-                    </li>
+                    <?php
+                    if (isset($_SESSION["username"])) {
+                        $username = $_SESSION["username"];
+                        ## multiline syntax, use <<< TAG and TAG;
+                        echo <<< LOGIN
+                        <li class="nav-item"><a class="nav-link active" href="my_posts.php">My Posts</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @$username
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
+                            <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
+                            <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="index.php">Log out</a></li>
+                            </ul>
+                        </li>
+                        LOGIN;
+                    } else {
+                        ## multiline syntax, use <<< TAG and TAG;
+                        echo <<< OUTSIDE
+                        <li class="nav-item"><a class="nav-link " href="login.php">Login</a></li>.
+                        <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.php">Sign Up</a></li>
+                        OUTSIDE;
+                    }
+                    ?>
                 </ul>
             </div>
         </div>
@@ -55,7 +82,7 @@
         <div class="container d-flex text-white py-5">
             <div class="row col-lg-7">
                     <h1 class="display-4">BigFive Travel Blog - <wbr> The Journey will never End.</h1>
-                    <a class="link-underline mt-3 col-6" href="browse.html">Discover More</a>
+                    <a class="link-underline mt-3 col-6" href="browse.php">Discover More</a>
             </div>
             <a class="continue text-gray-400 position-absolute bottom-0 mb-5 z-index-20 link-transition small text-uppercase"
                 href="#intro"><i class="fa fa-long-arrow-alt-down"></i> Scroll Down
@@ -71,7 +98,7 @@
                     They deserved to be preserved. 
                     Come and share with us your precious moments!
                 </p>
-                <a class="link-underline mt-3" href="login.html"><strong>Create own travel blog</strong> </a>
+                <a class="link-underline mt-3" href="login.php"><strong>Create own travel blog</strong> </a>
             </div>
         </div>
     </section>

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+include_once("init_db.php");
+include_once("init_session.php");
+include_once("init_check_logged_in.php"); // only for pages that strictly require login
+?>
+
 <head>
     <title>Travalog - My Posts</title>
 
@@ -25,34 +31,35 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2 fixed-top">
         <div class="container pt-1">
             <h1>
-                <a class="navbar-brand text-md fw-bold text-dark" href="index_logged.html">Travalog</a>
+                <a class="navbar-brand text-md fw-bold text-dark" href="index.php">Travalog</a>
             </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link " href="index_logged.html">Home</a>
+                    <li class="nav-item"><a class="nav-link active " href="index.php">Home</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="browse_logged.html">Browse</a>
+                    <li class="nav-item"><a class="nav-link " href="browse.php">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="search_logged.html">Search</a>
+                    <li class="nav-item"><a class="nav-link " href="search.php">Search</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="contact_logged.html">Contact</a>
+                    <li class="nav-item"><a class="nav-link " href="contact.php">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link active" href="my_posts.html">My Posts</a>
-                    </li>
+                    
+                    <li class="nav-item"><a class="nav-link active" href="my_posts.php">My Posts</a></li>
                     <li class="nav-item dropdown">
                         <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @Username
+                        @$username
                         </a>
-                        
+
                         <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
-                            <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
-                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="index.html">Log out</a></li>
+                        <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
+                        <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
+                        <li><a class="dropdown-item" href="index.php">Log out</a></li>
                         </ul>
                     </li>
+
                 </ul>
             </div>
         </div>
@@ -62,7 +69,7 @@
         <div class="container">
             <div class="container section-title ">
                 <!-- add post button -->
-                <a href="add_post.html" class="btn btn-iconed btn-lg btn-rounded btn-info d-block float-end">
+                <a href="add_post.php" class="btn btn-iconed btn-lg btn-rounded btn-info d-block float-end">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                     <span class="spn">Add Post</span>
                 </a>
@@ -116,7 +123,7 @@
                                     </p>
                                     <div class="float-end">
                                         <!-- use stretched-link class to make whole card clickable-->
-                                        <a href="edit_post.html" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
+                                        <a href="edit_post.php" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
                                         <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" aria-hidden="true"></a>
                                     </div>
                                 </div>
@@ -134,7 +141,7 @@
                                     </p>
                                     <div class="float-end">
                                         <!-- use stretched-link class to make whole card clickable-->
-                                        <a href="edit_post.html" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
+                                        <a href="edit_post.php" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
                                         <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" aria-hidden="true"></a>
                                     </div>
                                 </div>

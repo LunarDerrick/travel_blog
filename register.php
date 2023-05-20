@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+include_once("init_db.php");
+include_once("init_session.php");
+?>
+
 <head>
     <title>Travalog - Register</title>
 
@@ -35,7 +40,7 @@
                             <div class="col-md-6 col-lg-7 d-flex align-items-top">
                                 <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <form action="profile.html" method="post">
+                                    <form action="#" method="post">
                                         <a href="./" class="btn-close float-end" aria-label="Close"></a>
 
                                         <div class="d-flex align-items-center mb-3 pb-1">
@@ -67,7 +72,7 @@
                                         
                                         <p class="pb-lg-2" style="color: #393f81;">
                                             Have an account? 
-                                            <strong><a href="login.html" style="color: #393f81;">Log in here</a></strong>
+                                            <strong><a href="login.php" style="color: #393f81;">Log in here</a></strong>
                                         </p>
                                     </form>
 
