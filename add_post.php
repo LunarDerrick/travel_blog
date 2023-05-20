@@ -38,7 +38,7 @@ include_once("init_check_logged_in.php"); // only for pages that strictly requir
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link active " href="index.php">Home</a>
+                    <li class="nav-item"><a class="nav-link " href="index.php">Home</a>
                     </li>
                     <li class="nav-item"><a class="nav-link " href="browse.php">Browse</a>
                     </li>
@@ -47,10 +47,10 @@ include_once("init_check_logged_in.php"); // only for pages that strictly requir
                     <li class="nav-item"><a class="nav-link " href="contact.php">Contact</a>
                     </li>
                     
-                    <li class="nav-item"><a class="nav-link active" href="my_posts.php">My Posts</a></li>
+                    <li class="nav-item"><a class="nav-link " href="my_posts.php">My Posts</a></li>
                     <li class="nav-item dropdown">
                         <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        @$username
+                        @<?php echo $_SESSION["username"]; ?>
                         </a>
 
                         <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">

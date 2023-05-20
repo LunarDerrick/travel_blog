@@ -50,7 +50,7 @@ include_once("init_session.php");
                         $username = $_SESSION["username"];
                         ## multiline syntax, use <<< TAG and TAG;
                         echo <<< LOGIN
-                        <li class="nav-item"><a class="nav-link active" href="my_posts.php">My Posts</a></li>
+                        <li class="nav-item"><a class="nav-link " href="my_posts.php">My Posts</a></li>
                         <li class="nav-item dropdown">
                             <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @$username
