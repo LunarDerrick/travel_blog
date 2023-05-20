@@ -1,0 +1,2 @@
+RewriteEngine On
+ErrorDocument 404 /dev/404.php
