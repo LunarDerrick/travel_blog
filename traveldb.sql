@@ -87,7 +87,7 @@ CREATE TABLE `users` (
   `realname` varchar(255) NOT NULL,
   `displayname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `telno` int(12) NOT NULL,
+  `telno` varchar(16),
   `token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='User information';
 
