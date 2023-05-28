@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             die; # prevent if browser dont respect redirect
         } else {
             // @todo
-            echo "Incorrect passworod";
+            echo "Incorrect password";
         }
     } else {
         // @todo
