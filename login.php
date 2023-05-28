@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(password_verify($password, $userinfo["password"])){
             require_once("init_session.php");
             # correct password
-            $_SESSION["userid"] = $userinfo;
+            $_SESSION["userid"] = $userinfo["userid"];
             $_SESSION["username"] = $username;
             header("Location: .");
             die; # prevent if browser dont respect redirect

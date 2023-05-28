@@ -33,8 +33,11 @@ function verifyUsername($conn, $username){
     $stmt->bind_param("s", $username);
     if ($stmt->execute()){
         $result = $stmt->get_result();
-        $row = $result->fetch_array(MYSQLI_ASSOC);
-        return $row;
+        if ($row = $result->fetch_array(MYSQLI_ASSOC)){
+            return $row;
+        } else {
+            return null;
+        }
     } else {
         return null;
     }
