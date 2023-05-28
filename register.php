@@ -2,8 +2,8 @@
 <html lang="en">
 
 <?php
-include_once("init_db.php");
-include_once("init_session.php");
+require_once("init_db.php");
+require_once("init_session.php");
 ?>
 
 <head>

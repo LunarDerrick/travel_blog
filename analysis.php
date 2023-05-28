@@ -2,9 +2,9 @@
 <html lang="en">
 
 <?php
-include_once("init_db.php");
-include_once("init_session.php");
-include_once("init_check_logged_in.php"); // only for pages that strictly require login
+require_once("init_db.php");
+require_once("init_session.php");
+require_once("init_check_logged_in.php"); // only for pages that strictly require login
 ?>
 
 <head>

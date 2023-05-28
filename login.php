@@ -2,6 +2,7 @@
 <html lang="en">
 
 <?php
+require_once("init_db.php");
 include_once("init_db.php");
 include_once("init_session.php");
 ?>
@@ -40,7 +41,7 @@ include_once("init_session.php");
                             <div class="col-md-6 col-lg-7 d-flex align-items-top">
                                 <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <form action="#" method="post">
+                                    <form action="" method="post">
                                         <a href="./" class="btn-close float-end" aria-label="Close"></a>
 
                                         <div class="d-flex align-items-center mb-3 pb-1">
@@ -53,8 +54,8 @@ include_once("init_session.php");
                                             account</h5>
 
                                         <div class="form-outline mb-4">
-                                            <label class="form-label mb-1" for="email">Email address</label>
-                                            <input type="email" id="email" name="email" class="form-control form-control-lg" required />
+                                            <label class="form-label mb-1" for="username">Username</label>
+                                            <input type="text" id="username" name="username" class="form-control form-control-lg" required />
                                         </div>
 
                                         <div class="form-outline mb-4">
