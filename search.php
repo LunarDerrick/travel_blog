@@ -57,16 +57,16 @@ require_once("init_session.php");
                             </a>
 
                             <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
-                            <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
-                            <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="index.php">Log out</a></li>
+                                <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
+                                <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
+                                <li><a class="dropdown-item" href="logout.php">Log out</a></li>
                             </ul>
                         </li>
                         LOGIN;
                     } else {
                         ## multiline syntax, use <<< TAG and TAG;
                         echo <<< OUTSIDE
-                        <li class="nav-item"><a class="nav-link " href="login.php">Login</a></li>.
+                        <li class="nav-item"><a class="nav-link " href="login.php">Login</a></li>
                         <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.php">Sign Up</a></li>
                         OUTSIDE;
                     }

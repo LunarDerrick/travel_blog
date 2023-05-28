@@ -3,8 +3,33 @@
 
 <?php
 require_once("init_db.php");
-include_once("init_db.php");
-include_once("init_session.php");
+
+# only run if is set
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if(empty($_POST["username"]) || empty($_POST["password"])) {
+        // @todo
+    }
+    # retrieve post variable
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    if ($userinfo = verifyUsername($conn, $username)){
+        # verify password
+        if(password_verify($password, $userinfo["password"])){
+            require_once("init_session.php");
+            # correct password
+            $_SESSION["userid"] = $userinfo;
+            $_SESSION["username"] = $username;
+            header("Location: .");
+            die; # prevent if browser dont respect redirect
+        } else {
+            // @todo
+            echo "Incorrect passworod";
+        }
+    } else {
+        // @todo
+        echo "Username not found";
+    }
+}
 ?>
 
 <head>
