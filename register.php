@@ -3,7 +3,6 @@
 
 <?php
 require_once("init_db.php");
-require_once("init_session.php");
 ?>
 
 <head>
@@ -40,7 +39,7 @@ require_once("init_session.php");
                             <div class="col-md-6 col-lg-7 d-flex align-items-top">
                                 <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <form action="#" method="post">
+                                    <form action="register_intro.php" method="post" id="register-form">
                                         <a href="./" class="btn-close float-end" aria-label="Close"></a>
 
                                         <div class="d-flex align-items-center mb-3 pb-1">
@@ -49,31 +48,61 @@ require_once("init_session.php");
                                             </a>
                                         </div>
 
-                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Register account</h5>
+                                        <div role="tab-list">
 
-                                        <div class="form-outline mb-4">
-                                            <label class="form-label mb-1" for="email">Email address</label>
-                                            <input type="email" id="email" name="email" class="form-control form-control-lg" required />
-                                        </div>
+                                            <!-- step 1 -->
+                                            <div role="tab-panel" id="tab-panel-1" class="tab-panel" step="1">
+                                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Register account</h5>
 
-                                        <div class="form-outline mb-4">
-                                            <label class="form-label mb-1" for="password">Password</label>
-                                            <input type="password" id="password" name="password" class="form-control form-control-lg" required/>
-                                        </div>
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label mb-1" for="email">Email address</label>
+                                                    <input type="email" id="email" name="email" class="form-control form-control-lg" required />
+                                                </div>
 
-                                        <div class="form-outline mb-4">
-                                            <label class="form-label mb-1" for="password-confirm">Confirm Password</label>
-                                            <input type="password" id="password-confirm" class="form-control form-control-lg" required/>
-                                        </div>
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label mb-1" for="password">Password</label>
+                                                    <input type="password" id="password" name="password" class="form-control form-control-lg" onchange="confirmPassword();" required minlength="8"/>
+                                                </div>
 
-                                        <div class="pt-1 mb-4">
-                                            <button class="btn btn-dark btn-lg py-2" type="button">Register</button>
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label mb-1" for="password-confirm">Confirm Password</label>
+                                                    <input type="password" id="password-confirm" name="password-confirm" class="form-control form-control-lg" onchange="confirmPassword();" onkeyup="confirmPassword();" required minlength="8"/>
+                                                </div>
+
+                                                <div class="pt-1 mb-4">
+                                                    <button class="btn btn-dark btn-lg py-2" id="page1-next" type="button" onclick="nextPage1();">Start now!</button>
+                                                </div>
+                                                
+                                                <p class="pb-lg-2" style="color: #393f81;">
+                                                    Have an account? 
+                                                    <strong><a href="login.php" style="color: #393f81;">Log in here</a></strong>
+                                                </p>
+                                            </div>
+                                            <!-- step 2 -->
+                                            <div role="tab-panel" id="tab-panel-2" class="tab-panel d-none" step="2">
+                                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Introduce yourself?</h5>
+
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label mb-1" for="username">Username</label>
+                                                    <div class="form-outline mb-4 input-group">
+                                                        <span class="input-group-text" id="basic-addon1">@</span>
+                                                        <input type="text" id="username" name="username" class="form-control form-control-lg" aria-label="Username" aria-describedby="basic-addon1" onchange="checkUsernameUsed();">
+                                                    </div>
+                                                    <span id="username-warning" class="text-danger d-none">Username is taken. Try another one?</span>
+                                                </div>
+
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label mb-1" for="personname">Name</label>
+                                                    <input type="test" id="personname" name="personname" class="form-control form-control-lg"/>
+                                                </div>
+
+                                                <div class="pt-1 mb-4">
+                                                    <button class="btn btn-dark btn-lg py-2" type="submit">Register!</button>
+                                                    <button class="btn btn-outline btn-sm mx-4" id="page2-back" type="button">I want to go back</button>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        
-                                        <p class="pb-lg-2" style="color: #393f81;">
-                                            Have an account? 
-                                            <strong><a href="login.php" style="color: #393f81;">Log in here</a></strong>
-                                        </p>
                                     </form>
 
                                 </div>
@@ -84,6 +113,53 @@ require_once("init_session.php");
             </div>
         </div>
     </section>
+
+    <script>
+        function confirmPassword() {
+            const password = document.querySelector('input[name=password]');
+            const confirm = document.querySelector('input[name=password-confirm]');
+            
+            if (confirm.value === password.value) {
+                confirm.setCustomValidity('');
+            } else {
+                confirm.setCustomValidity('Passwords do not match');
+            }
+        }
+
+        function checkUsernameUsed() {
+            var username = document.getElementById("username").value;
+            console.log(username)
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                console.log(this);
+                if (this.readyState == 4 && this.status == 406) {
+                    // show username taken warning by removing bootstrap d-none class
+                    document.getElementById("username-warning").classList.remove("d-none");
+                    // set invalid state
+                    document.getElementById("username").setCustomValidity('Username is taken');
+                } else if (this.readyState == 4 && this.status == 202) {
+                    document.getElementById("username-warning").classList.add("d-none");
+                    document.getElementById("username").setCustomValidity('');
+                }
+            };
+            xhttp.open("POST", "userinfo_check.php", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send("usernameverify="+username);
+        }
+
+        function nextPage1(){
+            if (document.forms[0].checkValidity()){
+                // switch tab
+                document.getElementById("tab-panel-1").classList.add("d-none");
+                document.getElementById("tab-panel-2").classList.remove("d-none");
+                // set required
+                document.getElementById("username").setAttribute("required", true);
+                document.getElementById("personname").setAttribute("required", true);
+            } else {
+                document.forms[0].reportValidity();
+            }
+        }
+    </script>
     
     <!-- JavaScript files-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

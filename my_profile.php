@@ -81,8 +81,9 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                     <label for="fname"><b>Username</b></label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">@</span>
-                                        <input type="text" id="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>
+                                        <input type="text" id="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required onchange="checkUsernameUsed();">
                                     </div>
+                                    <span id="username-warning" class="text-danger d-none">Username is taken. Try another one?</span>
                                 </div>
                             </div>
                             <div class="row">
@@ -92,7 +93,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                 </div>
                                 <div class="col-md-6 form-label">
                                     <label for="displayname"><b>Display Name</b></label>
-                                    <input type="text" id="displayname" class="form-control" required>
+                                    <input type="text" id="displayname" class="form-control">
                                 </div>
                             </div>
                             <div class="row">
@@ -102,7 +103,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                 </div>
                                 <div class="col-md-6 form-label">
                                     <label for="tel"><b>Tel. Number</b></label>
-                                    <input type="text" id="tel" class="form-control" required>
+                                    <input type="text" id="tel" class="form-control">
                                 </div>
                             </div>
                             <div class="row">
@@ -115,11 +116,11 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                             <div class="row">
                                 <div class="col-md-6 form-label">
                                     <label for="oldpassword"><b>Old Password</b></label>
-                                    <input type="password" id="oldpassword" class="form-control" required>
+                                    <input type="password" id="oldpassword" class="form-control">
                                 </div>
                                 <div class="col-md-6 form-label">
                                     <label for="newpassword"><b>New Password</b></label>
-                                    <input type="password" id="newpassword" class="form-control" required>
+                                    <input type="password" id="newpassword" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -172,5 +173,26 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
     document.getElementById("sub").onclick = function (){
         //todo later do
     }
+
+    function checkUsernameUsed() {
+            var username = document.getElementById("username").value;
+            console.log(username)
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                console.log(this);
+                if (this.readyState == 4 && this.status == 406) {
+                    // show username taken warning by removing bootstrap d-none class
+                    document.getElementById("username-warning").classList.remove("d-none");
+                    // set invalid state
+                    document.getElementById("username").setCustomValidity('Username is taken');
+                } else if (this.readyState == 4 && this.status == 202) {
+                    document.getElementById("username-warning").classList.add("d-none");
+                    document.getElementById("username").setCustomValidity('');
+                }
+            };
+            xhttp.open("POST", "userinfo_check.php", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send("usernameverify="+username);
+        }
 </script>
 </html>
