@@ -98,7 +98,7 @@ require_once("init_db.php");
 
                                                 <div class="pt-1 mb-4">
                                                     <button class="btn btn-dark btn-lg py-2" type="submit">Register!</button>
-                                                    <button class="btn btn-outline btn-sm mx-4" id="page2-back" type="button">I want to go back</button>
+                                                    <button class="btn btn-outline btn-sm mx-4" id="page2-back" type="button" onclick="prevPage1();">I want to go back</button>
                                                 </div>
                                             </div>
 
@@ -158,6 +158,16 @@ require_once("init_db.php");
             } else {
                 document.forms[0].reportValidity();
             }
+        }
+
+        function prevPage1(){
+                // reset required before going hidden
+                document.getElementById("username").removeAttribute("required");
+                document.getElementById("personname").removeAttribute("required");
+                document.getElementById("username").setCustomValidity('');
+                // switch tab
+                document.getElementById("tab-panel-1").classList.remove("d-none");
+                document.getElementById("tab-panel-2").classList.add("d-none");
         }
     </script>
     
