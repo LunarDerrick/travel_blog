@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2023 at 12:47 PM
+-- Generation Time: May 29, 2023 at 03:50 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 -- Insert username
 --
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON *.* TO `webdev`@`%` IDENTIFIED BY PASSWORD '*DE66836140FF83939E37FBC9687568DBAF890A04';
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON *.* TO `webdev`@`%` IDENTIFIED BY PASSWORD '*DE66836140FF83939E37FBC9687568DBAF890A04';
 
 --
 -- Database: `traveldb`
@@ -83,11 +83,11 @@ CREATE TABLE `users` (
   `userid` int(32) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `profileintro` longtext NOT NULL,
+  `profileintro` longtext DEFAULT NULL,
   `realname` varchar(255) NOT NULL,
-  `displayname` varchar(255) NOT NULL,
+  `displayname` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
-  `telno` varchar(16),
+  `telno` varchar(16) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='User information';
 
@@ -96,7 +96,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userid`, `username`, `password`, `profileintro`, `realname`, `displayname`, `email`, `telno`, `token`) VALUES
-(1, 'test', '$2y$10$6z7GKa9kpDN7KC31CWIHi.fdO/t07Y/x36WUKNP01ndHdkdR9Ae3K', '', '', '', 'test@gmail.com', 0, NULL);
+(15156, 'test', '$2y$12$fjGir6yr2LtvY.6p/QmauODakN89ZhBR8.UelDNbT1/ZqUKMJqNYy', NULL, 'Tester', NULL, 'test@gmail.com', NULL, NULL);
 
 --
 -- Indexes for dumped tables
