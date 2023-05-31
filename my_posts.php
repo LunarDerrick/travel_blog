@@ -165,12 +165,24 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
         </div>
     </footer>
 
-     <!--Makes card animated-->
-     <script>
-        baguetteBox.run('.cards-gallery', { animation: 'slideIn' });
-    </script>
     <!-- JavaScript files-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
+
+    
+    <?php
+    // echo popup if successfully add posts
+    if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+        // if get variable has done=1 and page come from add_post.php
+        if ( intval($_GET['done']) && basename($_SERVER['HTTP_REFERER']) == "add_post.php" ){
+            // display toast
+            echo <<< TOAST
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+            <script>new Notyf({duration:5000}).success("Succesfully added post.")</script>
+            TOAST;
+        }
+    }
+    ?>
 </body>

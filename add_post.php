@@ -72,7 +72,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                 <p></p>
             </div>
             
-            <form action=# method="post">
+            <form action="add_post_api.php" method="post" enctype="multipart/form-data">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 form-label">
@@ -89,7 +89,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                     <div class="row">
                         <div class="form-label">
                             <label for="content"><b>Content</b></label>
-                            <textarea id="content" rows="10" class="form-control"></textarea>
+                            <textarea id="content" name="content" rows="10" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -103,7 +103,12 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                             <div class="row">
                                 <div class="col form-label">
                                     <label for="tags"><b>Tags</b></label>
-                                    <input type="text" id="tags" class="form-control">
+                                    <input type="text" id="tags" name="tags" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <input type="submit" value="Add Post" class="btn btn-dark px-3">
                                 </div>
                             </div>
                         </div>  
@@ -111,23 +116,12 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                             <div class="row">
                                 <div class="col">
                                     <label for="image"><b>Image</b></label>
-                                    <input type="file" id="image" class="form-control">
+                                    <input type="file" accept="image/*" id="image" name="image" class="form-control" required>
                                     <picture>
-                                        <img src="image/hawaii.jpg" class="img-fluid card-img-top" alt="...">
+                                        <img id="img-preview" src="image/hawaii.jpg" class="img-fluid card-img-top" alt="...">
                                     </picture>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 form-label">
-                        </div>  
-                        <div class="col-md-4">
-                        </div>  
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <input type="submit" value="Add Post" class="btn btn-dark px-3">
                         </div>
                     </div>
                 </div>
@@ -147,14 +141,45 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
         </div>
     </footer>
 
-     <!--Makes card animated-->
-     <script>
-        baguetteBox.run('.cards-gallery', { animation: 'slideIn' });
+    <!-- rich text editor, custom built -->
+    <script src="js/ckeditor.js"></script>
+    <script>
+        // initialise richtext eeditor
+        ClassicEditor
+            .create( document.querySelector('#content'), 
+                // remove media embed, not available for markdown
+                {
+                    removePlugins:  ['MediaEmbed']
+                } 
+            )
+            .then( newEditor => {
+                // save editor to variable for later access
+                editor = newEditor;
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+
+        // check if editor has anything
+        document.forms[0].onsubmit = evt => {
+            if (editor.getData().trim() == "") {
+                alert("No content is provided.");
+                // prevent form submitting
+                return false;
+            }
+        };
+
+        // show image preview when choosing image
+        document.getElementById("image").onchange = evt => {
+            const [file] = document.getElementById("image").files
+            if (file) {
+                document.getElementById("img-preview").src = URL.createObjectURL(file)
+            }
+        }
     </script>
+    
     <!-- JavaScript files-->
-    <script src="https://d19m59y37dris4.cloudfront.net/blog/2-0/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://d19m59y37dris4.cloudfront.net/blog/2-0/vendor/glightbox/glightbox.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
 </body>

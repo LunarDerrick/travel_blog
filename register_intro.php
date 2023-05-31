@@ -6,7 +6,14 @@ require_once("init_db.php");
 # only run if is set
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     # verify info
-    if(empty($_POST["email"]) || empty($_POST["password"]) || empty($_POST["password-confirm"]) || empty($_POST["username"]) || empty($_POST["personname"]) || ($_POST["password"] != $_POST["password-confirm"])) {
+    foreach (["email", "password", "password-confirm", "username", "personname"] as $check) {
+        if (empty($_POST[$check])){
+            # go back to previous page
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            die; # prevent if browser dont respect redirect
+        }
+    }
+    if($_POST["password"] != $_POST["password-confirm"]) {
         # go back to previous page
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         die; # prevent if browser dont respect redirect

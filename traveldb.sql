@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2023 at 03:50 PM
+-- Generation Time: May 31, 2023 at 03:41 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -38,7 +38,7 @@ USE `traveldb`;
 CREATE TABLE `comments` (
   `userid` int(32) NOT NULL,
   `postid` int(128) NOT NULL,
-  `commenttime` datetime NOT NULL,
+  `commenttime` bigint(20) NOT NULL,
   `comment` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -57,7 +57,7 @@ CREATE TABLE `posts` (
   `location` text NOT NULL,
   `image` text NOT NULL,
   `tag` text NOT NULL,
-  `createdtime` datetime NOT NULL,
+  `createdtime` bigint(20) NOT NULL,
   `avg_rating` int(5) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='"Post database"';
 
@@ -85,7 +85,6 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `profileintro` longtext DEFAULT NULL,
   `realname` varchar(255) NOT NULL,
-  `displayname` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `telno` varchar(16) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL
@@ -95,8 +94,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `username`, `password`, `profileintro`, `realname`, `displayname`, `email`, `telno`, `token`) VALUES
-(15156, 'test', '$2y$12$fjGir6yr2LtvY.6p/QmauODakN89ZhBR8.UelDNbT1/ZqUKMJqNYy', NULL, 'Tester', NULL, 'test@gmail.com', NULL, NULL);
+INSERT INTO `users` (`userid`, `username`, `password`, `profileintro`, `realname`, `email`, `telno`, `token`) VALUES
+(15156, 'test', '$2y$12$fjGir6yr2LtvY.6p/QmauODakN89ZhBR8.UelDNbT1/ZqUKMJqNYy', NULL, 'Tester', 'test@gmail.com', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -128,6 +127,16 @@ ALTER TABLE `ratings`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`userid`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `postid` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
