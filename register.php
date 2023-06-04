@@ -128,10 +128,8 @@ require_once("init_db.php");
 
         function checkUsernameUsed() {
             var username = document.getElementById("username").value;
-            console.log(username)
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
-                console.log(this);
                 if (this.readyState == 4 && this.status == 406) {
                     // show username taken warning by removing bootstrap d-none class
                     document.getElementById("username-warning").classList.remove("d-none");

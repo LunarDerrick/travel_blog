@@ -28,22 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         // redirect back, username taken
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         die; # prevent if browser dont respect redirect
-    } else {
-        // insert new record into database
-        $id = uniqid(rand(), true);
-        
-        $stmt = $conn->prepare("INSERT INTO users (userid, username, password, realname, email) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $id, $username, $password, $personname, $email);
-        if (!$stmt->execute()){
-            http_response_code(500);
-            die;
-        }
-
-        require_once("init_session.php");
-        # correct password
-        $_SESSION["userid"] = $id;
-        $_SESSION["username"] = $username;
     }
+
+    // insert new record into database
+    $id = uniqid(rand(), true);
+    
+    $stmt = $conn->prepare("INSERT INTO users (userid, username, password, realname, email) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $id, $username, $password, $personname, $email);
+    if (!$stmt->execute()){
+        http_response_code(500);
+        die;
+    }
+
+    require_once("init_session.php");
+    # correct password
+    $_SESSION["userid"] = intval($id);
+    $_SESSION["username"] = $username;
 } else {
     // only for pages that strictly require login
     require_once("init_check_logged_in.php");
