@@ -31,13 +31,12 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 function verifyUsername($conn, $username){
     $stmt = $conn->prepare("SELECT userid, password FROM users WHERE username=?");
     $stmt->bind_param("s", $username);
-    if ($stmt->execute()){
-        $result = $stmt->get_result();
-        if ($row = $result->fetch_array(MYSQLI_ASSOC)){
-            return $row;
-        } else {
-            return null;
-        }
+    if (!$stmt->execute()){
+        return null;
+    }
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()){
+        return $row;
     } else {
         return null;
     }
