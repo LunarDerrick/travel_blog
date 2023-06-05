@@ -3,6 +3,12 @@
 
 <?php
 require_once("init_db.php");
+// force redirect if there is session
+include_once("init_session.php");
+if (isset($_SESSION["username"]) && isset($_SESSION["userid"])){
+    header("Location: my_profile.php");
+    die;
+}
 
 # only run if is set
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){

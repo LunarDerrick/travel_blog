@@ -3,6 +3,12 @@
 
 <?php
 require_once("init_db.php");
+// force redirect if there is session
+include_once("init_session.php");
+if (isset($_SESSION["username"]) && isset($_SESSION["userid"])){
+    header("Location: my_profile.php");
+    die;
+}
 ?>
 
 <head>
@@ -115,6 +121,26 @@ require_once("init_db.php");
     </section>
 
     <script>
+        var registerForm = document.getElementById("register-form");
+        var tabPanel1 = document.getElementById("tab-panel-1");
+        var tabPanel2 = document.getElementById("tab-panel-2");
+
+        // prevent submit form when press enter
+        registerForm.onkeypress = function(e) {
+            var key = e.charCode || e.keyCode || 0;     
+            if (key == 13) {
+                if (tabPanel1.classList.contains("d-none")) {
+                // page 1 is hidden - page 2 shown
+                    return true;
+                } else {
+                    // turn to next page
+                    e.preventDefault();
+                    nextPage1();
+                    return false;
+                }
+            }
+        }
+
         function confirmPassword() {
             const password = document.querySelector('input[name=password]');
             const confirm = document.querySelector('input[name=password-confirm]');
@@ -146,26 +172,26 @@ require_once("init_db.php");
         }
 
         function nextPage1(){
-            if (document.forms[0].checkValidity()){
+            if (registerForm.checkValidity()){
                 // switch tab
-                document.getElementById("tab-panel-1").classList.add("d-none");
-                document.getElementById("tab-panel-2").classList.remove("d-none");
+                tabPanel1.classList.add("d-none");
+                tabPanel2.classList.remove("d-none");
                 // set required
                 document.getElementById("username").setAttribute("required", true);
                 document.getElementById("personname").setAttribute("required", true);
             } else {
-                document.forms[0].reportValidity();
+                registerForm.reportValidity();
             }
         }
 
         function prevPage1(){
-                // reset required before going hidden
-                document.getElementById("username").removeAttribute("required");
-                document.getElementById("personname").removeAttribute("required");
-                document.getElementById("username").setCustomValidity('');
-                // switch tab
-                document.getElementById("tab-panel-1").classList.remove("d-none");
-                document.getElementById("tab-panel-2").classList.add("d-none");
+            // reset required before going hidden
+            document.getElementById("username").removeAttribute("required");
+            document.getElementById("personname").removeAttribute("required");
+            document.getElementById("username").setCustomValidity('');
+            // switch tab
+            tabPanel1.classList.remove("d-none");
+            tabPanel2.classList.add("d-none");
         }
     </script>
     

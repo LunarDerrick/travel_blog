@@ -31,7 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
 
     // insert new record into database
-    $id = uniqid(rand(), true);
+    // generate a unique id, but have to shorten it
+    $id = intval(substr(hash("SHA256", uniqid('', true)), -8, 8), 16);
     
     $stmt = $conn->prepare("INSERT INTO users (userid, username, password, realname, email) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $id, $username, $password, $personname, $email);
@@ -89,10 +90,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                     </li>
                     <li class="nav-item"><a class="nav-link " href="contact.php">Contact</a>
                     </li>
-                    
-                    <li class="nav-item"><a class="nav-link " href="login.php">Login</a></li>
-                    <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.php">Sign Up</a></li>
+                    <?php
+                    if (isset($_SESSION["username"])) {
+                        $username = $_SESSION["username"];
+                        ## multiline syntax, use <<< TAG and TAG;
+                        echo <<< LOGIN
+                        <li class="nav-item"><a class="nav-link " href="my_posts.php">My Posts</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @$username
+                            </a>
 
+                            <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
+                                <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
+                                <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
+                                <li><a class="dropdown-item" href="logout.php">Log out</a></li>
+                            </ul>
+                        </li>
+                        LOGIN;
+                    } else {
+                        ## multiline syntax, use <<< TAG and TAG;
+                        echo <<< OUTSIDE
+                        <li class="nav-item"><a class="nav-link " href="login.php">Login</a></li>
+                        <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.php">Sign Up</a></li>
+                        OUTSIDE;
+                    }
+                    ?>
                 </ul>
             </div>
         </div>
@@ -103,11 +126,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <div class="container section-title ">
                 <h2>Welcome to Travalog</h2>
                 <p>
-                    Yay! Wanna start writing a blog?
+                    Yay! Wanna get hands-on now?
                 </p>
             </div>
 
-            <div class="container py-2">
+            <div class="container py-2 text-center">
+                <a href="my_posts.php" class="btn btn-dark btn-lg py-2 px-4" >Start writing now!</a>
+                <a href="browse.php" class="btn btn-outline btn-lg py-2 px-4">Visit more page?</a>
             </div>
 
         </div>
