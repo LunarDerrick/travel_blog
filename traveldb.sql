@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2023 at 03:41 PM
+-- Generation Time: Jun 05, 2023 at 04:43 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -58,7 +58,8 @@ CREATE TABLE `posts` (
   `image` text NOT NULL,
   `tag` text NOT NULL,
   `createdtime` bigint(20) NOT NULL,
-  `avg_rating` int(5) NOT NULL DEFAULT 0
+  `avg_rating` float NOT NULL DEFAULT 0,
+  `viewcount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='"Post database"';
 
 -- --------------------------------------------------------
@@ -136,7 +137,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postid` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `postid` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
