@@ -115,6 +115,16 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 transform-on-hover">
+                                <picture>
+                                    <canvas id="verticalBarChart2" style="width:100%;max-width:335px"></canvas>
+                                </picture>
+                                <div class="card-body">
+                                    <h6><a href="#" class="stretched-link">Weekly Posts Published</a></h6>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -148,7 +158,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
             data: {
                 labels: ["1 star", "2 star", "3 star", "4 star", "5 star"], // x axis
                 datasets: [{
-                    backgroundColor: ["red", "green", "blue", "orange", "brown"],
+                    backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat"],
                     data: [13, 12, 65, 43, 11] // y axis
                 }]
             },
@@ -177,7 +187,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
             data: {
                 labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
                 datasets: [{
-                    backgroundColor: ["red", "green", "blue", "orange", "brown", "pink", "purple"],
+                    backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
                     data: [10, 8, 11, 10, 15, 43, 47] // y axis
                 }]
             },
@@ -214,7 +224,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
             data: {
                 labels: ["Japan", "Korea", "UK"], // x axis
                 datasets: [{
-                    backgroundColor: ["red", "green", "blue"],
+                    backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue"],
                     data: [4.2, 3.9, 3.4] // y axis
                 }]
             },
@@ -240,6 +250,47 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                     weight: 'bold'
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        });
+
+        // vertical bar chart 2
+        new Chart("verticalBarChart2", {
+            type: "bar",
+            data: {
+                labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
+                datasets: [{
+                    backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
+                    data: [1, 1, 1, 1, 2, 4, 2] // y axis
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                        color: 'black',
+                        labels: {
+                            title: {
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Posts Published'
+                        },
+                        // make y-axis scale as whole numbers
+                        ticks: {
+                            callback: function(value) {if (value % 1 === 0) {return value;}}
                         }
                     }
                 }
