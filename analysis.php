@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+require_once("init_db.php");
+require_once("init_session.php");
+require_once("init_check_logged_in.php"); // only for pages that strictly require login
+?>
+
 <head>
     <title>Travel Blog - Analysis</title>
 
@@ -31,34 +37,35 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2 fixed-top">
         <div class="container pt-1">
             <h1>
-                <a class="navbar-brand text-md fw-bold text-dark" href="index_logged.html">Travalog</a>
+                <a class="navbar-brand text-md fw-bold text-dark" href="index.php">Travalog</a>
             </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link " href="index_logged.html">Home</a>
+                    <li class="nav-item"><a class="nav-link " href="index.php">Home</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="browse_logged.html">Browse</a>
+                    <li class="nav-item"><a class="nav-link " href="browse.php">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="search_logged.html">Search</a>
+                    <li class="nav-item"><a class="nav-link " href="search.php">Search</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="contact_logged.html">Contact</a>
+                    <li class="nav-item"><a class="nav-link " href="contact.php">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="my_posts.html">My Posts</a>
-                    </li>
+                    
+                    <li class="nav-item"><a class="nav-link " href="my_posts.php">My Posts</a></li>
                     <li class="nav-item dropdown">
                         <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @Username
+                            @<?php echo $_SESSION["username"]; ?>
                         </a>
-                        
+
                         <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
-                            <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
-                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="index.html">Log out</a></li>
+                            <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
+                            <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="logout.php">Log out</a></li>
                         </ul>
                     </li>
+                        
                 </ul>
             </div>
         </div>
@@ -108,6 +115,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 transform-on-hover">
+                                <picture>
+                                    <canvas id="verticalBarChart2" style="width:100%;max-width:335px"></canvas>
+                                </picture>
+                                <div class="card-body">
+                                    <h6><a href="#" class="stretched-link">Weekly Posts Published</a></h6>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -141,7 +158,7 @@
             data: {
                 labels: ["1 star", "2 star", "3 star", "4 star", "5 star"], // x axis
                 datasets: [{
-                    backgroundColor: ["red", "green", "blue", "orange", "brown"],
+                    backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat"],
                     data: [13, 12, 65, 43, 11] // y axis
                 }]
             },
@@ -170,7 +187,7 @@
             data: {
                 labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
                 datasets: [{
-                    backgroundColor: ["red", "green", "blue", "orange", "brown", "pink", "purple"],
+                    backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
                     data: [10, 8, 11, 10, 15, 43, 47] // y axis
                 }]
             },
@@ -207,7 +224,7 @@
             data: {
                 labels: ["Japan", "Korea", "UK"], // x axis
                 datasets: [{
-                    backgroundColor: ["red", "green", "blue"],
+                    backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue"],
                     data: [4.2, 3.9, 3.4] // y axis
                 }]
             },
@@ -233,6 +250,47 @@
                                     weight: 'bold'
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        });
+
+        // vertical bar chart 2
+        new Chart("verticalBarChart2", {
+            type: "bar",
+            data: {
+                labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
+                datasets: [{
+                    backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
+                    data: [1, 1, 1, 1, 2, 4, 2] // y axis
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                        color: 'black',
+                        labels: {
+                            title: {
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Posts Published'
+                        },
+                        // make y-axis scale as whole numbers
+                        ticks: {
+                            callback: function(value) {if (value % 1 === 0) {return value;}}
                         }
                     }
                 }

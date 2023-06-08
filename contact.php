@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+require_once("init_db.php");
+require_once("init_session.php");
+?>
+
 <head>
     <title>Travalog - Contact Us</title>
     
@@ -24,34 +29,47 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2 fixed-top">
         <div class="container pt-1">
             <h1>
-                <a class="navbar-brand text-md fw-bold text-dark" href="index_logged.html">Travalog</a>
+                <a class="navbar-brand text-md fw-bold text-dark" href="index.php">Travalog</a>
             </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link " href="index_logged.html">Home</a>
+                    <li class="nav-item"><a class="nav-link " href="index.php">Home</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="browse_logged.html">Browse</a>
+                    <li class="nav-item"><a class="nav-link " href="browse.php">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="search_logged.html">Search</a>
+                    <li class="nav-item"><a class="nav-link " href="search.php">Search</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link active" href="contact_logged.html">Contact</a>
+                    <li class="nav-item"><a class="nav-link active " href="contact.php">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="my_posts.html">My Posts</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @Username
-                        </a>
-                        
-                        <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
-                            <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
-                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="index.html">Log out</a></li>
-                        </ul>
-                    </li>
+                    <?php
+                    if (isset($_SESSION["username"])) {
+                        $username = $_SESSION["username"];
+                        ## multiline syntax, use <<< TAG and TAG;
+                        echo <<< LOGIN
+                        <li class="nav-item"><a class="nav-link " href="my_posts.php">My Posts</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @$username
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
+                                <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
+                                <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
+                                <li><a class="dropdown-item" href="logout.php">Log out</a></li>
+                            </ul>
+                        </li>
+                        LOGIN;
+                    } else {
+                        ## multiline syntax, use <<< TAG and TAG;
+                        echo <<< OUTSIDE
+                        <li class="nav-item"><a class="nav-link " href="login.php">Login</a></li>
+                        <li class="nav-item "><a class="btn btn-style btn-dark ms-2 px-3 py-2 " href="register.php">Sign Up</a></li>
+                        OUTSIDE;
+                    }
+                    ?>
                 </ul>
             </div>
         </div>

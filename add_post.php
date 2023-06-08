@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+require_once("init_db.php");
+require_once("init_session.php");
+require_once("init_check_logged_in.php"); // only for pages that strictly require login
+?>
+
 <head>
-    <title>Travalog - Edit Post</title>
+    <title>Travalog - Add Post</title>
 
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
@@ -25,34 +31,35 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2 fixed-top">
         <div class="container pt-1">
             <h1>
-                <a class="navbar-brand text-md fw-bold text-dark" href="index_logged.html">Travalog</a>
+                <a class="navbar-brand text-md fw-bold text-dark" href="index.php">Travalog</a>
             </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link " href="index_logged.html">Home</a>
+                    <li class="nav-item"><a class="nav-link " href="index.php">Home</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="browse_logged.html">Browse</a>
+                    <li class="nav-item"><a class="nav-link " href="browse.php">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="search_logged.html">Search</a>
+                    <li class="nav-item"><a class="nav-link " href="search.php">Search</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="contact_logged.html">Contact</a>
+                    <li class="nav-item"><a class="nav-link " href="contact.php">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link active" href="my_posts.html">My Posts</a>
-                    </li>
+                    
+                    <li class="nav-item"><a class="nav-link " href="my_posts.php">My Posts</a></li>
                     <li class="nav-item dropdown">
                         <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @Username
+                            @<?php echo $_SESSION["username"]; ?>
                         </a>
-                        
+
                         <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
-                            <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
-                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="index.html">Log out</a></li>
+                            <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
+                            <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="logout.php">Log out</a></li>
                         </ul>
                     </li>
+                    
                 </ul>
             </div>
         </div>
@@ -61,11 +68,11 @@
     <section>
         <div class="container">
             <div class="container section-title ">
-                <h2>Edit Post</h2>
+                <h2>Add Post</h2>
                 <p></p>
             </div>
             
-            <form action="#" method="post">
+            <form action="add_post_api.php" method="post" enctype="multipart/form-data">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 form-label">
@@ -96,7 +103,12 @@
                             <div class="row">
                                 <div class="col form-label">
                                     <label for="tags"><b>Tags</b></label>
-                                    <input type="text" id="tags" class="form-control">
+                                    <input type="text" id="tags" name="tags" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <input type="submit" value="Add Post" class="btn btn-dark px-3">
                                 </div>
                             </div>
                         </div>  
@@ -104,23 +116,12 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="image"><b>Image</b></label>
-                                    <input type="file" id="image" class="form-control">
+                                    <input type="file" accept="image/*" id="image" name="image" class="form-control" required>
                                     <picture>
-                                        <img src="image/hawaii.jpg" class="img-fluid card-img-top" alt="...">
+                                        <img id="img-preview" src="image/hawaii.jpg" class="img-fluid card-img-top" alt="...">
                                     </picture>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 form-label">
-                        </div>  
-                        <div class="col-md-4">
-                        </div>  
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <input type="submit" value="Save Post" class="btn btn-dark px-3">
                         </div>
                     </div>
                 </div>
@@ -140,16 +141,43 @@
         </div>
     </footer>
 
-    <!-- rich text editor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+    <!-- rich text editor, custom built -->
+    <script src="js/ckeditor.js"></script>
     <script>
+        // initialise richtext eeditor
         ClassicEditor
-            .create( document.querySelector( '#content' ) )
+            .create( document.querySelector('#content'), 
+                // remove media embed, not available for markdown
+                {
+                    removePlugins:  ['MediaEmbed']
+                } 
+            )
+            .then( newEditor => {
+                // save editor to variable for later access
+                editor = newEditor;
+            } )
             .catch( error => {
                 console.error( error );
             } );
-    </script>
 
+        // check if editor has anything
+        document.forms[0].onsubmit = evt => {
+            if (editor.getData().trim() == "") {
+                alert("No content is provided.");
+                // prevent form submitting
+                return false;
+            }
+        };
+
+        // show image preview when choosing image
+        document.getElementById("image").onchange = evt => {
+            const [file] = document.getElementById("image").files
+            if (file) {
+                document.getElementById("img-preview").src = URL.createObjectURL(file)
+            }
+        }
+    </script>
+    
     <!-- JavaScript files-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->

@@ -1,8 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+require_once("init_db.php");
+// force redirect if there is session
+include_once("init_session.php");
+if (isset($_SESSION["username"]) && isset($_SESSION["userid"])){
+    header("Location: my_profile.php");
+    die;
+}
+
+# only run if is set
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if(empty($_POST["username"]) || empty($_POST["password"])) {
+        // @todo
+    }
+    # retrieve post variable
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    if ($userinfo = verifyUsername($conn, $username)){
+        # verify password
+        if(password_verify($password, $userinfo["password"])){
+            require_once("init_session.php");
+            # correct password
+            $_SESSION["userid"] = intval($userinfo["userid"]);
+            $_SESSION["username"] = $username;
+            header("Location: .");
+            die; # prevent if browser dont respect redirect
+        } else {
+            // @todo
+            echo "Incorrect password";
+        }
+    } else {
+        // @todo
+        echo "Username not found";
+    }
+}
+?>
+
 <head>
-    <title>Travalog - Register</title>
+    <title>Travalog - Login</title>
 
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
@@ -17,7 +54,7 @@
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/blog/2-0/css/style.default.622904dd.css"
         id="theme-stylesheet">
     <!--CSS overwrite-->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
 
 </head>
 
@@ -35,7 +72,7 @@
                             <div class="col-md-6 col-lg-7 d-flex align-items-top">
                                 <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <form action="profile.html" method="post">
+                                    <form action="" method="post">
                                         <a href="./" class="btn-close float-end" aria-label="Close"></a>
 
                                         <div class="d-flex align-items-center mb-3 pb-1">
@@ -44,11 +81,12 @@
                                             </a>
                                         </div>
 
-                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Register account</h5>
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your
+                                            account</h5>
 
                                         <div class="form-outline mb-4">
-                                            <label class="form-label mb-1" for="email">Email address</label>
-                                            <input type="email" id="email" name="email" class="form-control form-control-lg" required />
+                                            <label class="form-label mb-1" for="username">Username</label>
+                                            <input type="text" id="username" name="username" class="form-control form-control-lg" required />
                                         </div>
 
                                         <div class="form-outline mb-4">
@@ -56,18 +94,14 @@
                                             <input type="password" id="password" name="password" class="form-control form-control-lg" required/>
                                         </div>
 
-                                        <div class="form-outline mb-4">
-                                            <label class="form-label mb-1" for="password-confirm">Confirm Password</label>
-                                            <input type="password" id="password-confirm" class="form-control form-control-lg" required/>
+                                        <div class="pt-1 mb-2">
+                                            <button class="btn btn-dark btn-lg py-2" type="submit">Login</button>
                                         </div>
 
-                                        <div class="pt-1 mb-4">
-                                            <button class="btn btn-dark btn-lg py-2" type="button">Register</button>
-                                        </div>
-                                        
+                                        <a class="small text-muted d-block mb-2" href="#!">Forgot password?</a><br>
                                         <p class="pb-lg-2" style="color: #393f81;">
-                                            Have an account? 
-                                            <strong><a href="login.html" style="color: #393f81;">Log in here</a></strong>
+                                            Don't have an account? 
+                                            <strong><a href="register.php" style="color: #393f81;">Register here</a></strong>
                                         </p>
                                     </form>
 
@@ -85,5 +119,11 @@
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
 </body>
+
+<script>
+    //todo
+    //need to 判断 whether login info
+    //get info from database
+</script>
 
 </html>

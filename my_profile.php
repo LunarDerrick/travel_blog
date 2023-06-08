@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+require_once("init_db.php");
+require_once("init_session.php");
+require_once("init_check_logged_in.php"); // only for pages that strictly require login
+?>
+
 <head>
     <title>Travalog - Contact Us</title>
     
@@ -23,34 +29,35 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2 fixed-top">
         <div class="container pt-1">
             <h1>
-                <a class="navbar-brand text-md fw-bold text-dark" href="index_logged.html">Travalog</a>
+                <a class="navbar-brand text-md fw-bold text-dark" href="index.php">Travalog</a>
             </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link " href="index_logged.html">Home</a>
+                    <li class="nav-item"><a class="nav-link " href="index.php">Home</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="browse_logged.html">Browse</a>
+                    <li class="nav-item"><a class="nav-link " href="browse.php">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="search_logged.html">Search</a>
+                    <li class="nav-item"><a class="nav-link " href="search.php">Search</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="contact_logged.html">Contact</a>
+                    <li class="nav-item"><a class="nav-link " href="contact.php">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="my_posts.html">My Posts</a>
-                    </li>
+                    
+                    <li class="nav-item"><a class="nav-link " href="my_posts.php">My Posts</a></li>
                     <li class="nav-item dropdown">
                         <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @Username
+                            @<?php echo $_SESSION["username"]; ?>
                         </a>
-                        
+
                         <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
-                            <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
-                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="index.html">Log out</a></li>
+                            <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
+                            <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="logout.php">Log out</a></li>
                         </ul>
                     </li>
+                        
                 </ul>
             </div>
         </div>
@@ -74,34 +81,42 @@
                                     <label for="fname"><b>Username</b></label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">@</span>
-                                        <input type="text" id="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>
+                                        <input type="text" id="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required onchange="checkUsernameUsed();">
                                     </div>
+                                    <span id="username-warning" class="text-danger d-none">Username is taken. Try another one?</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 form-label">
+                                    <label for="name"><b>Name</b></label>
+                                    <input type="text" id="name" class="form-control" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 form-label">
-                                    <label for="fname"><b>First Name</b></label>
-                                    <input type="text" id="fname" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 form-label">
-                                    <label for="lname"><b>Last Name</b></label>
-                                    <input type="text" id="lname" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 form-label">
-                                    <label for="email"><b>Email address</b></label>
+                                    <label for="email"><b>Email Address</b></label>
                                     <input type="text" id="email" class=" form-control" required>
                                 </div>
                                 <div class="col-md-6 form-label">
                                     <label for="tel"><b>Tel. Number</b></label>
-                                    <input type="text" id="tel" class="form-control" required>
+                                    <input type="text" id="tel" class="form-control">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 form-label">
                                     <label for="email"><b>Profile introduction</b></label>
                                     <textarea id="message" rows="4" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <span>Leave blank if you do not want to change password.</span>
+                            <div class="row">
+                                <div class="col-md-6 form-label">
+                                    <label for="oldpassword"><b>Old Password</b></label>
+                                    <input type="password" id="oldpassword" class="form-control">
+                                </div>
+                                <div class="col-md-6 form-label">
+                                    <label for="newpassword"><b>New Password</b></label>
+                                    <input type="password" id="newpassword" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -154,5 +169,26 @@
     document.getElementById("sub").onclick = function (){
         //todo later do
     }
+
+    function checkUsernameUsed() {
+            var username = document.getElementById("username").value;
+            console.log(username)
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                console.log(this);
+                if (this.readyState == 4 && this.status == 406) {
+                    // show username taken warning by removing bootstrap d-none class
+                    document.getElementById("username-warning").classList.remove("d-none");
+                    // set invalid state
+                    document.getElementById("username").setCustomValidity('Username is taken');
+                } else if (this.readyState == 4 && this.status == 202) {
+                    document.getElementById("username-warning").classList.add("d-none");
+                    document.getElementById("username").setCustomValidity('');
+                }
+            };
+            xhttp.open("POST", "userinfo_check.php", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send("usernameverify="+username);
+        }
 </script>
 </html>

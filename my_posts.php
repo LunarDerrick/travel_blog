@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+require_once("init_db.php");
+require_once("init_session.php");
+require_once("init_check_logged_in.php"); // only for pages that strictly require login
+include_once("list_post.php");
+?>
+
 <head>
     <title>Travalog - My Posts</title>
 
@@ -25,34 +32,35 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-2 fixed-top">
         <div class="container pt-1">
             <h1>
-                <a class="navbar-brand text-md fw-bold text-dark" href="index_logged.html">Travalog</a>
+                <a class="navbar-brand text-md fw-bold text-dark" href="index.php">Travalog</a>
             </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link " href="index_logged.html">Home</a>
+                    <li class="nav-item"><a class="nav-link " href="index.php">Home</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="browse_logged.html">Browse</a>
+                    <li class="nav-item"><a class="nav-link " href="browse.php">Browse</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="search_logged.html">Search</a>
+                    <li class="nav-item"><a class="nav-link " href="search.php">Search</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link " href="contact_logged.html">Contact</a>
+                    <li class="nav-item"><a class="nav-link " href="contact.php">Contact</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link active" href="my_posts.html">My Posts</a>
-                    </li>
+                    
+                    <li class="nav-item"><a class="nav-link active" href="my_posts.php">My Posts</a></li>
                     <li class="nav-item dropdown">
                         <a class="btn btn-style btn-dark ms-2 px-3 py-2 dropdown-toggle " href="#" id="navbarUserMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @Username
+                            @<?php echo $_SESSION["username"]; ?>
                         </a>
-                        
+
                         <ul class="dropdown-menu" aria-labelledby="navbarUserMenuLink">
-                            <li><a class="dropdown-item" href="analysis.html">Analysis</a></li>
-                            <li><a class="dropdown-item" href="profile.html">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="index.html">Log out</a></li>
+                            <li><a class="dropdown-item" href="analysis.php">Analysis</a></li>
+                            <li><a class="dropdown-item" href="my_profile.php">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="logout.php">Log out</a></li>
                         </ul>
                     </li>
+
                 </ul>
             </div>
         </div>
@@ -62,7 +70,7 @@
         <div class="container">
             <div class="container section-title ">
                 <!-- add post button -->
-                <a href="add_post.html" class="btn btn-iconed btn-lg btn-rounded btn-info d-block float-end">
+                <a href="add_post.php" class="btn btn-iconed btn-lg btn-rounded btn-info d-block float-end">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                     <span class="spn">Add Post</span>
                 </a>
@@ -88,10 +96,10 @@
                             <strong>There is no way to revert the action!</strong>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary mx-2">
+                            <button type="button" class="btn btn-secondary mx-2" data-bs-postid="" id="modalDeleteBtn">
                                 I'm sure, delete it
                             </button>
-                            <button type="button" class="btn btn-info" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-info" data-bs-dismiss="modal" id="modalKeepBtn">
                                 Keep the post
                             </button>
                         </div>
@@ -104,6 +112,7 @@
             <section class="gallery-block cards-gallery">
                 <div class="container">
                     <div class="row">
+                        <?php buildHTMLPostPreview(listMyPostPreview($conn), true); ?>
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
                                 <picture>
@@ -116,8 +125,8 @@
                                     </p>
                                     <div class="float-end">
                                         <!-- use stretched-link class to make whole card clickable-->
-                                        <a href="edit_post.html" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
-                                        <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" aria-hidden="true"></a>
+                                        <a href="edit_post.php" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
+                                        <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-postid="123" aria-hidden="true"></a>
                                     </div>
                                 </div>
                             </div>
@@ -134,8 +143,8 @@
                                     </p>
                                     <div class="float-end">
                                         <!-- use stretched-link class to make whole card clickable-->
-                                        <a href="edit_post.html" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
-                                        <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" aria-hidden="true"></a>
+                                        <a href="edit_post.php" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
+                                        <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-postid="124" aria-hidden="true"></a>
                                     </div>
                                 </div>
                             </div>
@@ -158,12 +167,71 @@
         </div>
     </footer>
 
-     <!--Makes card animated-->
-     <script>
-        baguetteBox.run('.cards-gallery', { animation: 'slideIn' });
-    </script>
     <!-- JavaScript files-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
+    <!-- items for notification toast -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+    <script>
+        var deleteModal = document.getElementById('deleteModal')
+        var modalKeepBtn = document.getElementById('modalKeepBtn')
+        var modalDeleteBtn = document.getElementById('modalDeleteBtn')
+        var notyf = new Notyf()
+
+        // on showing modal
+        deleteModal.addEventListener('shown.bs.modal', (event) => {
+            // Auto focus on keep button
+            modalKeepBtn.focus()
+            // Button that triggered the modal
+            var button = event.relatedTarget
+            // Extract info from data-bs-postid attributes
+            var postID = button.getAttribute('data-bs-postid')
+            // Pass post id to delete button
+            modalDeleteBtn.setAttribute('data-bs-postid', postID)
+        })
+
+        // delete button
+        modalDeleteBtn.onclick = () => {
+            // get deleted post id
+            var postID = modalDeleteBtn.getAttribute('data-bs-postid')
+            // prepare xhttp request
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && parseInt(this.status / 4) == 4) {
+                    //default notyf 2000ms
+                    notyf.error("We encountered an error when deleting the post.")
+                } else if (this.readyState == 4 && this.status == 200) {
+                    //hide modal
+                    deleteModal.classList.add("d-none")
+                    //default notyf 2000ms
+                    notyf.success("Post is deleted.")
+                    const redirect = async() => {
+                        //wait 2500ms
+                        await new Promise(res => setTimeout(res, 2500))
+                        // Refresh the page without GET variable
+                        window.location = window.location.href.split(/[?#]/)[0];
+                    }
+                    redirect()
+                }
+            };
+            // send post request
+            xhttp.open("POST", "delete_post.php", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send("id="+postID);
+        }
+    </script>
+
+    <?php
+    // echo popup if successfully add posts
+    if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+        // if get variable has done=1 and page come from add_post.php
+        if ( isset($_GET['done']) && intval($_GET['done']) && basename($_SERVER['HTTP_REFERER']) == "add_post.php" ){
+            // display toast
+            echo '<script>notyf.success("Succesfully added post.")</script>';
+        }
+    }
+    ?>
 </body>
