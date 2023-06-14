@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2023 at 04:43 PM
+-- Generation Time: Jun 14, 2023 at 02:20 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -36,7 +36,7 @@ USE `traveldb`;
 --
 
 CREATE TABLE `comments` (
-  `userid` int(32) NOT NULL,
+  `userid` int(128) NOT NULL,
   `postid` int(128) NOT NULL,
   `commenttime` bigint(20) NOT NULL,
   `comment` text NOT NULL
@@ -50,7 +50,7 @@ CREATE TABLE `comments` (
 
 CREATE TABLE `posts` (
   `postid` int(128) NOT NULL,
-  `userid` int(32) NOT NULL,
+  `userid` int(128) NOT NULL,
   `title` varchar(255) NOT NULL,
   `caption` mediumtext NOT NULL,
   `content` longtext NOT NULL,
@@ -58,7 +58,6 @@ CREATE TABLE `posts` (
   `image` text NOT NULL,
   `tag` text NOT NULL,
   `createdtime` bigint(20) NOT NULL,
-  `avg_rating` float NOT NULL DEFAULT 0,
   `viewcount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='"Post database"';
 
@@ -81,7 +80,7 @@ CREATE TABLE `ratings` (
 --
 
 CREATE TABLE `users` (
-  `userid` int(32) NOT NULL,
+  `userid` int(128) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `profileintro` longtext DEFAULT NULL,
@@ -96,7 +95,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userid`, `username`, `password`, `profileintro`, `realname`, `email`, `telno`, `token`) VALUES
-(15156, 'test', '$2y$12$fjGir6yr2LtvY.6p/QmauODakN89ZhBR8.UelDNbT1/ZqUKMJqNYy', NULL, 'Tester', 'test@gmail.com', NULL, NULL);
+(151567889, 'test', '$2y$12$fjGir6yr2LtvY.6p/QmauODakN89ZhBR8.UelDNbT1/ZqUKMJqNYy', NULL, 'Tester', 'test@gmail.com', NULL, NULL),
+(573006510, 'test2', '$2y$12$ksHGI7zzfMyxvlR61N90xezemN5fvQoDoC2xY99WagSaaZl19zvJu', NULL, 'Test2', 'test@gmail.co', NULL, NULL),
+(2147483647, 'test3', '$2y$12$uSaw8pg6UXH7HpQsXmTxDegi6L1YrdzZ2vFiAIJt4QUHNp.v69lw.', NULL, 'Test3', 'abc@xyz.co', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -106,7 +107,7 @@ INSERT INTO `users` (`userid`, `username`, `password`, `profileintro`, `realname
 -- Indexes for table `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`userid`,`postid`),
+  ADD PRIMARY KEY (`userid`,`postid`,`commenttime`) USING BTREE,
   ADD KEY `postid_comments` (`postid`);
 
 --
@@ -137,7 +138,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postid` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `postid` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
