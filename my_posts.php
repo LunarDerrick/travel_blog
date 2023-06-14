@@ -5,7 +5,7 @@
 require_once("init_db.php");
 require_once("init_session.php");
 require_once("init_check_logged_in.php"); // only for pages that strictly require login
-include_once("list_post.php");
+include_once("helper_list_post.php");
 ?>
 
 <head>
@@ -218,7 +218,7 @@ include_once("list_post.php");
                 }
             };
             // send post request
-            xhttp.open("POST", "delete_post.php", true);
+            xhttp.open("POST", "api_deletepost.php", true);
             xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhttp.send("id="+postID);
         }
