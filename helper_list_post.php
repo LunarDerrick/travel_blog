@@ -72,7 +72,7 @@ function listMyPostPreview($conn){
     $userid = $_SESSION["userid"];
     // prepare select query
     $stmt = $conn->prepare("SELECT posts.postid, title, caption, image, AVG(ratings.rating) AS avg_rating FROM posts 
-    JOIN ratings ON posts.postid=ratings.postid 
+    LEFT JOIN ratings ON posts.postid=ratings.postid 
     WHERE posts.userid=?
     GROUP BY posts.postid");
     $stmt->bind_param("s", $userid);
