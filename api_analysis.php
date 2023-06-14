@@ -4,7 +4,11 @@ require_once("init_session.php");
 require_once("init_check_logged_in.php");
 
 // fetch data from database
-$myquery = "SELECT * FROM posts";
+$myquery = "SELECT posts.postid, posts.userid, posts.location, AVG(ratings.rating) AS avg_rating
+            FROM posts
+            JOIN ratings
+            ON posts.postid=ratings.postid
+            GROUP BY posts.postid";
 try {
     $query = $conn->query($myquery);
 } catch (Exception $e) {
