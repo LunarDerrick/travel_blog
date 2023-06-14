@@ -166,7 +166,7 @@ if (isset($_SESSION["username"]) && isset($_SESSION["userid"])){
                     document.getElementById("username").setCustomValidity('');
                 }
             };
-            xhttp.open("POST", "userinfo_check.php", true);
+            xhttp.open("POST", "api_userinfo.php", true);
             xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhttp.send("usernameverify="+username);
         }

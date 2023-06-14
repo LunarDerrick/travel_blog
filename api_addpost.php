@@ -6,8 +6,8 @@ require_once("helper/sanitisation.php");
 
 # only run if is post
 if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
-    # go back to previous page
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    http_response_code(404);
+    include('404.php'); // provide your own HTML for the error page
     die; # prevent if browser dont respect redirect
 }
 

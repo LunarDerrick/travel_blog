@@ -72,7 +72,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                 <p></p>
             </div>
             
-            <form action="add_post_api.php" method="post" enctype="multipart/form-data">
+            <form action="api_addpost.php" method="post" enctype="multipart/form-data">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 form-label">
