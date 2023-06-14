@@ -21,6 +21,7 @@ if (!isset($_GET["id"]) || empty($_GET["id"])){
 
 $postid = intval($_GET["id"]) ?? die; // try to get integer value, or else die
 
+// get post item
 $stmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, image, tag, createdtime, viewcount, username, realname, rating AS user_rating, AVG(ratings.rating) AS avg_rating
  FROM posts 
  JOIN users ON posts.userid=users.userid 
@@ -34,9 +35,34 @@ if (!$stmt->execute()){
 $result = $stmt->get_result();
 if ($row = $result->fetch_object()){
     $post = $row;
+    if (empty($post->postid)) {
+        // no post matchign id
+        http_response_code(404);
+        include('404.php'); // provide your own HTML for the error page
+        die();
+    }
 } else {
     http_response_code(500);
     die;
+}
+
+// get comments
+$stmt = $conn->prepare("SELECT comments.userid, postid, commenttime, comment, username, realname, profilepic
+ FROM comments 
+ JOIN users ON comments.userid=users.userid 
+ WHERE postid = ?");
+$stmt->bind_param("i", $postid);
+if (!$stmt->execute()){
+    http_response_code(500);
+    die;
+}
+$result = $stmt->get_result();
+$comments = [];
+if ($result->num_rows){
+    while($row = $result->fetch_object()){
+        // use [] format to add to last item in PHP
+        $comments[] = $row;
+    }
 }
 ?>
 
@@ -182,47 +208,94 @@ if ($row = $result->fetch_object()){
                 <h6>Comments</h6>
                 <div class="list">
                     <!-- one comment -->
-                    <div class="comment-item d-flex py-3">
-                        <!-- pfp and user info-->
-                        <div class="comment-user d-flex overflow-hidden pe-4">
-                            <div class="user-image"><img src="image/profile_man.jpeg" alt="man"></div>
-                            <div class="user-meta">
-                                <div class="name">Alex</div>
-                                <div class="day small">13 days ago</div>
-                            </div>
-                        </div>
-                        <div class="comment-post">Thank you for the suggestion. Love it there.</div>
-                    </div>
+<?php
+// echo comments here
+
+/**
+ * Function that convert timestamp into "x days ago"
+ * @param mixed $timestamp
+ */
+function timeago($timestamp) {
+    // input timestamp from db is in millisecond, divide 1000 for second
+    $timestamp /= 1000;
+    $strTime = array("second", "minute", "hour", "day", "month", "year");
+    $length = array("60","60","24","30","12","10");
+
+    $currentTime = time(); // epoch timestamp in seconds
+    if($currentTime >= $timestamp) {
+        $diff = $currentTime - $timestamp;
+        for($i = 0; $diff >= $length[$i] && $i < count($length)-1; $i++) {
+            $diff = $diff / $length[$i];
+        }
+
+        $diff = round($diff);
+        if ($diff == 1)
+            return $diff . " " . $strTime[$i] . "ago ";
+        else
+            return $diff . " " . $strTime[$i] . "s ago ";
+    }
+ }
+
+foreach ($comments as $comment) {
+    $displayname = htmlentities(
+        isset($post->realname) ? $post->realname: $post->username
+    );
+    $commenttext = htmlentities($comment->comment);
+    // use function in helper_list_post
+    $timediff = timeago($comment->commenttime);
+    if (empty($comment->profilepic)) {
+        $pfp = "image/profile_man.jpeg";
+    } else {
+        $pfp = $comment->profilepic;
+    }
+    echo <<< COMMENTSTR
+    <div class="comment-item d-flex p-2 my-2">
+    <!-- pfp and user info-->
+    <div class="comment-user d-flex overflow-hidden pe-4 col-3">
+        <div class="user-image"><img src="$pfp" alt="Profile picture of $displayname"></div>
+        <div class="user-meta">
+            <div class="name">$displayname</div>
+            <div class="day small">$timediff</div>
+        </div>
+    </div>
+    <div class="comment-post col-9">$commenttext</div>
+    </div>
+    COMMENTSTR;
+}
+
+?>
 
                 </div>
 
                 <div class="comment-box py-3 overflow-hidden">
-                    <!--star rating-->
-                    <div class="star-widget float-end">
-                        <span class="subtitle me-2">Your rating</span>
-                        <form action="" id="rating-form">
-                        <input type="radio" name="rate" id="rate-5" value="5">
-                        <label for="rate-5" class="fa fa-star"></label>
-                        <input type="radio" name="rate" id="rate-4" value="4">
-                        <label for="rate-4" class="fa fa-star"></label>
-                        <input type="radio" name="rate" id="rate-3" value="3">
-                        <label for="rate-3" class="fa fa-star"></label>
-                        <input type="radio" name="rate" id="rate-2" value="2">
-                        <label for="rate-2" class="fa fa-star"></label>
-                        <input type="radio" name="rate" id="rate-1" value="1">
-                        <label for="rate-1" class="fa fa-star"></label>
-                        </form>
-                    </div>
-
-                    <div class="comment-user py-2 d-flex">
-                        <div class="user-image"><img src="image/profile_woman.jpg" alt="woman"></div>
-                        <div class="name">Rachel</div>
+                    <div class="row d-flex flex-row">
+                        <div class="comment-user col mx-2 d-flex">
+                            <div class="user-image"><img src="image/profile_woman.jpg" alt="woman"></div>
+                            <div class="name">Rachel</div>
+                        </div>
+                        
+                        <!--star rating-->
+                        <div class="star-widget col-sm text-end">
+                            <span class="subtitle">Your rating</span>
+                            <form id="rating-form">
+                            <input type="radio" name="rate" id="rate-5" value="5" <?php if ($post->user_rating == 5) echo 'checked="checked"'?> >
+                            <label for="rate-5" class="fa fa-star"></label>
+                            <input type="radio" name="rate" id="rate-4" value="4" <?php if ($post->user_rating == 4) echo 'checked="checked"'?> >
+                            <label for="rate-4" class="fa fa-star"></label>
+                            <input type="radio" name="rate" id="rate-3" value="3" <?php if ($post->user_rating == 3) echo 'checked="checked"'?> >
+                            <label for="rate-3" class="fa fa-star"></label>
+                            <input type="radio" name="rate" id="rate-2" value="2" <?php if ($post->user_rating == 2) echo 'checked="checked"'?> >
+                            <label for="rate-2" class="fa fa-star"></label>
+                            <input type="radio" name="rate" id="rate-1" value="1" <?php if ($post->user_rating == 1) echo 'checked="checked"'?> >
+                            <label for="rate-1" class="fa fa-star"></label>
+                            </form>
+                        </div>
                     </div>
                     
-                    <form action="" id="comment-form" method="post" class="m-2">
+                    <form id="comment-form" class="m-2">
                         <textarea name="comment" id="comment" class="w-100 p-2" rows="4"
                             placeholder="Type your message here..."></textarea>
-                        <button type="submit" class="btn btn-dark float-end">Comment</button>
+                        <button id="comment-submit" class="btn btn-dark float-end">Comment</button>
                     </form>
                 </div>
             </div>
@@ -256,13 +329,13 @@ if ($row = $result->fetch_object()){
                 var selectedRating = document.getElementById("rating-form")["rate"].value
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
-                    console.log(this.status)
+                    var response = JSON.parse(xhttp.responseText);
                     if (this.readyState == 4 && this.status == 401) {
-                        notyf.error("Please login to give a rating.")
+                        notyf.error(response["data"]["message"])
                         const redirect = async() => {
-                            //wait 2500ms
+                            // wait 2500ms
                             await new Promise(res => setTimeout(res, 2500))
-                            // Refresh the page without GET variable
+                            // go to login page
                             window.location.href = "login.php";
                         }
                         redirect()
@@ -270,6 +343,13 @@ if ($row = $result->fetch_object()){
                         notyf.error("Rating not saved. Please try again later.")
                     } else if (this.readyState == 4 && this.status == 200) {
                         notyf.success("Your rating is saved.")
+                        const redirect = async() => {
+                            // wait 2500ms
+                            await new Promise(res => setTimeout(res, 2500))
+                        // Refresh the page
+                        window.location = window.location.href;
+                        }
+                        redirect()
                     }
                 };
                 xhttp.open("POST", "api_postfeedback.php", true);
@@ -277,6 +357,40 @@ if ($row = $result->fetch_object()){
                 xhttp.send(`setrating=${selectedRating}&postid=<?php echo $postid?>`);
             }
         });
+
+        document.getElementById("comment-submit").onclick = (e) => {
+            var comment = document.getElementById("comment").value
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                var response = JSON.parse(xhttp.responseText);
+                if (this.readyState == 4 && this.status == 401) {
+                    notyf.error(response["data"]["message"])
+                    const redirect = async() => {
+                        // wait 2500ms
+                        await new Promise(res => setTimeout(res, 2500))
+                        // go to login page
+                        window.location.href = "login.php";
+                    }
+                    redirect()
+                } else if (this.readyState == 4 && parseInt(this.status / 100) == 4) {
+                    notyf.error("Rating not saved. Please try again later.")
+                } else if (this.readyState == 4 && this.status == 200) {
+                    notyf.success("Your rating is saved.")
+                    const redirect = async() => {
+                        // wait 2500ms
+                        await new Promise(res => setTimeout(res, 2500))
+                        // Refresh the page
+                        window.location = window.location.href;
+                    }
+                    redirect()
+                }
+            };
+            xhttp.open("POST", "api_postfeedback.php", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(`comment=${comment}&postid=<?php echo $postid?>`);
+            // prevent button submit form
+            return false;
+        }
     </script>
     <!-- JavaScript files-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

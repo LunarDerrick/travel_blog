@@ -27,6 +27,10 @@
     padding: 2px;
 }
 
+/*comment background box*/
+.comment-item {
+    background: #efefef;
+}
 /*comment profile picture*/
 .comment-user img {
     height: 38px;
