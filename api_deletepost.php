@@ -20,7 +20,7 @@ $postID = intval($_POST["id"]);
 $userid = $_SESSION["userid"];
 
 //prepare select query
-$stmt = $conn -> prepare("SELECT userid FROM posts WHERE postid=?");
+$stmt = $conn -> prepare("SELECT userid, image FROM posts WHERE postid=?");
 $stmt -> bind_param("i", $postID);
 
 if (!$stmt->execute()){
