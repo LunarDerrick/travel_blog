@@ -90,6 +90,7 @@ CREATE TABLE `users` (
   `userid` int(128) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `profilepic` varchar(255) DEFAULT NULL,
   `profileintro` longtext DEFAULT NULL,
   `realname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
