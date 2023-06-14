@@ -53,6 +53,10 @@ if (!$stmt->execute()){
     http_response_code(500);
     die;
 }
+// delete image from server too
+$image = $row["image"];
+unlink($image);
+
 // userid for post doesnt match
 JSONresponse(200, ["OK" => "Post deleted"]);
 die;
