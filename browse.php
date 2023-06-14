@@ -137,7 +137,7 @@ require_once("init_session.php");
                                         <span class="fa fa-star"></span>
                                     </div>
                                     <!-- caption -->
-                                    <p class="text-muted card-text">Bus and building of th UK
+                                    <p class="text-muted card-text">Bus and building of the UK
                                     </p>
                                     <!-- call to action, use stretched-link class to make whole card clickable-->
                                     <a href="post_UK.php" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
@@ -164,9 +164,7 @@ require_once("init_session.php");
                                         <span class="fa fa-star"></span>
                                     </div>
                                     <!-- caption -->
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                        Nunc quam urna.
+                                    <p class="text-muted card-text">Witness where your idol lives!
                                     </p>
                                     <!-- call to action, use stretched-link class to make whole card clickable-->
                                     <a href="" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
@@ -193,9 +191,7 @@ require_once("init_session.php");
                                         <span class="fa fa-star"></span>
                                     </div>
                                     <!-- caption -->
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                        Nunc quam urna.
+                                    <p class="text-muted card-text">I wish I brought my football.
                                     </p>
                                     <!-- call to action, use stretched-link class to make whole card clickable-->
                                     <a href="" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
@@ -250,9 +246,7 @@ require_once("init_session.php");
                                         <span class="fa fa-star"></span>
                                     </div>
                                     <!-- caption -->
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                        Nunc quam urna.
+                                    <p class="text-muted card-text">Swim your worries away
                                     </p>
                                     <!-- call to action, use stretched-link class to make whole card clickable-->
                                     <a href="" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>

@@ -5,6 +5,23 @@
 require_once("init_db.php");
 require_once("init_session.php");
 require_once("init_check_logged_in.php"); // only for pages that strictly require login
+
+// fetch data from database
+$sql = "SELECT * FROM posts";
+try {
+    $results = $conn->query($sql);
+    // $row holds database value
+    $row = $results->fetch_all(MYSQLI_ASSOC);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+// release resource after using
+$results->free_result();
+$conn->close();
+
+// test output
+// echo json_encode($row);
 ?>
 
 <head>
@@ -296,7 +313,13 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                 }
             }
         });
+
     </script>
+    <!-- <script>
+        row = "<?php echo json_encode($row); ?>";
+        alert(row);
+        console.log("a");
+    </script> -->
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
 </body>
