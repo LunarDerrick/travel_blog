@@ -158,202 +158,168 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
         const showGraph = () => {
             $.post("api_analysis.php", function(data) {
                 console.log(data);
+                data = JSON.parse(data); // filter data brackets out
                 var postid = [];
                 var userid = [];
                 var location = [];
                 var avg_rating = [];
 
-                // for (var i in data) {
-                //     postid.push(data[i].postid);
-                //     userid.push(data[i].userid);
-                //     location.push(data[i].location);
-                //     avg_rating.push(data[i].avg_rating);
-                // }
-
-                // filters unwanted characters
-                var filtered = [];
-                const regex = new RegExp(/[^[{":,}\]]/);
-                for (var i = 0; i < data.length; i++) {
-                    if (regex.test(data[i])) {
-                        value = "";
-                        while (regex.test(data[i])) {
-                            value += data[i];
-                        }
-                        filtered.push(value);
-                    }
+                for (var i in data) {
+                    postid.push(data[i].postid);
+                    userid.push(data[i].userid);
+                    location.push(data[i].location);
+                    avg_rating.push(data[i].avg_rating);
                 }
-                console.log(filtered);
 
-                var chartdata = {
-                    labels: location,
-                    datasets: [
-                        {
-                            label: "Star Rating",
-                            backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue"],
-                            borderColor: "gray",
-                            hoverBackgroundColor: "gray",
-                            hoverBorderColor: "gray",
-                            data: avg_rating
+                Chart.register(ChartDataLabels);
+                
+                // pie chart
+                new Chart("pieChart", {
+                    type: "pie",
+                    data: {
+                        labels: ["1 star", "2 star", "3 star", "4 star", "5 star"], // x axis
+                        datasets: [{
+                            backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat"],
+                            data: [13, 12, 65, 43, 11] // y axis
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: true,
+                            },
+                            datalabels: {
+                                color: 'black',
+                                labels: {
+                                    title: {
+                                        font: {
+                                            weight: 'bold'
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    ]
-                };
+                    }
+                });
 
-                var graphTarget = $("#horizontalBarChart");
+                // vertical bar chart
+                new Chart("verticalBarChart", {
+                    type: "bar",
+                    data: {
+                        labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
+                        datasets: [{
+                            backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
+                            data: [10, 8, 11, 10, 15, 43, 47] // y axis
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            datalabels: {
+                                color: 'black',
+                                labels: {
+                                    title: {
+                                        font: {
+                                            weight: 'bold'
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'View Count'
+                                }
+                            }
+                        }
+                    }
+                });
 
-                var barGraph = new Chart(graphTarget, {
+                // horizontal bar chart
+                new Chart("horizontalBarChart", {
                     type: 'bar',
-                    data: chartdata
+                    data: {
+                        labels: location,
+                        datasets: [{
+                                backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue"],
+                                data: avg_rating
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Star Rating'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            datalabels: {
+                                color: 'black',
+                                labels: {
+                                    title: {
+                                        font: {
+                                            weight: 'bold'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // vertical bar chart 2
+                new Chart("verticalBarChart2", {
+                    type: "bar",
+                    data: {
+                        labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
+                        datasets: [{
+                            backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
+                            data: [1, 1, 1, 1, 2, 4, 2] // y axis
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            datalabels: {
+                                color: 'black',
+                                labels: {
+                                    title: {
+                                        font: {
+                                            weight: 'bold'
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Posts Published'
+                                },
+                                // make y-axis scale as whole numbers
+                                ticks: {
+                                    callback: function(value) {if (value % 1 === 0) {return value;}}
+                                }
+                            }
+                        }
+                    }
                 });
             })
         }
-
-        // // plugin
-        // Chart.register(ChartDataLabels);
-
-        // // pie chart
-        // new Chart("pieChart", {
-        //     type: "pie",
-        //     data: {
-        //         labels: ["1 star", "2 star", "3 star", "4 star", "5 star"], // x axis
-        //         datasets: [{
-        //             backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat"],
-        //             data: [13, 12, 65, 43, 11] // y axis
-        //         }]
-        //     },
-        //     options: {
-        //         plugins: {
-        //             legend: {
-        //                 display: true,
-        //             },
-        //             datalabels: {
-        //                 color: 'black',
-        //                 labels: {
-        //                     title: {
-        //                         font: {
-        //                             weight: 'bold'
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // });
-
-        // // vertical bar chart
-        // new Chart("verticalBarChart", {
-        //     type: "bar",
-        //     data: {
-        //         labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
-        //         datasets: [{
-        //             backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
-        //             data: [10, 8, 11, 10, 15, 43, 47] // y axis
-        //         }]
-        //     },
-        //     options: {
-        //         plugins: {
-        //             legend: {
-        //                 display: false
-        //             },
-        //             datalabels: {
-        //                 color: 'black',
-        //                 labels: {
-        //                     title: {
-        //                         font: {
-        //                             weight: 'bold'
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         },
-        //         scales: {
-        //             y: {
-        //                 title: {
-        //                     display: true,
-        //                     text: 'View Count'
-        //                 }
-        //             }
-        //         }
-        //     }
-        // });
-
-        // // horizontal bar chart
-        // new Chart("horizontalBarChart", {
-        //     type: "bar",
-        //     data: {
-        //         labels: ["Japan", "Korea", "UK"], // x axis
-        //         datasets: [{
-        //             backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue"],
-        //             data: [4.2, 3.9, 3.4] // y axis
-        //         }]
-        //     },
-        //     options: {
-        //         indexAxis: 'y',
-        //         scales: {
-        //             x: {
-        //                 title: {
-        //                     display: true,
-        //                     text: 'Star Rating'
-        //                 }
-        //             }
-        //         },
-        //         plugins: {
-        //             legend: {
-        //                 display: false
-        //             },
-        //             datalabels: {
-        //                 color: 'black',
-        //                 labels: {
-        //                     title: {
-        //                         font: {
-        //                             weight: 'bold'
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // });
-
-        // // vertical bar chart 2
-        // new Chart("verticalBarChart2", {
-        //     type: "bar",
-        //     data: {
-        //         labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
-        //         datasets: [{
-        //             backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
-        //             data: [1, 1, 1, 1, 2, 4, 2] // y axis
-        //         }]
-        //     },
-        //     options: {
-        //         plugins: {
-        //             legend: {
-        //                 display: false
-        //             },
-        //             datalabels: {
-        //                 color: 'black',
-        //                 labels: {
-        //                     title: {
-        //                         font: {
-        //                             weight: 'bold'
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         },
-        //         scales: {
-        //             y: {
-        //                 title: {
-        //                     display: true,
-        //                     text: 'Posts Published'
-        //                 },
-        //                 // make y-axis scale as whole numbers
-        //                 ticks: {
-        //                     callback: function(value) {if (value % 1 === 0) {return value;}}
-        //                 }
-        //             }
-        //         }
-        //     }
-        // });
     </script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
