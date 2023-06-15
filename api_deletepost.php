@@ -20,7 +20,7 @@ $postID = intval($_POST["id"]);
 $userid = $_SESSION["userid"];
 
 //prepare select query
-$stmt = $conn -> prepare("SELECT userid FROM posts WHERE postid=?");
+$stmt = $conn -> prepare("SELECT userid, image FROM posts WHERE postid=?");
 $stmt -> bind_param("i", $postID);
 
 if (!$stmt->execute()){
@@ -53,6 +53,10 @@ if (!$stmt->execute()){
     http_response_code(500);
     die;
 }
+// delete image from server too
+$image = $row["image"];
+unlink($image);
+
 // userid for post doesnt match
 JSONresponse(200, ["OK" => "Post deleted"]);
 die;

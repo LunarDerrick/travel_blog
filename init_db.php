@@ -23,7 +23,7 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 
 
 /**
- * Find user in database and return user ID and password if found, or null if not.
+ * Find user in database and return user ID and password if found, or null if not. Only for internal use, do not expose to outside
  * @param mysqli_connection $conn database connection
  * @param string $username database connection
  * @return array of {userid=>"", password=>""} if found username, or null if not found

@@ -6,8 +6,8 @@ require_once("helper/sanitisation.php");
 
 # only run if is post
 if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
-    # go back to previous page
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    http_response_code(404);
+    include('404.php'); // provide your own HTML for the error page
     die; # prevent if browser dont respect redirect
 }
 
@@ -65,13 +65,12 @@ $content = strip_tags($postvar["content"], '<table><thead><tbody><th><tr><td><br
 
 $userid = $_SESSION["userid"];
 $currenttime = round(microtime(TRUE) * 1000); // epoch timestamp
-$avgrating = 0;
 
 //prepare insert query
-$query = $conn -> prepare("INSERT INTO Posts (userid, title, caption, content, location, image, tag, createdtime, avg_rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$query = $conn -> prepare("INSERT INTO Posts (userid, title, caption, content, location, image, tag, createdtime) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-$query -> bind_param("issssssii", 
-$userid, $postvar["title"], $postvar["caption"], $content, $postvar["location"], $image_path, $postvar["tags"], $currenttime, $avgrating);
+$query -> bind_param("issssssi", 
+$userid, $postvar["title"], $postvar["caption"], $content, $postvar["location"], $image_path, $postvar["tags"], $currenttime);
 
 if ($query -> execute()){
     // form header for redirect

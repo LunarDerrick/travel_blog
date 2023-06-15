@@ -186,7 +186,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                     document.getElementById("username").setCustomValidity('');
                 }
             };
-            xhttp.open("POST", "userinfo_check.php", true);
+            xhttp.open("POST", "api_userinfo.php", true);
             xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhttp.send("usernameverify="+username);
         }
