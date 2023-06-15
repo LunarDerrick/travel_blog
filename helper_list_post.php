@@ -50,9 +50,9 @@ function buildHTMLPostPreview($posts, $edit=false){
             $output .= <<< BUTTONSACTION
                     <div class="float-end">
                         <!-- use stretched-link class to make whole card clickable-->
-                        <a href="edit_post.php?id=$post->postid" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
-                        <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" 
-                        data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-postid="$post->postid" aria-hidden="true"></a>
+                        <button onclick="window.location.href='edit_post.php?id=$post->postid';" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></button>
+                        <button class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" 
+                        data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-postid="$post->postid" aria-hidden="true"></button>
                     </div>
             BUTTONSACTION;
         } else {
