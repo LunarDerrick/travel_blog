@@ -22,7 +22,7 @@ if (!isset($_GET["id"]) || empty($_GET["id"])){
 $postid = intval($_GET["id"]) ?? die; // try to get integer value, or else die
 
 // get post item
-$stmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, image, tag, createdtime, viewcount, username, realname, rating AS user_rating, AVG(ratings.rating) AS avg_rating
+$stmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, rating AS user_rating, AVG(ratings.rating) AS avg_rating
  FROM posts 
  JOIN users ON posts.userid=users.userid 
  JOIN ratings ON posts.postid=ratings.postid
@@ -194,8 +194,10 @@ if ($result->num_rows){
                 <!-- tags -->
                 <div class="container p-0">
                     <?php 
-                        $tags = $post->tag;
-                        foreach (explode(",", $tags) as $tag) {
+                        $continent = htmlentities($post->continent);
+                        echo '<a href="seach_result?continent='.$continent.'" class="tags btn btn-sm btn-outline-secondary mx-1 my-1">'.$continent.'</a>';
+                        $tags = explode(",", $post->tag);
+                        foreach ($tags as $tag) {
                             $tag = trim(htmlentities($tag));
                             echo '<a href="seach_result?keyword='.$tag.'" class="tags btn btn-sm btn-outline-secondary mx-1 my-1">'.$tag.'</a>';
                         }
