@@ -64,6 +64,22 @@ if ($result->num_rows){
         $comments[] = $row;
     }
 }
+
+// increment view count
+if (!isset($_SESSION["postviewcount"])) $_SESSION["postviewcount"] = [];
+if (!isset($_SESSION["postviewcount"][$postid])){
+    // record this post has been viewed in session
+    $_SESSION["postviewcount"][$postid] = 1;
+    // update viewcount in db
+    $stmt = $conn->prepare("UPDATE posts
+    SET viewcount = viewcount + 1
+    WHERE postid = ?");
+    $stmt->bind_param("i", $postid);
+    if (!$stmt->execute()){
+        http_response_code(500);
+        die;
+    }
+}
 ?>
 
 <head>
