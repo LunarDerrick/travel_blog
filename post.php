@@ -210,12 +210,14 @@ if (!isset($_SESSION["postviewcount"][$postid])){
                 <!-- tags -->
                 <div class="container p-0">
                     <?php 
+                        // echo continent
                         $continent = htmlentities($post->continent);
-                        echo '<a href="seach_result?continent='.$continent.'" class="tags btn btn-sm btn-outline-secondary mx-1 my-1">'.$continent.'</a>';
+                        echo '<a href="seach_result.php?continent='.$continent.'" class="tags btn btn-sm btn-outline-secondary mx-1 my-1">'.$continent.'</a>';
+                        // echo tags
                         $tags = explode(",", $post->tag);
                         foreach ($tags as $tag) {
                             $tag = trim(htmlentities($tag));
-                            echo '<a href="seach_result?keyword='.$tag.'" class="tags btn btn-sm btn-outline-secondary mx-1 my-1">'.$tag.'</a>';
+                            echo '<a href="seach_result.php?type=Tag&keyword='.$tag.'" class="tags btn btn-sm btn-outline-secondary mx-1 my-1">'.$tag.'</a>';
                         }
                     ?>
                 </div>

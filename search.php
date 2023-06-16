@@ -86,14 +86,14 @@ require_once("init_session.php");
             </div>
 
             <div class="container py-4">
-                <form class="d-flex m-2">
-                    <input class="form-control" type="search" id="search_term" name="search_term" placeholder="Search posts" aria-label="Search">
-                    <select class="form-control form-select w-25" id="inputGroupSelect01">
+                <form action="search_result.php" method="get" class="d-flex m-2">
+                    <input class="form-control" type="search" id="search-term" name="keyword" placeholder="Search posts" aria-label="Search" required>
+                    <select class="form-control form-select w-25" id="search-type" name="type">
                         <option selected>Everything</option>
-                        <option value="1">Topic</option>
-                        <option value="2">Location</option>
-                        <option value="3">Author</option>
-                        <option value="3">Tag</option>
+                        <option>Topic</option>
+                        <option>Location</option>
+                        <option>Author</option>
+                        <option>Tag</option>
                       </select>
                     <button class="btn btn-dark btn-lg" type="submit">
                         <span class="fa fa-solid fa-search"></span>
