@@ -4,15 +4,17 @@ require_once("init_session.php");
 require_once("init_check_logged_in.php");
 
 $userid = $_SESSION["userid"];
-// fetch data from database
-$myquery = "SELECT posts.postid, posts.userid, posts.location, AVG(ratings.rating) AS avg_rating
+// fetch post data from database
+$myquery = "SELECT posts.postid, title, caption, image, viewcount, AVG(ratings.rating) AS avg_rating
             FROM posts
-            LEFT JOIN ratings
-            ON posts.postid=ratings.postid
-            WHERE posts.userid=$userid
-            GROUP BY posts.postid";
+            LEFT JOIN ratings ON posts.postid=ratings.postid
+            WHERE posts.userid= ?
+            GROUP BY posts.postid
+            ORDER BY avg_rating DESC";
 try {
-    $query = $conn->query($myquery);
+    $query = $conn->prepare($myquery);
+    $query->bind_param('s', $userid);
+    $query->execute();
 } catch (Exception $e) {
     echo $e->getMessage();
     die;
@@ -20,8 +22,32 @@ try {
 
 // convert data to JS compatible
 $data = array();
-for ($x = 0; $x < $query->num_rows; $x++) {
-    $data[] = $query->fetch_assoc();
+$result = $query->get_result();
+while($row = $result->fetch_object()){
+    $data["posts"][] = $row;
 }
-echo json_encode($data);
+
+
+// fetch rating data from database
+$myquery = "SELECT ratings.rating, COUNT(ratings.rating) AS total_count
+            FROM posts
+            LEFT JOIN ratings ON posts.postid=ratings.postid
+            WHERE posts.userid= ?
+            GROUP BY rating";
+try {
+    $query = $conn->prepare($myquery);
+    $query->bind_param('s', $userid);
+    $query->execute();
+} catch (Exception $e) {
+    echo $e->getMessage();
+    die;
+}
+
+$result = $query->get_result();
+while($row = $result->fetch_object()){
+    $data["rating"][] = $row;
+}
+
+JSONresponse(200, $data)
+
 ?>

@@ -158,17 +158,17 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
         const showGraph = () => {
             $.post("api_analysis.php", function(data) {
                 console.log(data);
-                data = JSON.parse(data); // filter data brackets out
+                //data = JSON.parse(data); // parse data from JSON string into object
                 var postid = [];
                 var userid = [];
                 var location = [];
                 var avg_rating = [];
-
-                for (var i in data) {
-                    postid.push(data[i].postid);
-                    userid.push(data[i].userid);
-                    location.push(data[i].location);
-                    avg_rating.push(data[i].avg_rating);
+                
+                for (var post of data["posts"]) {
+                    postid.push(post.postid);
+                    userid.push(post.userid);
+                    location.push(post.location);
+                    avg_rating.push(post.avg_rating);
                 }
 
                 Chart.register(ChartDataLabels);
