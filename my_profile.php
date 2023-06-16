@@ -73,7 +73,7 @@ include("api_my_profile.php");
                 </p>
             </div>
 
-            <form action="#" method="post" class="section-content">
+            <form action="api_edit_profile.php" method="post" class="section-content">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-9">
@@ -106,7 +106,7 @@ include("api_my_profile.php");
                             </div>
                             <div class="row">
                                 <div class="col-md-12 form-label">
-                                    <label for="email"><b>Profile introduction</b></label>
+                                    <label for="message"><b>Profile introduction</b></label>
                                     <textarea id="message" rows="4" class="form-control"><?php echo $data['profileintro']; ?></textarea>
                                 </div>
                             </div>
