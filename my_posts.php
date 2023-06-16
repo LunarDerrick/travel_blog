@@ -208,6 +208,11 @@ $page = intval($_GET["page"]);
             // display toast
             echo '<script>notyf.success("Succesfully added post.")</script>';
         }
+        // if get variable has done=1 and page come from edit_post.php
+        if ( isset($_GET['done']) && intval($_GET['done']) && basename($_SERVER['HTTP_REFERER']) == "edit_post.php" ){
+            // display toast
+            echo '<script>notyf.success("Succesfully edited post.")</script>';
+        }
     }
     ?>
 </body>

@@ -83,7 +83,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                     <div class="row">
                         <div class="col-md-12 form-label">
                             <label for="caption"><b>Caption</b></label>
-                            <input type="text" id="caption" name="caption" class="form-control">
+                            <input type="text" id="caption" name="caption" class="form-control" required>
                         </div>
                     </div>
                     <div class="row">
