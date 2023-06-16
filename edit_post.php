@@ -139,12 +139,12 @@ if ($row = $result->fetch_object()){
                                     <div class="d-flex">
                                     <input type="text" id="location" name="location" class="form-control" value="<?php echo $post->location?>" required>
                                     <select class="form-control form-select w-25" id="continent" name="continent" required>
-                                        <option>Africa</option>
-                                        <option selected>Asia</option>
-                                        <option>Australia</option>
-                                        <option>Europe</option>
-                                        <option>North America</option>
-                                        <option>South America</option>
+                                        <option <?php echo ($post->continent == "Africa")?"selected":""; ?>>Africa</option>
+                                        <option <?php echo ($post->continent == "Asia")?"selected":""; ?>>Asia</option>
+                                        <option <?php echo ($post->continent == "Australia")?"selected":""; ?>>Australia</option>
+                                        <option <?php echo ($post->continent == "Europe")?"selected":""; ?>>Europe</option>
+                                        <option <?php echo ($post->continent == "North America")?"selected":""; ?>>North America</option>
+                                        <option <?php echo ($post->continent == "South America")?"selected":""; ?>>South America</option>
                                     </select>
                                     </div>
                                 </div>
