@@ -6,6 +6,15 @@ require_once("init_db.php");
 require_once("init_session.php");
 require_once("init_check_logged_in.php"); // only for pages that strictly require login
 include_once("helper_list_post.php");
+
+if (
+    !isset($_GET["page"]) || // no page
+    ( isset($_GET["page"]) && !filter_var($_GET["page"], FILTER_VALIDATE_INT) ) // page is not integer
+){
+    // set to page 1
+    $_GET["page"] = 1;
+}
+$page = intval($_GET["page"]);
 ?>
 
 <head>
@@ -112,7 +121,10 @@ include_once("helper_list_post.php");
             <section class="gallery-block cards-gallery">
                 <div class="container">
                     <div class="row">
-                        <?php buildHTMLPostPreview(listMyPostPreview($conn), true); ?>
+                        <?php 
+                        [$posts, $total] = listMyPostPreview($conn);
+                        buildHTMLPostPreview($posts, $edit=true); 
+                        buildHTMLPagination($total, $page)?>
                     </div>
                 </div>
             </section>
