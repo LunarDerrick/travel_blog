@@ -13,38 +13,52 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
 
 # verify info
 foreach (["username", "name", "email"] as $check) { // "tel", "message", "oldpassword", "newpassword" are optional
+    echo $_POST[$check] . "<br>"; // debug show output
     if (empty($_POST[$check])){
         # go back to previous page
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        // header('Location: ' . $_SERVER['HTTP_REFERER']);
         die; # prevent if browser dont respect redirect
     }
 }
+echo "username name email passed<br>";
 
 // verify password
+echo "old: " . $_POST["oldpassword"] . "<br>";
+echo "new: " . $_POST["newpassword"] . "<br>";
 if (!empty($_POST["oldpassword"]) || !empty($_POST["newpassword"])) {
     if (empty($_POST["oldpassword"]) || empty($_POST["newpassword"])) {
-    echo <<< TEXT
-    <script type="text/javascript">
-        alert('fill in both password fields to change!');
-    </script>
-    TEXT;
+        echo <<< TEXT
+        <script>
+            alert('fill in both password fields to change!');
+            document.location='my_profile.php'
+        </script> 
+        TEXT;
     }
 }
 
 // verify image uploaded
-if ($_FILES["inputGroupFile01"]["error"]){
+echo "img name: " . $_FILES["image"]["name"] . "<br>";
+echo "img size: " . $_FILES["image"]["size"] . "<br>";
+echo "img type: " . $_FILES["image"]["type"] . "<br>";
+echo "img tmp: " . $_FILES["image"]["tmp_name"] . "<br>";
+echo "img err: " . $_FILES["image"]["error"] . "<br>";
+if ($_FILES["image"]["error"]){
+    echo "upload fail" . "<br>";
     # go back to previous page
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    // header('Location: ' . $_SERVER['HTTP_REFERER']);
     die; # prevent if browser dont respect redirect
 }
+echo "upload pass" . "<br>";
 
 $validMime = array("image/jpeg", "image/png");
 // verify image type is png or jpg                  or  image size cannot be found (not image)
-if (!in_array($_FILES["inputGroupFile01"]["type"], $validMime) || !getimagesize($_FILES["inputGroupFile01"]["tmp_name"])) {
+if (!in_array($_FILES["image"]["type"], $validMime) || !getimagesize($_FILES["image"]["tmp_name"])) {
+    echo "file type wrong" . "<br>";
     # go back to previous page
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    // header('Location: ' . $_SERVER['HTTP_REFERER']);
     die; # prevent if browser dont respect redirect
 }
+echo "file type correct" . "<br>";
 
 // // upload file
 // $path_parts = pathinfo($_FILES["image"]["name"]);
@@ -86,7 +100,7 @@ if (!in_array($_FILES["inputGroupFile01"]["type"], $validMime) || !getimagesize(
 
 if ($query -> execute()){
     // form header for redirect
-    header("Location: my_profile.php?done=1");
+    // header("Location: my_profile.php?done=1");
 
     // another method to send POST data
     // echo '<form id="redirect" action="my_posts.php" method="post">';
