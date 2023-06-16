@@ -12,19 +12,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
 }
 
 # verify info
-foreach (["username", "name", "email"] as $check) { // "tel", "message", "oldpassword", "newpassword" are optional
-    echo $_POST[$check] . "<br>"; // debug show output
+foreach (["username", "name", "email"] as $check) {
     if (empty($_POST[$check])){
         # go back to previous page
-        // header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         die; # prevent if browser dont respect redirect
     }
 }
-echo "username name email passed<br>";
 
 // verify password
-echo "old: " . $_POST["oldpassword"] . "<br>";
-echo "new: " . $_POST["newpassword"] . "<br>";
 if (!empty($_POST["oldpassword"]) || !empty($_POST["newpassword"])) {
     if (empty($_POST["oldpassword"]) || empty($_POST["newpassword"])) {
         echo <<< TEXT
@@ -33,33 +29,30 @@ if (!empty($_POST["oldpassword"]) || !empty($_POST["newpassword"])) {
             document.location='my_profile.php'
         </script> 
         TEXT;
+    } else if ($_POST["oldpassword"] !== $_POST["newpassword"]) {
+        echo <<< TEXT
+        <script>
+            alert('password not matched!');
+            document.location='my_profile.php'
+        </script> 
+        TEXT;
     }
 }
-
-// verify image uploaded
-echo "img name: " . $_FILES["image"]["name"] . "<br>";
-echo "img size: " . $_FILES["image"]["size"] . "<br>";
-echo "img type: " . $_FILES["image"]["type"] . "<br>";
-echo "img tmp: " . $_FILES["image"]["tmp_name"] . "<br>";
-echo "img err: " . $_FILES["image"]["error"] . "<br>";
-if ($_FILES["image"]["error"]){
-    echo "upload fail" . "<br>";
-    # go back to previous page
-    // header('Location: ' . $_SERVER['HTTP_REFERER']);
-    die; # prevent if browser dont respect redirect
-}
-echo "upload pass" . "<br>";
 
 $validMime = array("image/jpeg", "image/png");
 // verify image type is png or jpg                  or  image size cannot be found (not image)
 if (!in_array($_FILES["image"]["type"], $validMime) || !getimagesize($_FILES["image"]["tmp_name"])) {
-    echo "file type wrong" . "<br>";
     # go back to previous page
-    // header('Location: ' . $_SERVER['HTTP_REFERER']);
+    echo <<< TEXT
+    <script>
+        alert('no photo uploaded');
+        document.location='my_profile.php'
+    </script> 
+    TEXT;
     die; # prevent if browser dont respect redirect
 }
-echo "file type correct" . "<br>";
 
+// CHANGE to edit photo to database*
 // // upload file
 // $path_parts = pathinfo($_FILES["image"]["name"]);
 // $image_path = "uploads/" . sha1($path_parts['basename']) . "." . $path_parts['extension'];
@@ -74,33 +67,45 @@ echo "file type correct" . "<br>";
 //     die;
 // }
 
-// // match post variables with content type
-// $fields = [
-//     "title" => "string",
-//     "caption" => "string",
-//     "content" => "string",
-//     "location" => "string",
-//     "continent" => "string",
-//     "tags" => "string",
-// ];
+// match profile variables with content type
+$fields = [
+    "username" => "string",
+    "name" => "string",
+    "email" => "string",
+    "tel" => "string",
+    "message" => "string",
+    "oldpassword" => "string",
+    "newpassword" => "string",
+];
 
-// // sanitise inputs
-// $postvar = sanitize($_POST, $fields);
-// # only allow these tags to be used
-// $content = strip_tags($postvar["content"], '<table><thead><tbody><th><tr><td><br>');
+// sanitise inputs
+$profilevar = sanitize($_POST, $fields);
+# only allow these tags to be used
+$content = strip_tags($profilevar["message"], '<table><thead><tbody><th><tr><td><br>');
 
-// $userid = $_SESSION["userid"];
-// $currenttime = round(microtime(TRUE) * 1000); // epoch timestamp
+$userid = $_SESSION["userid"];
+$currenttime = round(microtime(TRUE) * 1000); // epoch timestamp
 
-// //prepare insert query
-// $query = $conn -> prepare("INSERT INTO Posts (userid, title, caption, content, location, continent, image, tag, createdtime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
+//prepare edit query
+// $query = $conn -> prepare(
+//     "UPDATE users
+//     SET username = ".$_POST["username"].
+//     ", password = ".$_POST["newpassword"].
+//     ", profilepic = ".$_FILES["image"]["tmp_name"].
+//     ", profileintro = ".$_POST["message"].
+//     ", realname = ".$_POST["name"].
+//     ", email = ".$_POST["email"].
+//     ", telno = ".$_POST["tel"].
+//     "WHERE userid = ".$userid.";"
+// );
+// 
 // $query -> bind_param("isssssssi", 
-// $userid, $postvar["title"], $postvar["caption"], $content, $postvar["location"], $postvar["continent"], $image_path, $postvar["tags"], $currenttime);
+// $userid, $profilevar["username"], $profilevar["newpassword"], $image_path, $profilevar["message"], $profilevar["name"], $profilevar["email"], $profilevar["telno"]);
 
-if ($query -> execute()){
+// if ($query -> execute()){
+if (empty($query)){
     // form header for redirect
-    // header("Location: my_profile.php?done=1");
+    header("Location: my_profile.php?done=1");
 
     // another method to send POST data
     // echo '<form id="redirect" action="my_posts.php" method="post">';
