@@ -3,11 +3,13 @@ require_once("init_db.php");
 require_once("init_session.php");
 require_once("init_check_logged_in.php");
 
+$userid = $_SESSION["userid"];
 // fetch data from database
 $myquery = "SELECT posts.postid, posts.userid, posts.location, AVG(ratings.rating) AS avg_rating
             FROM posts
-            JOIN ratings
+            LEFT JOIN ratings
             ON posts.postid=ratings.postid
+            WHERE posts.userid=$userid
             GROUP BY posts.postid";
 try {
     $query = $conn->query($myquery);

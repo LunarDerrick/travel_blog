@@ -28,8 +28,14 @@ function buildHTMLPostPreview($posts, $edit=false){
                 <div class="card-body">
                     <h6>$title</h6>
         HEADERPOST;
-        // rating only for viewing
+        // only for viewing
         if (!$edit) {
+            // author
+            $displayname = htmlentities(
+                isset($post->realname) ? $post->realname : $post->username
+            );
+            $output .= '<small class="blockquote-footer mt-0">by ' . $displayname . '</small>';
+            // star rating
             $output .= '<div class="container mt-1">';
             $rounded = round($post->avg_rating);
             for ($i = 0; $i < $rounded; $i++) {
@@ -71,8 +77,10 @@ function buildHTMLPostPreview($posts, $edit=false){
 function listMyPostPreview($conn){
     $userid = $_SESSION["userid"];
     // prepare select query
-    $stmt = $conn->prepare("SELECT posts.postid, title, caption, image, AVG(ratings.rating) AS avg_rating FROM posts 
+    $stmt = $conn->prepare("SELECT posts.postid, title, caption, image, realname, username, AVG(ratings.rating) AS avg_rating
+    FROM posts 
     LEFT JOIN ratings ON posts.postid=ratings.postid 
+    LEFT JOIN users ON posts.userid=users.userid
     WHERE posts.userid=?
     GROUP BY posts.postid");
     $stmt->bind_param("s", $userid);

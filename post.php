@@ -22,7 +22,7 @@ if (!isset($_GET["id"]) || empty($_GET["id"])){
 $postid = intval($_GET["id"]) ?? die; // try to get integer value, or else die
 
 // get post item
-$stmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, image, tag, createdtime, viewcount, username, realname, rating AS user_rating, AVG(ratings.rating) AS avg_rating
+$stmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, rating AS user_rating, AVG(ratings.rating) AS avg_rating
  FROM posts 
  JOIN users ON posts.userid=users.userid 
  JOIN ratings ON posts.postid=ratings.postid
@@ -62,6 +62,22 @@ if ($result->num_rows){
     while($row = $result->fetch_object()){
         // use [] format to add to last item in PHP
         $comments[] = $row;
+    }
+}
+
+// increment view count
+if (!isset($_SESSION["postviewcount"])) $_SESSION["postviewcount"] = [];
+if (!isset($_SESSION["postviewcount"][$postid])){
+    // record this post has been viewed in session
+    $_SESSION["postviewcount"][$postid] = 1;
+    // update viewcount in db
+    $stmt = $conn->prepare("UPDATE posts
+    SET viewcount = viewcount + 1
+    WHERE postid = ?");
+    $stmt->bind_param("i", $postid);
+    if (!$stmt->execute()){
+        http_response_code(500);
+        die;
     }
 }
 ?>
@@ -194,10 +210,14 @@ if ($result->num_rows){
                 <!-- tags -->
                 <div class="container p-0">
                     <?php 
-                        $tags = $post->tag;
-                        foreach (explode(",", $tags) as $tag) {
+                        // echo continent
+                        $continent = htmlentities($post->continent);
+                        echo '<a href="seach_result.php?continent='.$continent.'" class="tags btn btn-sm btn-outline-secondary mx-1 my-1">'.$continent.'</a>';
+                        // echo tags
+                        $tags = explode(",", $post->tag);
+                        foreach ($tags as $tag) {
                             $tag = trim(htmlentities($tag));
-                            echo '<a href="seach_result?keyword='.$tag.'" class="tags btn btn-sm btn-outline-secondary mx-1 my-1">'.$tag.'</a>';
+                            echo '<a href="seach_result.php?type=Tag&keyword='.$tag.'" class="tags btn btn-sm btn-outline-secondary mx-1 my-1">'.$tag.'</a>';
                         }
                     ?>
                 </div>

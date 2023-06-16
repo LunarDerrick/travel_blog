@@ -113,42 +113,6 @@ include_once("helper_list_post.php");
                 <div class="container">
                     <div class="row">
                         <?php buildHTMLPostPreview(listMyPostPreview($conn), true); ?>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/korea.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <h6>Korea</h6>
-                                    <p class="text-muted card-text mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Nunc quam urna.
-                                    </p>
-                                    <div class="float-end">
-                                        <!-- use stretched-link class to make whole card clickable-->
-                                        <a href="edit_post.php" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
-                                        <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-postid="123" aria-hidden="true"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/hawaii.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <h6>Hawaii</h6>
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Nunc quam urna.
-                                    </p>
-                                    <div class="float-end">
-                                        <!-- use stretched-link class to make whole card clickable-->
-                                        <a href="edit_post.php" class="fa fa-edit btn btn-lg btn-outline-primary stretched-link"></a>
-                                        <a href="#" class="fa fa-trash btn btn-lg btn-outline-danger" style="position: relative; z-index: 1000;" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-postid="124" aria-hidden="true"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>

@@ -9,6 +9,8 @@ if (isset($_SESSION["username"]) && isset($_SESSION["userid"])){
     header("Location: my_profile.php");
     die;
 }
+// include helper to get user info
+include_once "helper_userinfo.php";
 
 # only run if is set
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){

@@ -97,7 +97,17 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                             <div class="row">
                                 <div class="col form-label">
                                     <label for="location"><b>Location</b></label>
+                                    <div class="d-flex">
                                     <input type="text" id="location" name="location" class="form-control" required>
+                                    <select class="form-control form-select w-25" id="continent" name="continent" required>
+                                        <option>Africa</option>
+                                        <option selected>Asia</option>
+                                        <option>Australia</option>
+                                        <option>Europe</option>
+                                        <option>North America</option>
+                                        <option>South America</option>
+                                    </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">

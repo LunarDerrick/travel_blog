@@ -86,14 +86,14 @@ require_once("init_session.php");
             </div>
 
             <div class="container py-4">
-                <form class="d-flex m-2">
-                    <input class="form-control" type="search" id="search_term" name="search_term" placeholder="Search posts" aria-label="Search">
-                    <select class="form-control form-select w-25" id="inputGroupSelect01">
+                <form action="search_result.php" method="get" class="d-flex m-2">
+                    <input class="form-control" type="search" id="search-term" name="keyword" placeholder="Search posts" aria-label="Search" required>
+                    <select class="form-control form-select w-25" id="search-type" name="type">
                         <option selected>Everything</option>
-                        <option value="1">Topic</option>
-                        <option value="2">Location</option>
-                        <option value="3">Author</option>
-                        <option value="3">Tag</option>
+                        <option>Topic</option>
+                        <option>Location</option>
+                        <option>Author</option>
+                        <option>Tag</option>
                       </select>
                     <button class="btn btn-dark btn-lg" type="submit">
                         <span class="fa fa-solid fa-search"></span>
@@ -119,7 +119,7 @@ require_once("init_session.php");
                                     <img src="image/asia.png" alt="Card Image" class="card-img-top">
                                 </picture>
                                 <div class="card-body">
-                                    <h6><a href="search_result.php" class="stretched-link">Asia</a></h6>
+                                    <h6><a href="search_result.php?continent=Asia" class="stretched-link">Asia</a></h6>
                                 </div>
                             </div>
                         </div>
@@ -129,7 +129,7 @@ require_once("init_session.php");
                                     <img src="image/europe.jpg" alt="Card Image" class="card-img-top">
                                 </picture>
                                 <div class="card-body">
-                                    <h6><a href="search_result.php" class="stretched-link">Europe</a></h6>
+                                    <h6><a href="search_result.php?continent=Europe" class="stretched-link">Europe</a></h6>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@ require_once("init_session.php");
                                     <img src="image/australia.jpg" alt="Card Image" class="card-img-top">
                                 </picture>
                                 <div class="card-body">
-                                    <h6><a href="search_result.php" class="stretched-link">Australia</a></h6>
+                                    <h6><a href="search_result.php?continent=Australia" class="stretched-link">Australia</a></h6>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +149,7 @@ require_once("init_session.php");
                                     <img src="image/africa.png" alt="Card Image" class="card-img-top">
                                 </picture>
                                 <div class="card-body">
-                                    <h6><a href="search_result.php" class="stretched-link">Africa</a></h6>
+                                    <h6><a href="search_result.php?continent=Africa" class="stretched-link">Africa</a></h6>
                                 </div>
                             </div>
                         </div>
@@ -159,7 +159,7 @@ require_once("init_session.php");
                                     <img src="image/north_america.png" alt="Card Image" class="card-img-top">
                                 </picture>
                                 <div class="card-body">
-                                    <h6><a href="search_result.php" class="stretched-link">North America</a></h6>
+                                    <h6><a href="search_result.php?continent=North%20America" class="stretched-link">North America</a></h6>
                                 </div>
                             </div>
                         </div>
@@ -169,7 +169,7 @@ require_once("init_session.php");
                                     <img src="image/south_america.png" alt="Card Image" class="card-img-top">
                                 </picture>
                                 <div class="card-body">
-                                    <h6><a href="search_result.php" class="stretched-link">South America</a></h6>
+                                    <h6><a href="search_result.php?continent=South%20America" class="stretched-link">South America</a></h6>
                                 </div>
                             </div>
                         </div>

@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
 }
 
 # verify info
-foreach (["title", "caption", "content", "location", "tags"] as $check) {
+foreach (["title", "caption", "content", "location", "tags", "continent"] as $check) {
     if (empty($_POST[$check])){
         # go back to previous page
         header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -55,6 +55,7 @@ $fields = [
     "caption" => "string",
     "content" => "string",
     "location" => "string",
+    "continent" => "string",
     "tags" => "string",
 ];
 
@@ -67,10 +68,10 @@ $userid = $_SESSION["userid"];
 $currenttime = round(microtime(TRUE) * 1000); // epoch timestamp
 
 //prepare insert query
-$query = $conn -> prepare("INSERT INTO Posts (userid, title, caption, content, location, image, tag, createdtime) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$query = $conn -> prepare("INSERT INTO Posts (userid, title, caption, content, location, continent, image, tag, createdtime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-$query -> bind_param("issssssi", 
-$userid, $postvar["title"], $postvar["caption"], $content, $postvar["location"], $image_path, $postvar["tags"], $currenttime);
+$query -> bind_param("isssssssi", 
+$userid, $postvar["title"], $postvar["caption"], $content, $postvar["location"], $postvar["continent"], $image_path, $postvar["tags"], $currenttime);
 
 if ($query -> execute()){
     // form header for redirect

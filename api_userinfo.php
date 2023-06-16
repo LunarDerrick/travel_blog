@@ -1,5 +1,6 @@
 <?php
 require_once "init_db.php";
+require_once "helper_userinfo.php";
 
 # only run if is set
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
