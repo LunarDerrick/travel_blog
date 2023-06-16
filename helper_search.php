@@ -56,11 +56,11 @@ function search($conn, $get, $postPerPage = 6){
 
         // if contains WHERE is search query
         if (strpos($queryCountTotal, "WHERE") !== false) {
-            $queryCountTotal .= " AND continent = ?";
-            $queryPosts .= " AND continent = ?";
+            $queryCountTotal .= " AND continent LIKE ?";
+            $queryPosts .= " AND continent LIKE ?";
         } else {
-            $queryCountTotal .= " WHERE continent = ?";
-            $queryPosts .= " WHERE continent = ?";
+            $queryCountTotal .= " WHERE continent LIKE ?";
+            $queryPosts .= " WHERE continent LIKE ?";
         }
     }
 
@@ -77,7 +77,7 @@ function search($conn, $get, $postPerPage = 6){
 
     $stmtCount = $conn->prepare($queryCountTotal);
     $stmtPosts = $conn->prepare($queryPosts);
-
+    
     switch($bindparamcount){
         case 3:
             // keyword + continent search
