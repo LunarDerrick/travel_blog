@@ -126,7 +126,7 @@ $page = intval($_GET["page"]);
                 <div class="container">
                     <div class="row">
                         <?php 
-                        [$posts, $total] = listMyPostPreview($conn);
+                        [$posts, $total] = listProfilePostPreview($conn);
                         buildHTMLPostPreview($posts, $edit=true); 
                         buildHTMLPagination($total, $page)?>
                     </div>
