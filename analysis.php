@@ -213,7 +213,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                         datasets: [{
                             backgroundColor: ["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7"]
 ,
-                            data: [10, 8, 11, 10, 15, 43, 47] // y axis
+                            data: [0, 0, 0, 0, 0, 0, 0] // y axis
                         }]
                     },
                     options: {
@@ -247,10 +247,10 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                 new Chart("horizontalBarChart", {
                     type: 'bar',
                     data: {
-                        labels: ["Japan", "Korea", "UK"], // x axis
+                        labels: ["Japan", "Korea", "UK", "New Zealand"], // x axis
                         datasets: [{
                                 backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue", "deepskyblue"],
-                                data: [4.2, 3.9, 3.4] // y axis
+                                data: [4.667, 3.667, 3.667, 2.667] // y axis
                             }
                         ]
                     },

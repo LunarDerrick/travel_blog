@@ -5,45 +5,7 @@
 require_once("init_db.php");
 require_once("init_session.php");
 require_once("init_check_logged_in.php"); // only for pages that strictly require login
-
-# only run if is set
-if ($_SERVER['REQUEST_METHOD'] !== 'GET'){
-    http_response_code(404);
-    include('404.php');
-    die();
-}
-
-# no id provided
-if (!isset($_GET["id"]) || empty($_GET["id"])){
-    http_response_code(404);
-    include('404.php'); // provide your own HTML for the error page
-    die();
-}
-
-$postid = intval($_GET["id"]) ?? die; // try to get integer value, or else die
-
-// get post item
-$stmt = $conn->prepare("SELECT postid, title, caption, content, location, continent, image, tag
- FROM posts 
- WHERE posts.postid = ?");
-$stmt->bind_param("i", $postid);
-if (!$stmt->execute()){
-    http_response_code(500);
-    die;
-}
-$result = $stmt->get_result();
-if ($row = $result->fetch_object()){
-    $post = $row;
-    if (empty($post->postid)) {
-        // no post matchign id
-        http_response_code(404);
-        include('404.php'); // provide your own HTML for the error page
-        die();
-    }
-} else {
-    http_response_code(500);
-    die;
-}
+Echo strrev("hello")
 ?>
 
 <head>
@@ -111,24 +73,24 @@ if ($row = $result->fetch_object()){
                 <p></p>
             </div>
             
-            <form action="api_editpost.php?id=<?php echo $post->postid?>" method="post" enctype="multipart/form-data">
+            <form action="#" method="post">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 form-label">
                             <label for="title"><b>Title</b></label>
-                            <input type="text" id="title" name="title" class="form-control" value="<?php echo $post->title?>" required>
+                            <input type="text" id="title" name="title" class="form-control" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 form-label">
                             <label for="caption"><b>Caption</b></label>
-                            <input type="text" id="caption" name="caption" class="form-control" value="<?php echo $post->caption?>" required>
+                            <input type="text" id="caption" name="caption" class="form-control">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-label">
                             <label for="content"><b>Content</b></label>
-                            <textarea id="content" name="content" rows="10" class="form-control"><?php echo $post->content?></textarea>
+                            <textarea id="content" name="content" rows="10" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -136,23 +98,13 @@ if ($row = $result->fetch_object()){
                             <div class="row">
                                 <div class="col form-label">
                                     <label for="location"><b>Location</b></label>
-                                    <div class="d-flex">
-                                    <input type="text" id="location" name="location" class="form-control" value="<?php echo $post->location?>" required>
-                                    <select class="form-control form-select w-25" id="continent" name="continent" required>
-                                        <option <?php echo ($post->continent == "Africa")?"selected":""; ?>>Africa</option>
-                                        <option <?php echo ($post->continent == "Asia")?"selected":""; ?>>Asia</option>
-                                        <option <?php echo ($post->continent == "Australia")?"selected":""; ?>>Australia</option>
-                                        <option <?php echo ($post->continent == "Europe")?"selected":""; ?>>Europe</option>
-                                        <option <?php echo ($post->continent == "North America")?"selected":""; ?>>North America</option>
-                                        <option <?php echo ($post->continent == "South America")?"selected":""; ?>>South America</option>
-                                    </select>
-                                    </div>
+                                    <input type="text" id="location" name="location" class="form-control" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col form-label">
                                     <label for="tags"><b>Tags</b></label>
-                                    <input type="text" id="tags" name="tags" class="form-control" value="<?php echo $post->location?>">
+                                    <input type="text" id="tags" class="form-control">
                                 </div>
                             </div>
                         </div>  
@@ -160,9 +112,9 @@ if ($row = $result->fetch_object()){
                             <div class="row">
                                 <div class="col">
                                     <label for="image"><b>Image</b></label>
-                                    <input type="file" accept="image/*" id="image" name="image" class="form-control">
+                                    <input type="file" id="image" class="form-control">
                                     <picture>
-                                        <img src="<?php echo $post->image?>" id="img-preview" class="img-fluid card-img-top">
+                                        <img src="image/hawaii.jpg" class="img-fluid card-img-top" alt="...">
                                     </picture>
                                 </div>
                             </div>
@@ -196,41 +148,14 @@ if ($row = $result->fetch_object()){
         </div>
     </footer>
 
-    <!-- rich text editor, custom built -->
-    <script src="js/ckeditor.js"></script>
+    <!-- rich text editor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
     <script>
-        // initialise richtext eeditor
         ClassicEditor
-            .create( document.querySelector('#content'), 
-                // remove media embed, not available for markdown
-                {
-                    removePlugins:  ['MediaEmbed']
-                } 
-            )
-            .then( newEditor => {
-                // save editor to variable for later access
-                editor = newEditor;
-            } )
+            .create( document.querySelector( '#content' ) )
             .catch( error => {
                 console.error( error );
             } );
-
-        // check if editor has anything
-        document.forms[0].onsubmit = evt => {
-            if (editor.getData().trim() == "") {
-                alert("No content is provided.");
-                // prevent form submitting
-                return false;
-            }
-        };
-
-        // show image preview when choosing image
-        document.getElementById("image").onchange = evt => {
-            const [file] = document.getElementById("image").files
-            if (file) {
-                document.getElementById("img-preview").src = URL.createObjectURL(file)
-            }
-        }
     </script>
 
     <!-- JavaScript files-->
