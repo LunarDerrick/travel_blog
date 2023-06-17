@@ -207,15 +207,15 @@ $page = intval($_GET["page"]);
     <?php
     // echo popup if successfully add posts
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-        // if get variable has done=1 and page come from add_post.php
-        if ( isset($_GET['done']) && intval($_GET['done']) && basename($_SERVER['HTTP_REFERER']) == "add_post.php" ){
+        // if get variable has done=1 and page come from add_post.php or edit_post.php
+        if ( isset($_GET['done']) 
+        && intval($_GET['done']) 
+        && (
+            parse_url(basename($_SERVER['HTTP_REFERER']), PHP_URL_PATH) == "add_post.php"
+            || parse_url(basename($_SERVER['HTTP_REFERER']), PHP_URL_PATH) == "edit_post.php"
+        ) ){
             // display toast
             echo '<script>notyf.success("Succesfully added post.")</script>';
-        }
-        // if get variable has done=1 and page come from edit_post.php
-        if ( isset($_GET['done']) && intval($_GET['done']) && basename($_SERVER['HTTP_REFERER']) == "edit_post.php" ){
-            // display toast
-            echo '<script>notyf.success("Succesfully edited post.")</script>';
         }
     }
     ?>
