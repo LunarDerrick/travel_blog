@@ -98,7 +98,7 @@ require_once("init_session.php");
                     They deserved to be preserved. 
                     Come and share with us your precious moments!
                 </p>
-                <a class="link-underline mt-3" href="login.php"><strong>Create own travel blog</strong> </a>
+                <a class="link-underline mt-3" href="my_posts.php"><strong>Create own travel blog</strong> </a>
             </div>
         </div>
     </section>
@@ -110,7 +110,7 @@ require_once("init_session.php");
             <div class="row">
                 <div class="col-md-7">
                     <h2>Inspire or be inspired! Be sure to check out other latest adventures</h2>
-                    <a class="link-underline mt-3" href="#latest">View More</a>
+                    <a class="link-underline mt-3" href="browse.php">View More</a>
                 </div>
             </div>
         </div>
