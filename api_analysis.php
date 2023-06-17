@@ -29,6 +29,26 @@ while($row = $result->fetch_assoc()){
 }
 
 
+// fetch post data by view count from database
+$myquery = "SELECT posts.postid, title, caption, image, viewcount
+            FROM posts
+            WHERE posts.userid= ?
+            ORDER BY viewcount DESC
+            LIMIT 5";
+try {
+    $query = $conn->prepare($myquery);
+    $query->bind_param('s', $userid);
+    $query->execute();
+} catch (Exception $e) {
+    echo $e->getMessage();
+    die;
+}
+$result = $query->get_result();
+while($row = $result->fetch_assoc()){
+    $data["mostviews"][] = $row;
+}
+
+
 // fetch post data by week from database
 $myquery = "SELECT COUNT(*) AS total,
 from_unixtime(posts.createdtime/1000, '%Y-%m-%d') AS postdate
@@ -53,7 +73,6 @@ while($row = $result->fetch_object()){
 
 
 // fetch rating data from database
-
 $myquery = "SELECT ratings.rating, COUNT(ratings.rating) AS total
             FROM posts
             LEFT JOIN ratings ON posts.postid=ratings.postid
