@@ -128,7 +128,7 @@ if ($row = $result->fetch_object()){
                     <div class="row">
                         <div class="form-label">
                             <label for="content"><b>Content</b></label>
-                            <textarea id="content" name="content" rows="10" class="form-control" value="<?php echo $post->content?>"></textarea>
+                            <textarea id="content" name="content" rows="10" class="form-control"><?php echo $post->content?></textarea>
                         </div>
                     </div>
                     <div class="row">
