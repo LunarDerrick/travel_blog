@@ -4,6 +4,70 @@
 <?php
 require_once("init_db.php");
 require_once("init_session.php");
+
+# only run if is set
+if ($_SERVER['REQUEST_METHOD'] !== 'GET'){
+    http_response_code(404);
+    include('404.php');
+    die();
+}
+
+# no id provided
+if (!isset($_GET["id"]) || empty($_GET["id"])){
+    http_response_code(404);
+    include('404.php'); // provide your own HTML for the error page
+    die();
+}
+
+$userid = intval($_GET["id"]) ?? die; // try to get integer value, or else die
+
+// get user info
+$stmt = $conn->prepare("SELECT userid, profilepic, profileintro, realname
+ FROM users
+ WHERE userid=?");
+$stmt->bind_param("i", $userid);
+if (!$stmt->execute()){
+    http_response_code(500);
+    die;
+}
+$result = $stmt->get_result();
+if ($row = $result->fetch_object()){
+    $userinfo = $row;
+    if (empty($userinfo->userid)) {
+        // no matching userid
+        http_response_code(404);
+        include('404.php'); // provide your own HTML for the error page
+        die();
+    }
+} else {
+    http_response_code(500);
+    die;
+}
+
+// // get post item
+// $stmt = $conn->prepare("SELECT posts.postid, title, caption, image, username, realname, rating AS user_rating, AVG(ratings.rating) AS avg_rating
+//  FROM posts 
+//  JOIN users ON posts.userid=users.userid 
+//  JOIN ratings ON posts.postid=ratings.postid
+//  WHERE posts.postid = ?");
+// $stmt->bind_param("i", $postid);
+// if (!$stmt->execute()){
+//     http_response_code(500);
+//     die;
+// }
+// $result = $stmt->get_result();
+// if ($row = $result->fetch_object()){
+//     $post = $row;
+//     if (empty($post->postid)) {
+//         // no post matchign id
+//         http_response_code(404);
+//         include('404.php'); // provide your own HTML for the error page
+//         die();
+//     }
+// } else {
+//     http_response_code(500);
+//     die;
+// }
 ?>
 
 <head>
@@ -81,13 +145,23 @@ require_once("init_session.php");
             <div class="container section-title row">
                 <div class="col-2">
                     <picture class="author-pfp">
-                        <img src="image/profile_man.jpeg" class="img-fluid" alt="...">
+                        <?php echo isset($data['profilepic']) ? 
+                            '<img src="'.$userinfo->profilepic.'" class="img-fluid" alt="...">' // photo 1
+                            : 
+                            '<img src="image/profile_man.jpeg" class="img-fluid" alt="...">'; // photo 2
+                        ?>
                     </picture>
                 </div>
                 <div class="col-10">
-                    <h2>John Doe</h2>
+                    <h2>
+                        <?php echo htmlentities(
+                        isset($userinfo->realname) ? $userinfo->realname: $userinfo->username
+                        ); ?>
+                    </h2>
                     <p>
-                        This user has not provided any description yet.
+                        <?php echo htmlentities(
+                        isset($userinfo->profileintro) ? $userinfo->profileintro: "This user has not provided any description yet."
+                        ); ?>
                     </p>
                 </div>
             </div>
@@ -104,7 +178,11 @@ require_once("init_session.php");
                                 <div class="card-body">
                                     <!-- header and author -->
                                     <h6>New Zealand and its Railcar</h6>
-                                    <small class="blockquote-footer mt-0">by John Doe</small>
+                                    <small class="blockquote-footer mt-0">by 
+                                        <?php echo htmlentities(
+                                        isset($userinfo->realname) ? $userinfo->realname: $userinfo->username
+                                        ); ?>
+                                    </small>
                                     <br>
                                     <!-- star rating -->
                                     <div class="container mt-1">
@@ -119,7 +197,7 @@ require_once("init_session.php");
                                         Top country to visit. Must see.
                                     </p>
                                     <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="post_NZ.php" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
+                                    <a href="#" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +229,5 @@ require_once("init_session.php");
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
 
 </body>
-
-
 
 </html>

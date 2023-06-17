@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+                                                                                                                          <!DOCTYPE html>
 <html lang="en">
 
 <?php
@@ -126,9 +126,9 @@ include("api_my_profile.php");
                             <picture>
                                 <!-- in theory will show database photo, else show default anonymous photo -->
                                 <?php echo isset($data['profilepic']) ? 
-                                '<img src="'.$data['profilepic'].'" class="img-fluid card-img-top" alt="...">' // photo 1
-                                : 
-                                '<img src="image/profile_man.jpeg" class="img-fluid card-img-top" alt="...">'; // photo 2
+                                    '<img src="'.$data['profilepic'].'" id="img-preview" class="img-fluid card-img-top" alt="...">' // photo 1
+                                    : 
+                                    '<img src="image/profile_man.jpeg" id="img-preview" class="img-fluid card-img-top" alt="...">'; // photo 2
                                 ?>
                             </picture>
                             <div class="col form-label">
@@ -151,7 +151,6 @@ include("api_my_profile.php");
         </div>
     </section>
 
-
     <footer>
         <div class="copyrights text-white py-4" style="background: #090909">
             <div class="container">
@@ -171,8 +170,15 @@ include("api_my_profile.php");
 
 </body>
 
-
 <script>
+    // show image preview when choosing image
+    document.getElementById("image").onchange = evt => {
+        const [file] = document.getElementById("image").files
+        if (file) {
+            document.getElementById("img-preview").src = URL.createObjectURL(file)
+        }
+    }
+
     //need to save to DB
     document.getElementById("sub").onclick = function (){
         //todo later do
