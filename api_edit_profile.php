@@ -29,14 +29,36 @@ if (!empty($_POST["oldpassword"]) || !empty($_POST["newpassword"])) {
             document.location='my_profile.php'
         </script> 
         TEXT;
+        die;
+    // decyrpt password required here
+    // } else if ($_POST["oldpassword"] !== $_SESSION["password"]) {
     } else if ($_POST["oldpassword"] !== $_POST["newpassword"]) {
         echo <<< TEXT
         <script>
-            alert('password not matched!');
+            alert('current password not matched!');
             document.location='my_profile.php'
         </script> 
         TEXT;
+        die;
     }
+}
+
+// verify image uploaded
+switch ($_FILES["image"]["error"]) {
+    case 0: // success
+    case 4: // no image uploaded
+        break;
+    case 1:
+    case 2:
+    case 3:
+    case 6:
+    case 7:
+    case 8:
+    default:
+        # go back to previous page
+        echo "<script>alert('image error type ".$_FILES["image"]["error"]."');";
+        echo "document.location='my_profile.php'</script>";
+        die; # prevent if browser dont respect redirect
 }
 
 $validMime = array("image/jpeg", "image/png");
@@ -53,22 +75,18 @@ if (!in_array($_FILES["image"]["type"], $validMime) || !getimagesize($_FILES["im
 }
 
 // upload file
-$uploadedFilePath = $_FILES["image"]["tmp_name"];
-if (file_exists($uploadedFilePath)) {
-
+$path_parts = pathinfo($_FILES["image"]["name"]);
+$image_path = "uploads/" . sha1($path_parts['basename']) . "." . $path_parts['extension'];
+while(file_exists($image_path)){
+    $image_path = "uploads/" . sha1($path_parts['basename'] . time()) . "." . $path_parts['extension'];
 }
-// $path_parts = pathinfo($_FILES["image"]["name"]);
-// $image_path = "uploads/" . sha1($path_parts['basename']) . "." . $path_parts['extension'];
-// while(file_exists($image_path)){
-//     $image_path = "uploads/" . sha1($path_parts['basename'] . time()) . "." . $path_parts['extension'];
-// }
-// // move uploaded file to destination
-// if (!move_uploaded_file($_FILES["image"]["tmp_name"], $image_path)){
-//     // failed to move
-//     JSONresponse(500, ["error" => "Upload failed"]);
-//     http_response_code(500);
-//     die;
-// }
+// move uploaded file to destination
+if (!move_uploaded_file($_FILES["image"]["tmp_name"], $image_path)){
+    // failed to move
+    JSONresponse(500, ["error" => "Upload failed"]);
+    http_response_code(500);
+    die;
+}
 
 // match profile variables with content type
 $fields = [
@@ -87,26 +105,15 @@ $profilevar = sanitize($_POST, $fields);
 $content = strip_tags($profilevar["message"], '<table><thead><tbody><th><tr><td><br>');
 
 $userid = $_SESSION["userid"];
-$currenttime = round(microtime(TRUE) * 1000); // epoch timestamp
 
-//prepare edit query
-// $query = $conn -> prepare(
-//     "UPDATE users
-//     SET username = ".$_POST["username"].
-//     ", password = ".$_POST["newpassword"].
-//     ", profilepic = ".$_FILES["image"]["tmp_name"].
-//     ", profileintro = ".$_POST["message"].
-//     ", realname = ".$_POST["name"].
-//     ", email = ".$_POST["email"].
-//     ", telno = ".$_POST["tel"].
-//     "WHERE userid = ".$userid.";"
-// );
-// 
-// $query -> bind_param("isssssssi", 
-// $userid, $profilevar["username"], $profilevar["newpassword"], $image_path, $profilevar["message"], $profilevar["name"], $profilevar["email"], $profilevar["telno"]);
+$query = $conn -> prepare("UPDATE users
+    SET username = ?, password = ?, profilepic = ?, profileintro = ?, realname = ?, email = ?, telno = ?,
+    WHERE userid = ?");
 
-// if ($query -> execute()){
-if (empty($query)){
+$query -> bind_param("sssssssi", 
+$profilevar["username"], $profilevar["newpassword"], $image_path, $profilevar["message"], $profilevar["name"], $profilevar["email"], $profilevar["telno"], $userid);
+
+if ($query -> execute()){
     // form header for redirect
     header("Location: my_profile.php?done=1");
 
