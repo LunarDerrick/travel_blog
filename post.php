@@ -291,7 +291,7 @@ foreach ($comments as $comment) {
                     <div class="row d-flex flex-row">
                         <div class="comment-user col mx-2 d-flex">
                             <div class="user-image"><img src="image/profile_woman.jpg" alt="woman"></div>
-                            <div class="name">Rachel</div>
+                            <div class="name"><?php echo htmlentities($_SESSION["username"]); ?></div>
                         </div>
                         
                         <!--star rating-->
@@ -393,9 +393,9 @@ foreach ($comments as $comment) {
                     }
                     redirect()
                 } else if (this.readyState == 4 && parseInt(this.status / 100) == 4) {
-                    notyf.error("Rating not saved. Please try again later.")
+                    notyf.error("Comment not saved. Please try again later.")
                 } else if (this.readyState == 4 && this.status == 200) {
-                    notyf.success("Your rating is saved.")
+                    notyf.success("Your comment is submitted.")
                     const redirect = async() => {
                         // wait 2500ms
                         await new Promise(res => setTimeout(res, 2500))
