@@ -4,8 +4,12 @@
 <?php
 require_once("init_db.php");
 require_once("init_session.php");
-require_once("init_check_logged_in.php"); // only for pages that strictly require login
 include_once("helper_list_post.php");
+
+if (!isset($_SESSION["username"])) {
+    header("Location: login.php");
+    die();
+}
 
 if (
     !isset($_GET["page"]) || // no page
