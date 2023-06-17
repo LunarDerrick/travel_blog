@@ -159,28 +159,31 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
             $.post("api_analysis.php", function(data) {
                 console.log(data);
                 //data = JSON.parse(data); // parse data from JSON string into object
-                var postid = [];
-                var userid = [];
-                var location = [];
-                var avg_rating = [];
                 
-                for (var post of data["posts"]) {
-                    postid.push(post.postid);
-                    userid.push(post.userid);
-                    location.push(post.location);
-                    avg_rating.push(post.avg_rating);
-                }
-
+                var ratings = data["rating"];
+                // const possibleRatings = [1, 2, 3, 4, 5];
+                // // loop through each rating and add total = 0
+                // possibleRatings.forEach(rating => {
+                //     const hasRating = ratings.some(r => r.rating === rating);
+                //     if (!hasRating) {
+                //         ratings.push({ rating, total: 0 });
+                //     }
+                // });
+                // sort rating by ascending order
+                ratings.sort((a,b) => a.rating - b.rating);
+                var ratingtitle = ratings.map(rating => rating.rating + " star" + (rating.rating > 1 ? "s" : "")),
+                ratingscore = ratings.map(rating => rating.total);
+                
                 Chart.register(ChartDataLabels);
                 
                 // pie chart
                 new Chart("pieChart", {
                     type: "pie",
                     data: {
-                        labels: ["1 star", "2 star", "3 star", "4 star", "5 star"], // x axis
+                        labels: ratingtitle, // header
                         datasets: [{
-                            backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat"],
-                            data: [13, 12, 65, 43, 11] // y axis
+                            backgroundColor: ["#0e6573", "#008e89", "#00b680", "#73da5d", "#e0f420",],
+                            data: ratingscore // value
                         }]
                     },
                     options: {
@@ -208,7 +211,8 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                     data: {
                         labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
                         datasets: [{
-                            backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
+                            backgroundColor: ["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7"]
+,
                             data: [10, 8, 11, 10, 15, 43, 47] // y axis
                         }]
                     },
@@ -243,23 +247,14 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                 new Chart("horizontalBarChart", {
                     type: 'bar',
                     data: {
-                        labels: location,
+                        labels: ["Japan", "Korea", "UK"], // x axis
                         datasets: [{
-                                backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue"],
-                                data: avg_rating
+                                backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue", "deepskyblue"],
+                                data: [4.2, 3.9, 3.4] // y axis
                             }
                         ]
                     },
                     options: {
-                        indexAxis: 'y',
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Star Rating'
-                                }
-                            }
-                        },
                         plugins: {
                             legend: {
                                 display: false
@@ -274,7 +269,15 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                     }
                                 }
                             }
-                        }
+                        },
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Star Rating'
+                                }
+                            }
+                        },
                     }
                 });
 
