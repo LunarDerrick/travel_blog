@@ -187,6 +187,9 @@ $userinfo = $result->fetch_assoc();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
+    <!-- items for notification toast -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
 </body>
 
@@ -225,4 +228,20 @@ $userinfo = $result->fetch_assoc();
             xhttp.send("usernameverify="+username);
         }
 </script>
+
+    <?php
+    // echo popup if successfully add posts
+    if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+        // if get variable has done=1 and page come from add_post.php or edit_post.php
+        if ( isset($_GET['done']) 
+        && intval($_GET['done']) 
+        && (
+            // if the page redirect from url                            equals the url of the current page
+            parse_url(basename($_SERVER['HTTP_REFERER']), PHP_URL_PATH) == parse_url(basename($_SERVER['REQUEST_URI']), PHP_URL_PATH)
+        ) ){
+            // display toast
+            echo '<script>new Notyf().success("Succesfully updated profile information.")</script>';
+        }
+    }
+    ?>
 </html>
