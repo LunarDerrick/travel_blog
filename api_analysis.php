@@ -70,7 +70,7 @@ try {
 
 $result = $query->get_result();
 while($row = $result->fetch_object()){
-    $data["rating"][] = $row->total;
+    $data["rating"][] = $row;
 }
 
 
