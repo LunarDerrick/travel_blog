@@ -32,7 +32,7 @@ foreach (["title", "caption", "content", "location", "tags", "continent"] as $ch
 $newImageUploaded = false;
 // check if new file is being uploaded
 $uploadedFilePath = $_FILES["image"]["tmp_name"];
-if (file_exists($uploadedFilePath)) {
+if (file_exists($uploadedFilePath) && $_FILES["image"]["error"] == 0) {
     // verify image uploaded
     if ($_FILES["image"]["error"]){
         # go back to previous page
