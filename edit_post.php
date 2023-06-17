@@ -160,7 +160,7 @@ if ($row = $result->fetch_object()){
                             <div class="row">
                                 <div class="col">
                                     <label for="image"><b>Image</b></label>
-                                    <input type="file" accept="image/*" id="image" name="image" class="form-control" required>
+                                    <input type="file" accept="image/*" id="image" name="image" class="form-control">
                                     <picture>
                                         <img src="<?php echo $post->image?>" id="img-preview" class="img-fluid card-img-top">
                                     </picture>

@@ -29,24 +29,25 @@ foreach (["title", "caption", "content", "location", "tags", "continent"] as $ch
     }
 }
 
-// verify image uploaded
-if ($_FILES["image"]["error"]){
-    # go back to previous page
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    die; # prevent if browser dont respect redirect
-}
-
-$validMime = array("image/jpeg", "image/png");
-// verify image type is png or jpg                  or  image size cannot be found (not image)
-if (!in_array($_FILES["image"]["type"], $validMime) || !getimagesize($_FILES["image"]["tmp_name"])) {
-    # go back to previous page
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    die; # prevent if browser dont respect redirect
-}
-
-// check if the same file is being uploaded
+$newImageUploaded = false;
+// check if new file is being uploaded
 $uploadedFilePath = $_FILES["image"]["tmp_name"];
 if (file_exists($uploadedFilePath)) {
+    // verify image uploaded
+    if ($_FILES["image"]["error"]){
+        # go back to previous page
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        die; # prevent if browser dont respect redirect
+    }
+
+    $validMime = array("image/jpeg", "image/png");
+    // verify image type is png or jpg                  or  image size cannot be found (not image)
+    if (!in_array($_FILES["image"]["type"], $validMime) || !getimagesize($_FILES["image"]["tmp_name"])) {
+        # go back to previous page
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        die; # prevent if browser dont respect redirect
+    }
+
     $uploadedFileHash = sha1_file($uploadedFilePath);
     // check if the file with the same hash already exists in the destination directory
     $existingFilePath = "uploads/" . $uploadedFileHash . "." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
@@ -66,6 +67,8 @@ if (file_exists($uploadedFilePath)) {
             die;
         }
     }
+
+    $newImageUploaded = true;
 }
 
 // match post variables with content type
@@ -83,12 +86,21 @@ $postvar = sanitize($_POST, $fields);
 # only allow these tags to be used
 $content = strip_tags($postvar["content"], '<table><thead><tbody><th><tr><td><br>');
 
-//prepare update query
-$query = $conn -> prepare("UPDATE Posts
-SET title=?, caption=?, content=?, location=?, continent=?, image=?, tag=? WHERE postid=?");
-
-$query -> bind_param("sssssssi", 
-$postvar["title"], $postvar["caption"], $content, $postvar["location"], $postvar["continent"], $image_path, $postvar["tags"], $postid);
+if ($newImageUploaded){
+    //prepare update query
+    $query = $conn -> prepare("UPDATE Posts
+    SET title=?, caption=?, content=?, location=?, continent=?, image=?, tag=? WHERE postid=?");
+    
+    $query -> bind_param("sssssssi", 
+    $postvar["title"], $postvar["caption"], $content, $postvar["location"], $postvar["continent"], $image_path, $postvar["tags"], $postid);
+} else {
+    //prepare update query
+    $query = $conn -> prepare("UPDATE Posts
+    SET title=?, caption=?, content=?, location=?, continent=?, tag=? WHERE postid=?");
+    
+    $query -> bind_param("ssssssi", 
+    $postvar["title"], $postvar["caption"], $content, $postvar["location"], $postvar["continent"], $postvar["tags"], $postid);
+}
 
 if ($query -> execute()){
     // form header for redirect
