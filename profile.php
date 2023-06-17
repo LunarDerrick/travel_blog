@@ -44,34 +44,32 @@ if ($row = $result->fetch_object()){
     die;
 }
 
-// // get post item
-// $stmt = $conn->prepare("SELECT posts.postid, title, caption, image, username, realname, rating AS user_rating, AVG(ratings.rating) AS avg_rating
-//  FROM posts 
-//  JOIN users ON posts.userid=users.userid 
-//  JOIN ratings ON posts.postid=ratings.postid
-//  WHERE posts.postid = ?");
-// $stmt->bind_param("i", $postid);
-// if (!$stmt->execute()){
-//     http_response_code(500);
-//     die;
-// }
-// $result = $stmt->get_result();
-// if ($row = $result->fetch_object()){
-//     $post = $row;
-//     if (empty($post->postid)) {
-//         // no post matchign id
-//         http_response_code(404);
-//         include('404.php'); // provide your own HTML for the error page
-//         die();
-//     }
-// } else {
-//     http_response_code(500);
-//     die;
-// }
+// get post item
+$stmt = $conn->prepare("SELECT posts.postid, posts.userid, title, caption, image, rating AS user_rating, AVG(ratings.rating) AS avg_rating
+FROM posts
+JOIN ratings ON posts.postid=ratings.postid
+WHERE posts.userid=?");
+$stmt->bind_param("i", $userid);
+if (!$stmt->execute()){
+    http_response_code(500);
+    die;
+}
+$result = $stmt->get_result();
+$posts = [];
+if ($result->num_rows){
+    while($row = $result->fetch_object()){
+        // use [] format to add to last item in PHP
+        $posts[] = $row;
+    }
+}
 ?>
 
 <head>
-    <title>Travalog - John Doe's Page</title>
+    <title>Travalog -
+        <?php echo htmlentities(
+        isset($userinfo->realname) ? $userinfo->realname: $userinfo->username
+        ); ?>'s Page
+    </title>
 
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
@@ -166,6 +164,20 @@ if ($row = $result->fetch_object()){
                 </div>
             </div>
 
+            <!-- implement add unlimited card here? -->
+            <!-- 3x2 card gallery -->
+            <!-- <section class="gallery-block cards-gallery">
+                <div class="container">
+                    <div class="row">
+                        <?php 
+                        // [$posts, $total] = listMyPostPreview($conn);
+                        // buildHTMLPostPreview($posts, $edit=true); 
+                        // buildHTMLPagination($total, $page)
+                        ?>
+                    </div>
+                </div>
+            </section> -->
+
             <!--3x2 card gallery-->
             <section class="gallery-block cards-gallery">
                 <div class="container">
@@ -177,7 +189,10 @@ if ($row = $result->fetch_object()){
                                 </picture>
                                 <div class="card-body">
                                     <!-- header and author -->
-                                    <h6>New Zealand and its Railcar</h6>
+                                    <h6>
+                                        New Zealand and its Railcar
+                                        <!-- <?php echo htmlentities($post->title); ?> -->
+                                    </h6>
                                     <small class="blockquote-footer mt-0">by 
                                         <?php echo htmlentities(
                                         isset($userinfo->realname) ? $userinfo->realname: $userinfo->username
@@ -186,6 +201,7 @@ if ($row = $result->fetch_object()){
                                     <br>
                                     <!-- star rating -->
                                     <div class="container mt-1">
+                                        <!-- avg_rating affect here -->
                                         <span class="fa fa-star checked"></span>
                                         <span class="fa fa-star checked"></span>
                                         <span class="fa fa-star checked"></span>
@@ -195,6 +211,7 @@ if ($row = $result->fetch_object()){
                                     <!-- caption -->
                                     <p class="text-muted card-text">
                                         Top country to visit. Must see.
+                                        <!-- <?php echo htmlentities($post->caption); ?> -->
                                     </p>
                                     <!-- call to action, use stretched-link class to make whole card clickable-->
                                     <a href="#" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
