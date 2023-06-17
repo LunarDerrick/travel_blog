@@ -4,8 +4,10 @@ require_once("init_session.php");
 
 // Expire the renew token
 try {
+    $token = null;
     $q = $conn->prepare('UPDATE users SET token=? WHERE userid=?');
-    $q->execute([null, $_SESSION['userid']]);
+    $q->bind_param("ii", $token, $_SESSION['userid']);
+    $q->execute();
 } catch (Exception $e) {
     // Do nothing
 }

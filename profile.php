@@ -180,7 +180,7 @@ $page = intval($_GET["page"]);
                 <div class="container">
                     <div class="row">
                         <?php 
-                        [$posts, $total] = listMyPostPreview($conn);
+                        [$posts, $total] = listProfilePostPreview($conn, $userid);
                         buildHTMLPostPreview($posts); 
                         buildHTMLPagination($total, $page)
                         ?>

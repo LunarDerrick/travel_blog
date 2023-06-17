@@ -12,6 +12,8 @@ if (isset($_SESSION["username"]) && isset($_SESSION["userid"])){
 // include helper to get user info
 include_once "helper_userinfo.php";
 
+$loggedInFailed = false;
+
 # only run if is set
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(empty($_POST["username"]) || empty($_POST["password"])) {
@@ -27,15 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             # correct password
             $_SESSION["userid"] = intval($userinfo["userid"]);
             $_SESSION["username"] = htmlentities($username);
+            # go to index.php
             header("Location: .");
             die; # prevent if browser dont respect redirect
         } else {
-            // @todo
-            echo "Incorrect password";
+            // incorrect password
+            $loggedInFailed = true;
         }
     } else {
-        // @todo
-        echo "Username not found";
+        // no username found
+        $loggedInFailed = true;
     }
 }
 ?>
@@ -120,6 +123,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
+    <!-- items for notification toast -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    
+    <script>
+        <?php
+        // warn if failed to login
+            if ($loggedInFailed) {
+                echo <<< FAILEDLOGIN
+                new Notyf().error("Username or password is incorrect.")
+                FAILEDLOGIN;
+            }
+        ?>
+    </script>
 </body>
 
 <script>

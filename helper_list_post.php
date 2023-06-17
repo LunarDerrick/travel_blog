@@ -162,8 +162,9 @@ function buildHTMLPagination($totalPosts, $currentPage = 1, $postsPerPage = 6, $
     NAVFOOTER;
 }
 
-function listMyPostPreview($conn, ){
-    $userid = $_SESSION["userid"];
+function listProfilePostPreview($conn, $userid = null){
+    if ($userid == null)
+        $userid = $_SESSION["userid"];
     // prepare select query
     $stmt = $conn->prepare("SELECT posts.postid, title, caption, image, realname, username, AVG(ratings.rating) AS avg_rating,
       (SELECT count(*) FROM posts WHERE posts.userid= ? ) AS postCount

@@ -5,7 +5,27 @@
 require_once("init_db.php");
 require_once("init_session.php");
 require_once("init_check_logged_in.php"); // only for pages that strictly require login
-include("api_my_profile.php");
+
+$userid = $_SESSION["userid"];
+// fetch data from database
+$myquery = "SELECT userid, username, profilepic, profileintro, realname, email, telno
+            FROM users
+            WHERE userid=? 
+            LIMIT 1";
+try {
+    $query = $conn->prepare($myquery);
+    $query->bind_param('i', $userid);
+} catch (Exception $e) {
+    echo $e->getMessage();
+    die;
+}
+
+if(!$query->execute()){
+    http_response_code(500);
+    die;
+}
+$result = $query->get_result();
+$userinfo = $result->fetch_assoc();
 ?>
 
 <head>
@@ -82,7 +102,7 @@ include("api_my_profile.php");
                                     <label for="fname"><b>Username</b></label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">@</span>
-                                        <input type="text" id="username" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required onchange="checkUsernameUsed();" value="<?php echo $_SESSION["username"]; ?>">
+                                        <input type="text" id="username" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required onchange="checkUsernameUsed();" value="<?php echo htmlentities($_SESSION["username"]); ?>">
                                     </div>
                                     <span id="username-warning" class="text-danger d-none">Username is taken. Try another one?</span>
                                 </div>
@@ -91,23 +111,23 @@ include("api_my_profile.php");
                                 <div class="col-md-12 form-label">
                                     <label for="name"><b>Name</b></label>
                                     <!-- if no realname is provided, default to username value -->
-                                    <input type="text" id="name" name="name" class="form-control" required value="<?php echo isset($data['realname']) ? $data['realname'] : $_SESSION["username"]; ?>">
+                                    <input type="text" id="name" name="name" class="form-control" required value="<?php echo htmlentities($userinfo['realname']); ?>">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 form-label">
                                     <label for="email"><b>Email Address</b></label>
-                                    <input type="text" id="email" name="email" class=" form-control" required value="<?php echo $data['email']; ?>">
+                                    <input type="text" id="email" name="email" class=" form-control" required value="<?php echo htmlentities($userinfo['email']); ?>">
                                 </div>
                                 <div class="col-md-6 form-label">
                                     <label for="tel"><b>Tel. Number</b></label>
-                                    <input type="text" id="tel" name="tel" class="form-control" value="<?php echo $data['telno']; ?>">
+                                    <input type="text" id="tel" name="tel" class="form-control" value="<?php echo htmlentities($userinfo['telno']); ?>">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 form-label">
                                     <label for="message"><b>Profile introduction</b></label>
-                                    <textarea id="message" name="message" rows="4" class="form-control"><?php echo $data['profileintro']; ?></textarea>
+                                    <textarea id="message" name="message" rows="4" class="form-control"><?php echo htmlentities($userinfo['profileintro']); ?></textarea>
                                 </div>
                             </div>
                             <span>Leave blank if you do not want to change password.</span>
@@ -124,9 +144,9 @@ include("api_my_profile.php");
                         </div>
                         <div class="col-md-3 form-label float-md-end">
                             <picture>
-                                <!-- in theory will show database photo, else show default anonymous photo -->
-                                <?php echo isset($data['profilepic']) ? 
-                                    '<img src="'.$data['profilepic'].'" id="img-preview" class="img-fluid card-img-top" alt="...">' // photo 1
+                                <!-- show database photo, else show default anonymous photo -->
+                                <?php echo isset($userinfo['profilepic']) ? 
+                                    '<img src="'.$userinfo['profilepic'].'" id="img-preview" class="img-fluid card-img-top" alt="...">' // photo 1
                                     : 
                                     '<img src="image/profile_man.jpeg" id="img-preview" class="img-fluid card-img-top" alt="...">'; // photo 2
                                 ?>
@@ -167,6 +187,9 @@ include("api_my_profile.php");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
+    <!-- items for notification toast -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
 </body>
 
@@ -205,4 +228,20 @@ include("api_my_profile.php");
             xhttp.send("usernameverify="+username);
         }
 </script>
+
+    <?php
+    // echo popup if successfully add posts
+    if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+        // if get variable has done=1 and page come from add_post.php or edit_post.php
+        if ( isset($_GET['done']) 
+        && intval($_GET['done']) 
+        && (
+            // if the page redirect from url                            equals the url of the current page
+            parse_url(basename($_SERVER['HTTP_REFERER']), PHP_URL_PATH) == parse_url(basename($_SERVER['REQUEST_URI']), PHP_URL_PATH)
+        ) ){
+            // display toast
+            echo '<script>new Notyf().success("Succesfully updated profile information.")</script>';
+        }
+    }
+    ?>
 </html>
