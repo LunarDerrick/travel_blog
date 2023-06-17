@@ -4,6 +4,7 @@
 <?php
 require_once("init_db.php");
 require_once("init_session.php");
+include_once("helper_list_post.php");
 ?>
 
 <head>
@@ -22,6 +23,7 @@ require_once("init_session.php");
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/blog/2-0/css/style.default.622904dd.css"
         id="theme-stylesheet">
     <!--CSS overwrite-->
+    <link rel="stylesheet" href="css/cards-gallery.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 
@@ -98,7 +100,14 @@ require_once("init_session.php");
                     They deserved to be preserved. 
                     Come and share with us your precious moments!
                 </p>
-                <a class="link-underline mt-3" href="my_posts.php"><strong>Create own travel blog</strong> </a>
+                <?php
+                if (!isset($_SESSION["username"])) {
+                    echo '<a class="link-underline mt-3" href="login.php"><strong>Create own travel blog</strong> </a>';
+                }
+                else {
+                    echo '<a class="link-underline mt-3" href="my_posts.php"><strong>Create own travel blog</strong> </a>';
+                }
+                ?>
             </div>
         </div>
     </section>
@@ -123,36 +132,15 @@ require_once("init_session.php");
                 <h2>Latest from the blog</h2>
                 <p class="text-lg fw-light">Never miss on the best moments.</p>
             </header>
-            <div class="row gy-4">
-                <div class="col-md-4"><a class="mb-3" href="https://www.getyourguide.com/-l169000/?cmp=ga&cq_src=google_ads&cq_cmp=16375542880&cq_con=133910963019&cq_term=brazil%20travelling&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=16375542880&adgroup_id=133910963019&target_id=kwd-3428487217&loc_physical_ms=9066768&match_type=e&ad_id=588628737836&keyword=brazil%20travelling&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbskLJ3T0Rcl_KOfYZmkGyl70Z1kneGz17xPaHD4UllTqVOrWaePGQaAlKDEALw_wcB"
-                ><img class="img-fluid" src="image/brazil.jpg"
-                            alt="..." /></a>
-                    <div class="d-flex align-items-center justify-content-between mb-2"><small class="text-gray-500">20
-                            May | 2023</small></div>
-                    <h5><a class="text-dark" href="https://www.getyourguide.com/-l169000/?cmp=ga&cq_src=google_ads&cq_cmp=16375542880&cq_con=133910963019&cq_term=brazil%20travelling&cq_med=&cq_plac=&cq_net=g&cq_pos=&cq_plt=gp&campaign_id=16375542880&adgroup_id=133910963019&target_id=kwd-3428487217&loc_physical_ms=9066768&match_type=e&ad_id=588628737836&keyword=brazil%20travelling&ad_position=&feed_item_id=&placement=&device=c&partner_id=CD951&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbskLJ3T0Rcl_KOfYZmkGyl70Z1kneGz17xPaHD4UllTqVOrWaePGQaAlKDEALw_wcB"
-                    >Brazil</a></h5>
-                    <p class="text-muted text-sm"> This is Brazil.</p>
-                </div>
-                <div class="col-md-4"><a class="mb-3" href="https://www.gohawaii.com/"><img class="img-fluid" src="image/hawaii.jpg"
-                            alt="..." /></a>
-                    <div class="d-flex align-items-center justify-content-between mb-2"><small class="text-gray-500">20
-                            May | 2023</small>
+            <section class="gallery-block cards-gallery">
+                <div class="container">
+                    <div class="row">
+                        <?php 
+                        $posts = listLatestPostPreview($conn);
+                        buildHTMLPostPreview($posts);?>
                     </div>
-                    <h5><a class="text-dark" href="https://www.gohawaii.com/">Hawaii</a></h5>
-                    <p class="text-muted text-sm">This is Hawaii</p>
                 </div>
-                <div class="col-md-4"><a class="mb-3" href="https://bushisgo.rezio.shop/en-US?utm_source=google&utm_medium=cpc&utm_campaign=SS_MA_EN&utm_content=ippan&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbzi5v6tvx6W1pkPM1DKH78mHR6AQXxTXplCmrWT0k-McLZqs9rgicaApIREALw_wcB"
-                ><img class="img-fluid" src="image/japan.jpg"
-                            alt="..." /></a>
-                    <div class="d-flex align-items-center justify-content-between mb-2"><small class="text-gray-500">20
-                            May | 2023</small>
-                    </div>
-                    <h5><a class="text-dark" href="https://bushisgo.rezio.shop/en-US?utm_source=google&utm_medium=cpc&utm_campaign=SS_MA_EN&utm_content=ippan&gclid=Cj0KCQjwi46iBhDyARIsAE3nVrbzi5v6tvx6W1pkPM1DKH78mHR6AQXxTXplCmrWT0k-McLZqs9rgicaApIREALw_wcB"
-                    >Japan</a>
-                    </h5>
-                    <p class="text-muted text-sm">This is Japan</p>
-                </div>
-            </div>
+            </section>
         </div>
     </section>
     <footer>

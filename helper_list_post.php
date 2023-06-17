@@ -191,3 +191,22 @@ function listMyPostPreview($conn, ){
         return null;
     }
 }
+
+function listLatestPostPreview($conn){
+    $myquery="SELECT posts.postid, title, caption, image, realname, username, AVG(ratings.rating) AS avg_rating
+    FROM posts 
+    LEFT JOIN ratings ON posts.postid=ratings.postid 
+    LEFT JOIN users ON posts.userid=users.userid
+    GROUP BY posts.postid
+    ORDER BY createdtime DESC limit 3";
+    $result = $conn->query($myquery);
+    if ($result->num_rows){
+        while($row = $result->fetch_object()) {
+            // use [] format to add to last item in PHP
+            $resultarr[] = $row;
+        }
+        return $resultarr;
+    } else {
+        return null;
+    }
+}
