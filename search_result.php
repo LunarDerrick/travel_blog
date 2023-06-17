@@ -4,6 +4,37 @@
 <?php
 require_once("init_db.php");
 require_once("init_session.php");
+
+# only run if is get
+if ($_SERVER['REQUEST_METHOD'] !== 'GET'){
+    # go back to previous page
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    die; # prevent if browser dont respect redirect
+}
+
+if (
+    !isset($_GET["continent"]) && // no continent
+    !( isset($_GET["keyword"]) && isset($_GET["type"]) ) // no keyword n search type
+){
+    # go back to previous page
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    die; # prevent if browser dont respect redirect
+}
+
+if (
+    !isset($_GET["page"]) || // no page
+    ( isset($_GET["page"]) && !filter_var($_GET["page"], FILTER_VALIDATE_INT) ) // page is not integer
+){
+    // set to page 1
+    $_GET["page"] = 1;
+}
+
+include_once("helper_search.php");
+include_once("helper_list_post.php");
+// set 9 posts per page for search result, used for pagination
+$postPerPage = 9;
+[$posts, $total] = search($conn, $_GET, $postPerPage = $postPerPage);
+$page = intval($_GET["page"]);
 ?>
 
 <head>
@@ -86,8 +117,19 @@ require_once("init_session.php");
             </div>
 
             <div class="container py-4">
-                <form class="d-flex m-2">
-                    <input class="form-control" type="search" id="search_term" name="search_term" placeholder="Search posts" value="Europe" aria-label="Search">
+                <form class="d-flex m-2" action="" method="get">
+                    <input class="form-control" type="search" id="search-term" name="keyword" placeholder="Search posts" aria-label="Search" 
+                    value="<?php echo htmlentities(
+                        isset($_GET["keyword"]) ? $_GET["keyword"] : ""
+                    ); ?>"
+                    required>
+                    <select class="form-control form-select w-25" id="search-type" name="type">
+                        <option <?php if (isset($_GET["type"]) && $_GET["type"] == "Everything") echo "selected";?> >Everything</option>
+                        <option <?php if (isset($_GET["type"]) && $_GET["type"] == "Topic") echo "selected";?> >Topic</option>
+                        <option <?php if (isset($_GET["type"]) && $_GET["type"] == "Location") echo "selected";?> >Location</option>
+                        <option <?php if (isset($_GET["type"]) && $_GET["type"] == "Author") echo "selected";?> >Author</option>
+                        <option <?php if (isset($_GET["type"]) && $_GET["type"] == "Tag") echo "selected";?> >Tag</option>
+                      </select>
                     <button class="btn btn-dark btn-lg" type="submit">
                         <span class="fa fa-solid fa-search"></span>
                     </button>
@@ -98,61 +140,10 @@ require_once("init_session.php");
             <section class="gallery-block cards-gallery">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/new_zealand.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>New Zealand and its Railcar</h6>
-                                    <small class="blockquote-footer mt-0">by John Doe</small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">
-                                        Top country to visit. Must see.
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="post_NZ.php" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/united_kingdom.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>The UK Travel Guide — by locals</h6>
-                                    <small class="blockquote-footer mt-0">by Mesh Transform</small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                        elit.
-                                        Nunc quam urna.
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="post_UK.php" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
+                        <?php 
+                        buildHTMLPostPreview($posts);
+                        buildHTMLPagination($total, $page, $postPerPage);
+                        ?>
                     </div>
                 </div>
             </section>

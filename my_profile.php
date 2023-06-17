@@ -73,7 +73,7 @@ include("api_my_profile.php");
                 </p>
             </div>
 
-            <form action="api_edit_profile.php" method="post" class="section-content">
+            <form action="api_edit_profile.php" method="post" class="section-content" enctype='multipart/form-data'>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-9">
@@ -82,7 +82,7 @@ include("api_my_profile.php");
                                     <label for="fname"><b>Username</b></label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">@</span>
-                                        <input type="text" id="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required onchange="checkUsernameUsed();" value="<?php echo $_SESSION["username"]; ?>">
+                                        <input type="text" id="username" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required onchange="checkUsernameUsed();" value="<?php echo $_SESSION["username"]; ?>">
                                     </div>
                                     <span id="username-warning" class="text-danger d-none">Username is taken. Try another one?</span>
                                 </div>
@@ -91,34 +91,34 @@ include("api_my_profile.php");
                                 <div class="col-md-12 form-label">
                                     <label for="name"><b>Name</b></label>
                                     <!-- if no realname is provided, default to username value -->
-                                    <input type="text" id="name" class="form-control" required value="<?php echo isset($data['realname']) ? $data['realname'] : $_SESSION["username"]; ?>">
+                                    <input type="text" id="name" name="name" class="form-control" required value="<?php echo isset($data['realname']) ? $data['realname'] : $_SESSION["username"]; ?>">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 form-label">
                                     <label for="email"><b>Email Address</b></label>
-                                    <input type="text" id="email" class=" form-control" required value="<?php echo $data['email']; ?>">
+                                    <input type="text" id="email" name="email" class=" form-control" required value="<?php echo $data['email']; ?>">
                                 </div>
                                 <div class="col-md-6 form-label">
                                     <label for="tel"><b>Tel. Number</b></label>
-                                    <input type="text" id="tel" class="form-control" value="<?php echo $data['telno']; ?>">
+                                    <input type="text" id="tel" name="tel" class="form-control" value="<?php echo $data['telno']; ?>">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 form-label">
                                     <label for="message"><b>Profile introduction</b></label>
-                                    <textarea id="message" rows="4" class="form-control"><?php echo $data['profileintro']; ?></textarea>
+                                    <textarea id="message" name="message" rows="4" class="form-control"><?php echo $data['profileintro']; ?></textarea>
                                 </div>
                             </div>
                             <span>Leave blank if you do not want to change password.</span>
                             <div class="row">
                                 <div class="col-md-6 form-label">
                                     <label for="oldpassword"><b>Old Password</b></label>
-                                    <input type="password" id="oldpassword" class="form-control">
+                                    <input type="password" id="oldpassword" name="oldpassword" class="form-control">
                                 </div>
                                 <div class="col-md-6 form-label">
                                     <label for="newpassword"><b>New Password</b></label>
-                                    <input type="password" id="newpassword" class="form-control">
+                                    <input type="password" id="newpassword" name="newpassword" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -126,13 +126,14 @@ include("api_my_profile.php");
                             <picture>
                                 <!-- in theory will show database photo, else show default anonymous photo -->
                                 <?php echo isset($data['profilepic']) ? 
-                                '<img src="'.$data['profilepic'].'" class="img-fluid card-img-top" alt="...">' // photo 1
-                                : 
-                                '<img src="image/profile_man.jpeg" class="img-fluid card-img-top" alt="...">'; // photo 2
+                                    '<img src="'.$data['profilepic'].'" id="img-preview" class="img-fluid card-img-top" alt="...">' // photo 1
+                                    : 
+                                    '<img src="image/profile_man.jpeg" id="img-preview" class="img-fluid card-img-top" alt="...">'; // photo 2
                                 ?>
                             </picture>
                             <div class="col form-label">
-                                <input type="file" class="form-control" id="inputGroupFile01">
+                                <!-- <input type="file" class="form-control" id="inputGroupFile01"> -->
+                                <input type="file" class="form-control" id="image" name="image" accept="image/*">
                             </div>
                         </div>
                     </div>
@@ -149,7 +150,6 @@ include("api_my_profile.php");
             </form>
         </div>
     </section>
-
 
     <footer>
         <div class="copyrights text-white py-4" style="background: #090909">
@@ -170,8 +170,15 @@ include("api_my_profile.php");
 
 </body>
 
-
 <script>
+    // show image preview when choosing image
+    document.getElementById("image").onchange = evt => {
+        const [file] = document.getElementById("image").files
+        if (file) {
+            document.getElementById("img-preview").src = URL.createObjectURL(file)
+        }
+    }
+
     //need to save to DB
     document.getElementById("sub").onclick = function (){
         //todo later do

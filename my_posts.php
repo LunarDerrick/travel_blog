@@ -4,8 +4,21 @@
 <?php
 require_once("init_db.php");
 require_once("init_session.php");
-require_once("init_check_logged_in.php"); // only for pages that strictly require login
 include_once("helper_list_post.php");
+
+if (!isset($_SESSION["username"])) {
+    header("Location: login.php");
+    die();
+}
+
+if (
+    !isset($_GET["page"]) || // no page
+    ( isset($_GET["page"]) && !filter_var($_GET["page"], FILTER_VALIDATE_INT) ) // page is not integer
+){
+    // set to page 1
+    $_GET["page"] = 1;
+}
+$page = intval($_GET["page"]);
 ?>
 
 <head>
@@ -112,7 +125,10 @@ include_once("helper_list_post.php");
             <section class="gallery-block cards-gallery">
                 <div class="container">
                     <div class="row">
-                        <?php buildHTMLPostPreview(listMyPostPreview($conn), true); ?>
+                        <?php 
+                        [$posts, $total] = listMyPostPreview($conn);
+                        buildHTMLPostPreview($posts, $edit=true); 
+                        buildHTMLPagination($total, $page)?>
                     </div>
                 </div>
             </section>
@@ -191,8 +207,13 @@ include_once("helper_list_post.php");
     <?php
     // echo popup if successfully add posts
     if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-        // if get variable has done=1 and page come from add_post.php
-        if ( isset($_GET['done']) && intval($_GET['done']) && basename($_SERVER['HTTP_REFERER']) == "add_post.php" ){
+        // if get variable has done=1 and page come from add_post.php or edit_post.php
+        if ( isset($_GET['done']) 
+        && intval($_GET['done']) 
+        && (
+            parse_url(basename($_SERVER['HTTP_REFERER']), PHP_URL_PATH) == "add_post.php"
+            || parse_url(basename($_SERVER['HTTP_REFERER']), PHP_URL_PATH) == "edit_post.php"
+        ) ){
             // display toast
             echo '<script>notyf.success("Succesfully added post.")</script>';
         }

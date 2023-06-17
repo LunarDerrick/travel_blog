@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2023 at 04:07 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jun 16, 2023 at 04:46 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,6 +35,21 @@ CREATE TABLE `comments` (
   `commenttime` bigint(20) NOT NULL,
   `comment` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`userid`, `postid`, `commenttime`, `comment`) VALUES
+(151567889, 20, 0, 'I visited Stonehenge and although the site was impressive, I was disappointed with the limited access and the crowd. It felt a bit rushed and I wish there were more information boards explaining the history. Overall, an okay experience.'),
+(151567889, 21, 0, 'I found the public transportation in Seoul to be quite confusing. The subway system was difficult to navigate, and the lack of English signage made it even more challenging. Additionally, the crowded buses during peak hours were uncomfortable. It took away from the overall travel experience.'),
+(151567889, 22, 0, 'My visit to Tokyo was a mixed experience. The city\'s vibrant energy and modern attractions were captivating, but I found the high prices and crowded streets to be overwhelming. The cultural sites, such as Meiji Shrine, offered a more serene escape. Overall, a diverse destination with some drawbacks.'),
+(573006510, 20, 0, 'The hotel I stayed at in Manchester was decent. The room was clean and comfortable, but the service was a bit slow. The location was convenient, but the noise from the nearby street was a bit bothersome. It was an average stay, nothing extraordinary'),
+(573006510, 21, 0, 'The shopping in Myeongdong was decent, but I found it to be too crowded for my liking. The streets were packed with people, and it was challenging to navigate through the crowds. Additionally, some of the shops were repetitive, offering similar products. An average shopping experience.'),
+(573006510, 22, 0, 'Hiroshima was a thought-provoking destination. The Peace Memorial Park and Museum were powerful reminders of the city\'s history. The only reason I\'m giving it 4 stars instead of 5 is that some parts of the museum were crowded, limiting the viewing experience. A significant historical site to visit.'),
+(2147483647, 20, 0, 'The city of Bath stole our hearts! The Roman Baths were fascinating, and the Georgian architecture was stunning. The city\'s compact size made it easy to explore on foot, and the abundance of charming tea rooms added to the experience. A must-visit destination!'),
+(2147483647, 21, 0, 'The street food in Busan was delicious and diverse. The flavors were tantalizing, and the bustling food stalls added to the vibrant atmosphere. The only reason I\'m not giving it a perfect score is that some vendors lacked seating areas, making it difficult to enjoy the food comfortably.'),
+(2147483647, 22, 0, 'Kyoto was an absolute delight! The city\'s traditional charm and rich cultural heritage were evident in every corner. The temples, such as Kiyomizu-dera and Fushimi Inari, were stunning. The geisha district of Gion offered a glimpse into a bygone era. A must-visit for cultural immersion!');
 
 -- --------------------------------------------------------
 

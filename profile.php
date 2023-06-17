@@ -4,10 +4,83 @@
 <?php
 require_once("init_db.php");
 require_once("init_session.php");
+include_once("helper_list_post.php");
+
+# only run if is set
+if ($_SERVER['REQUEST_METHOD'] !== 'GET'){
+    http_response_code(404);
+    include('404.php');
+    die();
+}
+
+# no id provided
+if (!isset($_GET["id"]) || empty($_GET["id"])){
+    http_response_code(404);
+    include('404.php'); // provide your own HTML for the error page
+    die();
+}
+
+$userid = intval($_GET["id"]) ?? die; // try to get integer value, or else die
+
+// get user info
+$stmt = $conn->prepare("SELECT userid, profilepic, profileintro, username, realname
+ FROM users
+ WHERE userid=?");
+$stmt->bind_param("i", $userid);
+if (!$stmt->execute()){
+    http_response_code(500);
+    die;
+}
+$result = $stmt->get_result();
+if ($row = $result->fetch_object()){
+    $userinfo = $row;
+} else {
+    if ($result->num_rows == 0){
+        // no matching userid
+        http_response_code(404);
+        include('404.php'); // provide your own HTML for the error page
+        die();
+    } else {
+        http_response_code(500);
+        die();
+    }
+}
+
+// get post item
+$stmt = $conn->prepare("SELECT posts.postid, posts.userid, title, caption, image, rating AS user_rating, AVG(ratings.rating) AS avg_rating
+FROM posts
+JOIN ratings ON posts.postid=ratings.postid
+WHERE posts.userid=?");
+$stmt->bind_param("i", $userid);
+if (!$stmt->execute()){
+    http_response_code(500);
+    die;
+}
+$result = $stmt->get_result();
+$posts = [];
+if ($result->num_rows){
+    while($row = $result->fetch_object()){
+        // use [] format to add to last item in PHP
+        $posts[] = $row;
+    }
+}
+
+if (
+    !isset($_GET["page"]) || // no page
+    ( isset($_GET["page"]) && !filter_var($_GET["page"], FILTER_VALIDATE_INT) ) // page is not integer
+){
+    // set to page 1
+    $_GET["page"] = 1;
+}
+$page = intval($_GET["page"]);
 ?>
 
 <head>
-    <title>Travalog - John Doe's Page</title>
+    <title>Travalog -
+        <?php echo htmlentities(
+        isset($userinfo->realname) ? $userinfo->realname: $userinfo->username
+        ); ?>'s Page
+    </title>
 
     <!--Bootstrap implementation-->
     <meta charset="utf-8">
@@ -81,48 +154,36 @@ require_once("init_session.php");
             <div class="container section-title row">
                 <div class="col-2">
                     <picture class="author-pfp">
-                        <img src="image/profile_man.jpeg" class="img-fluid" alt="...">
+                        <?php echo isset($data['profilepic']) ? 
+                            '<img src="'.$userinfo->profilepic.'" class="img-fluid" alt="...">' // photo 1
+                            : 
+                            '<img src="image/profile_man.jpeg" class="img-fluid" alt="...">'; // photo 2
+                        ?>
                     </picture>
                 </div>
                 <div class="col-10">
-                    <h2>John Doe</h2>
+                    <h2>
+                        <?php echo htmlentities(
+                        isset($userinfo->realname) ? $userinfo->realname: $userinfo->username
+                        ); ?>
+                    </h2>
                     <p>
-                        This user has not provided any description yet.
+                        <?php echo htmlentities(
+                        isset($userinfo->profileintro) ? $userinfo->profileintro: "This user has not provided any description yet."
+                        ); ?>
                     </p>
                 </div>
             </div>
 
-            <!--3x2 card gallery-->
+            <!-- 3x2 card gallery -->
             <section class="gallery-block cards-gallery">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/new_zealand.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>New Zealand and its Railcar</h6>
-                                    <small class="blockquote-footer mt-0">by John Doe</small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">
-                                        Top country to visit. Must see.
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="post_NZ.php" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
+                        <?php 
+                        [$posts, $total] = listMyPostPreview($conn);
+                        buildHTMLPostPreview($posts); 
+                        buildHTMLPagination($total, $page)
+                        ?>
                     </div>
                 </div>
             </section>
@@ -151,7 +212,5 @@ require_once("init_session.php");
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
 
 </body>
-
-
 
 </html>
