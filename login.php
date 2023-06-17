@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             require_once("init_session.php");
             # correct password
             $_SESSION["userid"] = intval($userinfo["userid"]);
-            $_SESSION["username"] = $username;
+            $_SESSION["username"] = htmlentities($username);
             header("Location: .");
             die; # prevent if browser dont respect redirect
         } else {
