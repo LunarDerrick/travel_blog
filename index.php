@@ -78,11 +78,11 @@ require_once("init_session.php");
 
     <!-- Hero Section-->
     <section class="hero position-relative"
-        style="background: url(https://d19m59y37dris4.cloudfront.net/blog/2-0/img/hero.68e47bad.jpg); background-size: cover; background-position: center center">
+        style="background: url(https://d19m59y37dris4.cloudfront.net/blog/img/featured-pic-1.jpeg) center center no-repeat; background-size: cover;">
         <div class="container d-flex text-white py-5">
             <div class="row col-lg-7">
-                    <h1 class="display-4">BigFive Travel Blog - <wbr> The Journey will never End.</h1>
-                    <a class="link-underline mt-3 col-6" href="browse.php">Discover More</a>
+                    <h1 class="display-4" style="z-index: 2;">BigFive Travel Blog - <wbr> The Journey will never End.</h1>
+                    <a class="link-underline mt-3 col-6" href="browse.php" style="z-index: 2;">Discover More</a>
             </div>
             <a class="continue text-gray-400 position-absolute bottom-0 mb-5 z-index-20 link-transition small text-uppercase"
                 href="#intro"><i class="fa fa-long-arrow-alt-down"></i> Scroll Down
