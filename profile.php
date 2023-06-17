@@ -23,7 +23,7 @@ if (!isset($_GET["id"]) || empty($_GET["id"])){
 $userid = intval($_GET["id"]) ?? die; // try to get integer value, or else die
 
 // get user info
-$stmt = $conn->prepare("SELECT userid, profilepic, profileintro, realname
+$stmt = $conn->prepare("SELECT userid, profilepic, profileintro, username, realname
  FROM users
  WHERE userid=?");
 $stmt->bind_param("i", $userid);
@@ -34,15 +34,16 @@ if (!$stmt->execute()){
 $result = $stmt->get_result();
 if ($row = $result->fetch_object()){
     $userinfo = $row;
-    if (empty($userinfo->userid)) {
+} else {
+    if ($result->num_rows == 0){
         // no matching userid
         http_response_code(404);
         include('404.php'); // provide your own HTML for the error page
         die();
+    } else {
+        http_response_code(500);
+        die();
     }
-} else {
-    http_response_code(500);
-    die;
 }
 
 // get post item
