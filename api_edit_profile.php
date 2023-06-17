@@ -52,8 +52,11 @@ if (!in_array($_FILES["image"]["type"], $validMime) || !getimagesize($_FILES["im
     die; # prevent if browser dont respect redirect
 }
 
-// CHANGE to edit photo to database*
-// // upload file
+// upload file
+$uploadedFilePath = $_FILES["image"]["tmp_name"];
+if (file_exists($uploadedFilePath)) {
+
+}
 // $path_parts = pathinfo($_FILES["image"]["name"]);
 // $image_path = "uploads/" . sha1($path_parts['basename']) . "." . $path_parts['extension'];
 // while(file_exists($image_path)){

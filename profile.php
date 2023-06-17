@@ -4,6 +4,7 @@
 <?php
 require_once("init_db.php");
 require_once("init_session.php");
+include_once("helper_list_post.php");
 
 # only run if is set
 if ($_SERVER['REQUEST_METHOD'] !== 'GET'){
@@ -62,6 +63,15 @@ if ($result->num_rows){
         $posts[] = $row;
     }
 }
+
+if (
+    !isset($_GET["page"]) || // no page
+    ( isset($_GET["page"]) && !filter_var($_GET["page"], FILTER_VALIDATE_INT) ) // page is not integer
+){
+    // set to page 1
+    $_GET["page"] = 1;
+}
+$page = intval($_GET["page"]);
 ?>
 
 <head>
@@ -164,60 +174,15 @@ if ($result->num_rows){
                 </div>
             </div>
 
-            <!-- implement add unlimited card here? -->
             <!-- 3x2 card gallery -->
-            <!-- <section class="gallery-block cards-gallery">
-                <div class="container">
-                    <div class="row">
-                        <?php 
-                        // [$posts, $total] = listMyPostPreview($conn);
-                        // buildHTMLPostPreview($posts, $edit=true); 
-                        // buildHTMLPagination($total, $page)
-                        ?>
-                    </div>
-                </div>
-            </section> -->
-
-            <!--3x2 card gallery-->
             <section class="gallery-block cards-gallery">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/new_zealand.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>
-                                        New Zealand and its Railcar
-                                        <!-- <?php echo htmlentities($post->title); ?> -->
-                                    </h6>
-                                    <small class="blockquote-footer mt-0">by 
-                                        <?php echo htmlentities(
-                                        isset($userinfo->realname) ? $userinfo->realname: $userinfo->username
-                                        ); ?>
-                                    </small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <!-- avg_rating affect here -->
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">
-                                        Top country to visit. Must see.
-                                        <!-- <?php echo htmlentities($post->caption); ?> -->
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="#" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
+                        <?php 
+                        [$posts, $total] = listMyPostPreview($conn);
+                        buildHTMLPostPreview($posts); 
+                        buildHTMLPagination($total, $page)
+                        ?>
                     </div>
                 </div>
             </section>
