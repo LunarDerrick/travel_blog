@@ -165,7 +165,7 @@ $userinfo = $result->fetch_assoc();
                     </div>
                     <br>
                     <small class="text-small">Not happy with our service? 
-                        <a href="#">Delete account.</a>
+                        <a href="contact.php">Please contact us to delete your account.</a>
                     </small>
                 </div>
             </form>
