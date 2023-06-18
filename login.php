@@ -11,6 +11,8 @@ if (isset($_SESSION["username"]) && isset($_SESSION["userid"])){
 }
 // include helper to get user info
 include_once "helper_userinfo.php";
+// for cookie to store login
+include_once("helper_keep_login.php");
 
 $loggedInFailed = false;
 
@@ -25,10 +27,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     if ($userinfo = verifyUsername($conn, $username)){
         # verify password
         if(password_verify($password, $userinfo["password"])){
-            require_once("init_session.php");
             # correct password
             $_SESSION["userid"] = intval($userinfo["userid"]);
             $_SESSION["username"] = htmlentities($username);
+            $_SESSION["pfp"] = $userinfo["profilepic"];
+
+            if (boolval($_POST["keeplogin"])){
+                keepUserLoggedIn($conn, intval($userinfo["userid"]), $username);
+            }
+
             # go to index.php
             header("Location: .");
             die; # prevent if browser dont respect redirect
@@ -59,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/blog/2-0/css/style.default.622904dd.css"
         id="theme-stylesheet">
     <!--CSS overwrite-->
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="css/main.css">
 
 </head>
 
@@ -99,8 +106,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                                             <input type="password" id="password" name="password" class="form-control form-control-lg" required/>
                                         </div>
 
-                                        <div class="pt-1 mb-2">
+                                        <div class="pt-1 mb-2 d-flex flex-row ">
                                             <button class="btn btn-dark btn-lg py-2" type="submit">Login</button>
+                                            <div class="form-check ms-4 my-2">
+                                                <input class="form-check-input" type="checkbox" name="keeplogin" id="keepLogin">
+                                                <label class="form-check-label" for="keepLogin">
+                                                    Stay logged in
+                                                </label>
+                                            </div>
                                         </div>
 
                                         <a class="small text-muted d-block mb-2" href="#!">Forgot password?</a><br>
@@ -135,14 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 new Notyf().error("Username or password is incorrect.")
                 FAILEDLOGIN;
             }
-        ?>
+        ?>  
     </script>
 </body>
-
-<script>
-    //todo
-    //need to 判断 whether login info
-    //get info from database
-</script>
 
 </html>
