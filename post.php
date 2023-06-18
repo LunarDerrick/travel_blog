@@ -292,7 +292,7 @@ function timeago($timestamp) {
 
 foreach ($comments as $comment) {
     $displayname = htmlentities(
-        isset($post->realname) ? $post->realname: $post->username
+        isset($comment->realname) ? $comment->realname: $comment->username
     );
     $commenttext = htmlentities($comment->comment);
     // use function in helper_list_post
