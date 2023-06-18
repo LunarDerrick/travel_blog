@@ -195,7 +195,7 @@ function listProfilePostPreview($conn, $userid = null){
 
 function listLatestPostPreview($conn, $page = 1, $postPerPage = 6){
     $isIndex = false;
-    if ($postPerPage = 3) {
+    if ($postPerPage == 3) {
         $isIndex = true;
     }
     else {
@@ -212,7 +212,7 @@ function listLatestPostPreview($conn, $page = 1, $postPerPage = 6){
     // for pagination
     $postcount = (intval($page) - 1) * $postPerPage;
     $myquery .= " LIMIT $postcount, $postPerPage";
-
+    echo $myquery;
     $result = $conn->query($myquery);
     if ($result->num_rows){
         while($row = $result->fetch_object()) {
