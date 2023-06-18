@@ -4,6 +4,10 @@
 <?php
 require_once("init_db.php");
 require_once("init_session.php");
+
+include_once("helper_list_post.php");
+$page = isset($_GET["page"]) && !empty($_GET["page"]) ? intval($_GET["page"]) : 1;
+[$posts, $total] = listLatestPostPreview($conn, $page);
 ?>
 
 <head>
@@ -89,190 +93,10 @@ require_once("init_session.php");
             <section class="gallery-block cards-gallery">
                 <div class="container">
                     <div class="row">
-                        <!--New Zealand纽西兰-->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/new_zealand.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>New Zealand and its Railcar</h6>
-                                    <small class="blockquote-footer mt-0">by John Doe</small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">
-                                        Top country to visit. Must see.
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="post_NZ.php" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!--UK英国-->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/united_kingdom.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>The UK Travel Guide — by locals</h6>
-                                    <small class="blockquote-footer mt-0">by Mesh Transform</small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">Bus and building of the UK
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="post_UK.php" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!--korea韩国-->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/korea.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>Let's go to Korea next year?</h6>
-                                    <small class="blockquote-footer mt-0">by Satashi Moka</small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">Witness where your idol lives!
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!--brazil巴西-->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/brazil.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>Brazil - Next Fun location!</h6>
-                                    <small class="blockquote-footer mt-0">by Satashi Moka</small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">I wish I brought my football.
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!--japan日本-->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/japan.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>Japan</h6>
-                                    <small class="blockquote-footer mt-0">by Vivian Fox</small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">
-                                        Good place to visit! Lots of fun places to go.
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="#" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!--hawaii夏威夷-->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <img src="image/hawaii.jpg" alt="Card Image" class="card-img-top">
-                                </picture>
-                                <div class="card-body">
-                                    <!-- header and author -->
-                                    <h6>Hawaii 2023: Best Places to Visit</h6>
-                                    <small class="blockquote-footer mt-0">by Tripadvisor</small>
-                                    <br>
-                                    <!-- star rating -->
-                                    <div class="container mt-1">
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star checked"></span>
-                                        <span class="fa fa-star"></span>
-                                    </div>
-                                    <!-- caption -->
-                                    <p class="text-muted card-text">Swim your worries away
-                                    </p>
-                                    <!-- call to action, use stretched-link class to make whole card clickable-->
-                                    <a href="" class="btn btn-outline-primary btn-rounded px-3 py-1 stretched-link"><small>View post</small></a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <nav aria-label="Post list navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-                                <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-                                <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <?php 
+                            buildHTMLPostPreview($posts);
+                            buildHTMLPagination($total, $page);
+                        ?>
                     </div>
                 </div>
             </section>
