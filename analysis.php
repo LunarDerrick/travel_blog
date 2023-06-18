@@ -200,14 +200,6 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                 //data = JSON.parse(data); // parse data from JSON string into object
                 
                 var ratings = data["rating"];
-                // const possibleRatings = [1, 2, 3, 4, 5];
-                // // loop through each rating and add total = 0
-                // possibleRatings.forEach(rating => {
-                //     const hasRating = ratings.some(r => r.rating === rating);
-                //     if (!hasRating) {
-                //         ratings.push({ rating, total: 0 });
-                //     }
-                // });
                 // sort rating by ascending order
                 ratings.sort((a,b) => a.rating - b.rating);
                 var ratingtitle = ratings.map(rating => rating.rating + " star" + (rating.rating > 1 ? "s" : "")),
@@ -246,19 +238,16 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
 
 
                 var views = data["mostviews"];
-                var viewstitle = views.map(mostviews => mostviews.title + (mostviews.title > 1 ? "s" : "")),
+                var viewstitle = views.map(mostviews => mostviews.title),
                     viewcount = views.map(mostviews => mostviews.viewcount);
 
                 // vertical bar chart
                 new Chart("verticalBarChart", {
                     type: "bar",
                     data: {
-                        //labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
                         labels: viewstitle,
                         datasets: [{
-                            backgroundColor: ["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7"]
-,
-                            //data: [0, 0, 0, 0, 0, 0, 0] // y axis
+                            backgroundColor: ["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7"],
                             data: viewcount
                         }]
                     },
@@ -290,23 +279,18 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                 });
 
 
-
-
                 var avgrating = data["topposts"];
-                var viewstitle = avgrating.map(topposts => topposts.title + (topposts.title > 1 ? "s" : "")),
+                var viewstitle = avgrating.map(topposts => topposts.title),
                     avg_rating = avgrating.map(topposts => topposts.avg_rating);
-
 
                 // horizontal bar chart  avg_rating
                 new Chart("horizontalBarChart", {
                     type: 'bar',
                     data: {
-                        //labels: ["Japan", "Korea", "UK", "New Zealand"], // x axis
                         labels: viewstitle,
                         datasets: [{
-                                backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue", "deepskyblue"],
+                                backgroundColor: ["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7"],
                                 data: avg_rating // y axis
-                                //data: [4.667, 3.667, 3.667, 2.667] // y axis
                             }
                         ]
                     },
@@ -337,22 +321,48 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                     }
                 });
 
-
+                // Get the date 7 days ago
+                const date7DaysAgo = new Date();
+                date7DaysAgo.setDate(date7DaysAgo.getDate() - 7);
+                // Create an array of the last 7 dates
+                const last7Days = Array.from({ length: 7 }, (_, index) => {
+                    const currentDate = new Date();
+                    currentDate.setDate(date7DaysAgo.getDate() + index + 1);
+                    return currentDate.toISOString().slice(0, 10);
+                });
+                const last7DaysDisplay = Array.from({ length: 7 }, (_, index) => {
+                    const currentDate = new Date();
+                    currentDate.setDate(date7DaysAgo.getDate() + index + 1);
+                    return currentDate.toISOString().slice(5, 10);
+                });
 
                 var weeklyposts = data["postweek"];
-                var postdate = weeklyposts.map(postweek => postweek.postdate + (postweek.postdate > 1 ? "s" : "")),
-                    posttotal = weeklyposts.map(postweek => postweek.total);
+                var weeklypostarr = {};
+                weeklyposts.forEach(record => {
+                    const postDate = record.postdate;
+                    if (last7Days.includes(postDate)) {
+                        weeklypostarr[postDate] = record.total;
+                    }
+                });
 
+                var sortedPostTotal = [];
+                // Fill in missing counts with 0
+                last7Days.forEach(date => {
+                    if (!weeklypostarr[date]) {
+                        sortedPostTotal.push(0);
+                    } else {
+                        sortedPostTotal.push(weeklypostarr[date]);
+                    }
+                });
+                
                 // vertical bar chart 2
                 new Chart("verticalBarChart2", {
                     type: "bar",
                     data: {
-                        //labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
-                        labels: postdate,
+                        labels: last7DaysDisplay,
                         datasets: [{
-                            backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
-                            //data: [1, 1, 1, 1, 2, 4, 2] // y axis
-                            data: posttotal
+                            backgroundColor: ["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7"],
+                            data: sortedPostTotal
                         }]
                     },
                     options: {
@@ -388,20 +398,32 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
 
 
                 var comments = data["commentweek"];
-                //commentweek=comments.total_count*7;
-                var commentsdate = comments.map(commentweek => commentweek.commentdate + (commentweek.commentdate > 1 ? "s" : "")),
-                    commentstotal= comments.map(commentweek => commentweek.total_count);
+                var commentsarr = {};
+                comments.forEach(record => {
+                    const postDate = record.commentdate;
+                    if (last7Days.includes(postDate)) {
+                        commentsarr[postDate] = record.total_count;
+                    }
+                });
+
+                var sortedCommentTotal = [];
+                // Fill in missing counts with 0
+                last7Days.forEach(date => {
+                    if (!commentsarr[date]) {
+                        sortedCommentTotal.push(0);
+                    } else {
+                        sortedCommentTotal.push(commentsarr[date]);
+                    }
+                });
 
                 // vertical bar chart 2
                 new Chart("comments", {
                     type: "bar",
                     data: {
-                        //labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
-                        labels: commentsdate,
+                        labels: last7DaysDisplay,
                         datasets: [{
-                            backgroundColor: ["burlywood", "lightgreen", "deepskyblue", "lightsalmon", "wheat", "pink", "violet"],
-                            //data: [1, 1, 1, 1, 2, 4, 2] // y axis
-                            data: commentstotal
+                            backgroundColor: ["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7"],
+                            data: sortedCommentTotal
                         }]
                     },
                     options: {
@@ -434,66 +456,6 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                         }
                     }
                 });
-
-
-
-            /*    //Location fake
-                var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-                var yValues = [55, 49, 44, 24, 15];
-                var barColors = [
-                    "#b91d47",
-                    "#00aba9",
-                    "#2b5797",
-                    "#e8c3b9",
-                    "#1e7145"
-                ];
-
-                new Chart("Locations", {
-                    type: "doughnut",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                        }]
-                    },
-                    options: {
-                        title: {
-                            display: true,
-                            text: "World Wide Wine Production 2018"
-                        }
-                    }
-                });
-*/
-
-                /*
-               const xValues2 = [100,200,300,400,500,600,700];
-               const yValues2 = [20,25,30,35,40,45,50,55];
-              new Chart("ages", {
-                   type: "line",
-                   data: {
-                       labels: xValues2,
-                       datasets: [{
-                           fill: false,
-                           lineTension: 0,
-                           backgroundColor: "rgba(0,0,255,1.0)",
-                           borderColor: "rgba(0,0,255,0.1)",
-                           data: yValues2
-                       }]
-                   },
-                   options: {
-                       legend: {display: false},
-                       scales: {
-                           yAxes: [{ticks: {min: 6, max:16}}],
-                       },
-                       title: {
-                           display: true,
-                       }
-                   }
-               });*/
-
-
-
             })
         }
     </script>
