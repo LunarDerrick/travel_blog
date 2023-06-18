@@ -8,7 +8,7 @@ require_once("init_session.php");
 # only run if is get
 if ($_SERVER['REQUEST_METHOD'] !== 'GET'){
     # go back to previous page
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    header('Location: ' . (isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER'] : "."));
     die; # prevent if browser dont respect redirect
 }
 
@@ -17,7 +17,7 @@ if (
     !( isset($_GET["keyword"]) && isset($_GET["type"]) ) // no keyword n search type
 ){
     # go back to previous page
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    header('Location: ' . (isset($_SERVER['HTTP_REFERER'])? $_SERVER['HTTP_REFERER'] : "."));
     die; # prevent if browser dont respect redirect
 }
 
@@ -117,6 +117,17 @@ $page = intval($_GET["page"]);
             </div>
 
             <div class="container py-4">
+                <?php
+                // echo continent
+                    if(isset($_GET["continent"])){
+                        $continent = $_GET["continent"];
+                        unset($_GET["continent"]);
+                        $linkWithoutContinent = "?" . http_build_query($_GET);
+                        echo '<span class="mx-2">You are searching in the continent of ' . htmlentities($continent) . '.
+                        <a href="' . $linkWithoutContinent . '" aria-label="Remove limitation of searching in continent"><i class="fa fa-solid fa-xmark"></i></a>
+                        </span>';
+                    }
+                ?>
                 <form class="d-flex m-2" action="" method="get">
                     <input class="form-control" type="search" id="search-term" name="keyword" placeholder="Search posts" aria-label="Search" 
                     value="<?php echo htmlentities(
