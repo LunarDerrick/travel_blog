@@ -129,6 +129,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                         </div>
 
 
+                        <!--FAKE Location-->
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
                                 <picture>
@@ -139,6 +140,20 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                 </div>
                             </div>
                         </div>
+
+
+                        <!--FAKE age-->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 transform-on-hover">
+                                <picture>
+                                    <canvas id="ages" style="width:100%;max-width:335px"></canvas>
+                                </picture>
+                                <div class="card-body">
+                                    <h6><a href="#" class="stretched-link">Age and views </a></h6>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </section>
@@ -380,6 +395,36 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                         }
                     }
                 });
+
+
+                const xValues2 = [100,200,300,400,500,600,700];
+                const yValues2 = [20,25,30,35,40,45,50,55];
+
+                new Chart("ages", {
+                    type: "line",
+                    data: {
+                        labels: xValues2,
+                        datasets: [{
+                            fill: false,
+                            lineTension: 0,
+                            backgroundColor: "rgba(0,0,255,1.0)",
+                            borderColor: "rgba(0,0,255,0.1)",
+                            data: yValues2
+                        }]
+                    },
+                    options: {
+                        legend: {display: false},
+                        scales: {
+                            yAxes: [{ticks: {min: 6, max:16}}],
+                        },
+                        title: {
+                            display: true,
+                        }
+                    }
+                });
+
+
+
             })
         }
     </script>
