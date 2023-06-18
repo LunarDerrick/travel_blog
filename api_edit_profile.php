@@ -17,16 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
 # verify info
 foreach (["username", "name", "email"] as $check) {
     if (empty($_POST[$check])){
-        # go back to previous page
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        die; # prevent if browser dont respect redirect
+        JSONresponse(403, ["message" => "Profile is missing username, real name or email."]);
+        die;
     }
 }
 
 $stmt = $conn->prepare("SELECT userid, username, password FROM users WHERE userid=? LIMIT 1");
 $stmt->bind_param("i", $userid);
 if (!$stmt->execute()){
-    http_response_code(500);
+    JSONresponse(500, ["message" => "Some error happened."]);
     die;
 }
 $result = $stmt->get_result();
@@ -75,7 +74,7 @@ if (file_exists($uploadedFilePath) && $_FILES["image"]["error"] == 0) {
     // move uploaded file to destination
     if (!move_uploaded_file($_FILES["image"]["tmp_name"], $image_path)){
         // failed to move
-        JSONresponse(500, ["error" => "Upload failed"]);
+        JSONresponse(500, ["message" => "Upload failed"]);
         die;
     }
 }
@@ -120,12 +119,11 @@ if(isset($image_path)){
 
     $query -> bind_param("ssssssi", 
     $profilevar["username"], $profilevar["newpassword"], $profilevar["message"], $profilevar["name"], $profilevar["email"], $profilevar["tel"], $userid);
-    
 }
 
 if ($query -> execute()){
     // form header for redirect
-    header("Location: my_profile.php?done=1");
+    JSONresponse(200, ["message" => "Your profile is updated."]);
 
     // another method to send POST data
     // echo '<form id="redirect" action="my_posts.php" method="post">';
@@ -137,5 +135,5 @@ if ($query -> execute()){
     // </script>
     // TEXT;
 } else {
-    http_response_code(500);
+    JSONresponse(500, ["message" => "Some error happened."]);
 }

@@ -93,7 +93,7 @@ $userinfo = $result->fetch_assoc();
                 </p>
             </div>
 
-            <form action="api_edit_profile.php" method="post" class="section-content" enctype='multipart/form-data'>
+            <form id="formProfile" class="section-content" enctype='multipart/form-data'>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-9">
@@ -159,7 +159,7 @@ $userinfo = $result->fetch_assoc();
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <input type="submit" value="Save" class="btn btn-dark py-3 px-5" id="sub">
+                            <input type="submit" value="Save" class="btn btn-dark py-3 px-5">
                         </div>
                     </div>
                     <br>
@@ -194,6 +194,7 @@ $userinfo = $result->fetch_assoc();
 </body>
 
 <script>
+    const notyf = new Notyf();
     // show image preview when choosing image
     document.getElementById("image").onchange = evt => {
         const [file] = document.getElementById("image").files
@@ -202,17 +203,32 @@ $userinfo = $result->fetch_assoc();
         }
     }
 
-    //need to save to DB
-    document.getElementById("sub").onclick = function (){
-        //todo later do
+    //submit form with AJAX
+    let formProfile = document.forms[0]
+    formProfile.onsubmit = (e) => {
+        // do not use built in formsubmit
+        e.preventDefault();
+        // send data from api
+        try{
+            fetch('api_edit_profile.php', {
+                method: 'POST',
+                body: new FormData(formProfile)
+            }).then((response) => response.json())
+            .then((response) => {
+                if (response.OK)
+                    notyf.success(response.message);
+                else
+                    notyf.error(response.data.message);
+            });
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     function checkUsernameUsed() {
             var username = document.getElementById("username").value;
-            console.log(username)
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
-                console.log(this);
                 if (this.readyState == 4 && this.status == 406) {
                     // show username taken warning by removing bootstrap d-none class
                     document.getElementById("username-warning").classList.remove("d-none");
@@ -229,19 +245,4 @@ $userinfo = $result->fetch_assoc();
         }
 </script>
 
-    <?php
-    // echo popup if successfully add posts
-    if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-        // if get variable has done=1 and page come from add_post.php or edit_post.php
-        if ( isset($_GET['done']) 
-        && intval($_GET['done']) 
-        && (
-            // if the page redirect from url                            equals the url of the current page
-            parse_url(basename($_SERVER['HTTP_REFERER']), PHP_URL_PATH) == parse_url(basename($_SERVER['REQUEST_URI']), PHP_URL_PATH)
-        ) ){
-            // display toast
-            echo '<script>new Notyf().success("Succesfully updated profile information.")</script>';
-        }
-    }
-    ?>
 </html>
