@@ -3,6 +3,7 @@
 
 <?php
 require_once("init_db.php");
+require_once("helper_userinfo.php");
 # only run if is set
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     # verify info
@@ -30,16 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         die; # prevent if browser dont respect redirect
     }
 
+    do{
     // insert new record into database
     // generate a unique id, but have to shorten it
-    $id = intval(substr(hash("SHA256", uniqid('', true)), -8, 8), 16);
+    $id = intval(substr(hash("SHA256", uniqid('', true)), -12, 6), 16);
     
     $stmt = $conn->prepare("INSERT INTO users (userid, username, password, realname, email) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $id, $username, $password, $personname, $email);
-    if (!$stmt->execute()){
-        http_response_code(500);
-        die;
-    }
+    } while (!$stmt->execute());
 
     require_once("init_session.php");
     # correct password

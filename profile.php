@@ -154,7 +154,7 @@ $page = intval($_GET["page"]);
             <div class="container section-title row">
                 <div class="col-2">
                     <picture class="author-pfp">
-                        <?php echo isset($data['profilepic']) ? 
+                        <?php echo isset($userinfo->profilepic) ? 
                             '<img src="'.$userinfo->profilepic.'" class="img-fluid" alt="...">' // photo 1
                             : 
                             '<img src="image/profile_man.jpeg" class="img-fluid" alt="...">'; // photo 2

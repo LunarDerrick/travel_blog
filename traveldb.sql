@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2023 at 04:46 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Jun 18, 2023 at 04:29 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,9 +41,18 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`userid`, `postid`, `commenttime`, `comment`) VALUES
+(123456789, 19, 1687095941714, 'I agree with him, this is my best experience yet!'),
+(123456789, 22, 1687096041551, 'This makes me want to learn Japanese and immerse myself more into the Japan culture!'),
+(151567889, 19, 1687093576359, 'You are right, the sight is awesome!'),
 (151567889, 20, 0, 'I visited Stonehenge and although the site was impressive, I was disappointed with the limited access and the crowd. It felt a bit rushed and I wish there were more information boards explaining the history. Overall, an okay experience.'),
 (151567889, 21, 0, 'I found the public transportation in Seoul to be quite confusing. The subway system was difficult to navigate, and the lack of English signage made it even more challenging. Additionally, the crowded buses during peak hours were uncomfortable. It took away from the overall travel experience.'),
 (151567889, 22, 0, 'My visit to Tokyo was a mixed experience. The city\'s vibrant energy and modern attractions were captivating, but I found the high prices and crowded streets to be overwhelming. The cultural sites, such as Meiji Shrine, offered a more serene escape. Overall, a diverse destination with some drawbacks.'),
+(234567891, 19, 1687098111163, 'Bet you guys didn\'t check out the kiwi bird. You\'re missing out a lot if you didn\'t visit the zoo here!'),
+(234567891, 20, 1687097997676, 'It\'s a cool place, like actually cold kind of cool. It\'s fun as well!'),
+(234567891, 21, 1687097872845, 'I’m like TT, just like TT\nireon nae mam moreugo neomuhae neomuhae\nI’m like TT, just like TT\nTell me that you’d be my baby'),
+(234567891, 22, 1687097717613, 'I want to visit Kinkaku-ji and the Honnō-ji and the Sensō-ji! So many places to go, so little of time ;-;'),
+(234567891, 23, 1687097586796, 'It\'s too hot here, be prepared to sweat a lot!'),
+(573006510, 19, 1687093693277, 'I know right? I want to go to New Zealand again!'),
 (573006510, 20, 0, 'The hotel I stayed at in Manchester was decent. The room was clean and comfortable, but the service was a bit slow. The location was convenient, but the noise from the nearby street was a bit bothersome. It was an average stay, nothing extraordinary'),
 (573006510, 21, 0, 'The shopping in Myeongdong was decent, but I found it to be too crowded for my liking. The streets were packed with people, and it was challenging to navigate through the crowds. Additionally, some of the shops were repetitive, offering similar products. An average shopping experience.'),
 (573006510, 22, 0, 'Hiroshima was a thought-provoking destination. The Peace Memorial Park and Museum were powerful reminders of the city\'s history. The only reason I\'m giving it 4 stars instead of 5 is that some parts of the museum were crowded, limiting the viewing experience. A significant historical site to visit.'),
@@ -76,10 +85,12 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`postid`, `userid`, `title`, `caption`, `content`, `location`, `continent`, `image`, `tag`, `createdtime`, `viewcount`) VALUES
-(19, 151567889, 'New Zealand and its Railcar', 'Top country to visit. Must see.', 'New Zealand is known for its stunning _natural landscapes_, and one of the best ways to see them is by railcar. The country\'s rail system offers a unique way to travel, allowing visitors to take in the beauty of the countryside while also enjoying a comfortable and relaxing ride.\r\n\r\n#### **My journey there**\r\n\r\nMy journey through New Zealand began in Auckland, the country\'s largest city. From there, I hopped on the Northern Explorer, a train that takes passengers on a scenic journey through the heart of the North Island. The train was comfortable and well-appointed, with large windows that offered stunning views of the surrounding countryside.\r\n\r\nAs we made our way south, the scenery changed from lush forests to rolling hills, and eventually to the rugged coastline. Along the way, we passed through small towns and villages, each with its own unique charm and character. I particularly enjoyed the stop in the town of National Park, which is located near the Tongariro National Park. The scenery here was simply breathtaking, with snow-capped mountains and crystal-clear lakes stretching as far as the eye could see.\r\n\r\n#### **Second day**\r\n\r\nAfter a night in National Park, I continued south on the train to Wellington, the capital of New Zealand. This leg of the journey was equally scenic, with the train winding its way through the mountains and along the coast. The train was equipped with comfortable seating and a dining car, where I was able to enjoy a delicious meal while taking in the stunning views.\r\n\r\n#### **My thoughts**\r\n\r\nOverall, my experience traveling through New Zealand on a railcar was unforgettable. The scenery was stunning, the train was comfortable and well-appointed, and the people I met along the way were friendly and welcoming. I would highly recommend this mode of travel to anyone looking to explore the natural beauty of New Zealand in a unique and memorable way.', 'New Zealand', 'Europe', 'uploads/f542793d2fbd3436b90abd6e92730bf0ab832298.jpg', 'New Zealand,happy,visit,railcar', 1686752018960, 0),
-(20, 151567889, 'The UK Travel Guide -- by locals', 'Bus and building of the UK', 'UK content', 'United Kingdom', 'Europe', 'image\\united_kingdom.jpg', 'UK', 0, 0),
-(21, 151567889, 'Let\'s go to Korea next year?', 'Witness where your idol lives!', 'Korea content', 'Korea', 'Asia', 'image\\korea.jpg', 'Korea', 0, 0),
-(22, 151567889, 'Japan', 'Good place to visit! Lots of fun places to go.', 'Japan content', 'Japan', 'Japan', 'image\\japan.jpg', 'Japan', 0, 0);
+(19, 151567889, 'New Zealand and its Railcar', 'Top country to visit. Must see.', 'New Zealand is known for its stunning _natural landscapes_, and one of the best ways to see them is by railcar. The country\'s rail system offers a unique way to travel, allowing visitors to take in the beauty of the countryside while also enjoying a comfortable and relaxing ride.\r\n\r\n#### **My journey there**\r\n\r\nMy journey through New Zealand began in Auckland, the country\'s largest city. From there, I hopped on the Northern Explorer, a train that takes passengers on a scenic journey through the heart of the North Island. The train was comfortable and well-appointed, with large windows that offered stunning views of the surrounding countryside.\r\n\r\nAs we made our way south, the scenery changed from lush forests to rolling hills, and eventually to the rugged coastline. Along the way, we passed through small towns and villages, each with its own unique charm and character. I particularly enjoyed the stop in the town of National Park, which is located near the Tongariro National Park. The scenery here was simply breathtaking, with snow-capped mountains and crystal-clear lakes stretching as far as the eye could see.\r\n\r\n#### **Second day**\r\n\r\nAfter a night in National Park, I continued south on the train to Wellington, the capital of New Zealand. This leg of the journey was equally scenic, with the train winding its way through the mountains and along the coast. The train was equipped with comfortable seating and a dining car, where I was able to enjoy a delicious meal while taking in the stunning views.\r\n\r\n#### **My thoughts**\r\n\r\nOverall, my experience traveling through New Zealand on a railcar was unforgettable. The scenery was stunning, the train was comfortable and well-appointed, and the people I met along the way were friendly and welcoming. I would highly recommend this mode of travel to anyone looking to explore the natural beauty of New Zealand in a unique and memorable way.', 'New Zealand', 'Europe', 'uploads/f542793d2fbd3436b90abd6e92730bf0ab832298.jpg', 'New Zealand,happy,visit,railcar', 1686752018960, 7),
+(20, 151567889, 'The UK Travel Guide -- by locals', 'Bus and building of the UK', 'Mysterious and compelling, Stonehenge is England\'s most iconic ancient site. People have been drawn to this myth-laden ring of boulders for more than 5000 years, and we still don\'t know quite why it was built. Just what were ancient Britons playing at when they hauled these giant stones into place all those millennia ago? Stonehenge, on Salisbury Plain near Amesbury, is a monumental, undeniably mind-boggling achievement.', 'United Kingdom', 'Europe', 'uploads/50681fb22f2eb30f638bd478de4b1b10ae409387aa80ca8a49757103131eddfa.jpg', 'UK', 1686752018960, 7),
+(21, 151567889, 'Let\'s go to Korea next year?', 'Witness where your idol lives!', 'Going up the Namsan Tower in Seoul is one of the top things to do in South Korea for many travelers.\r\n\r\nYou do have to do quite a bit of hiking before you reach the lifts that take you up to the top of the tower.\r\n\r\nWhen you reach the top you will see an area full of locks! They are locks of love and thousands of people have left a lock for their loved ones up there.\r\n\r\nThere’s a separate lift that will take you even further up the tower where you can have a fancy dinner overlooking the entire city at the revolving restaurant. It’s beautiful! The restaurant is not cheap as you can imagine, but if it fits your budget it’s well worth it. ', 'Korea', 'Asia', 'uploads/2d880b230b47ae446abdaed6ecef966f7c104c180ca82a686446c9f85f843243.jpg', 'Korea', 1686752018960, 7),
+(22, 151567889, 'Japan', 'Good place to visit! Lots of fun places to go.', 'Soaking in a remote onsen while the snow falls around you is one of the most magical experiences you can have in Japan, and makes braving the cold all the more worthwhile. It’s one of our favorite things about winter in Japan.\r\n\r\nCombined with a stay in a traditional ryokan (Japanese-style inn), and you have all the makings of an unforgettable trip. For more ryokan inspiration, see our Luxury Ryokans & the Japanese Countryside sample trip.', 'Japan', 'Japan', 'uploads/4fee7990f63a47786f13d807c71a990e1caaa9aaace0d40993fa5893b854acd3.jpg', 'Japan', 1686752018960, 7),
+(23, 123456789, 'Sawadeekap Thailand!', 'Enjoy your tropical holidays here!', 'One of the most recommended things to do on your Bangkok holiday is visiting the Floating Markets. Have a delightful experience of sailing to one of the floating markets near Bangkok in those charming boats where you can shop local fruits and souvenirs and feast upon authentic Thai cuisine in one of the floating restaurants in the market. Taling Chan and Khlong Lat Mayom are two of the floating markets within Bangkok city limits.', 'Thailand', 'Asia', 'uploads/3f86f9d97f5a02861c52777fa5cf32836f0ba9f1.jpg', 'Thailand', 1687096753740, 3),
+(24, 234567891, 'Expect the Unexpected Indonesia', 'explore the beauty Indonesia has to offer!', 'I do not know if you\'ve had the opportunity to dive, but believe me: it\'s an otherworldly experience. I am not the most experienced diver, but I have done dives in Thailand, Fiji, Australia and several other countries. However, it was on the island of [**alor**](https://www.indonesia.travel/gb/en/destinations/bali-nusa-tenggara/alor-island) that I found my favorite diving spot. The Anemone Valley is simply the location with the highest concentration of anemones, and consequently clown fish. No words to describe!', 'Indonesia', 'Asia', 'uploads/77fb1917192c2eba4d06d68dc0d21819c0f9ccdc.jpg', 'Indonesia', 1687098298551, 1);
 
 -- --------------------------------------------------------
 
@@ -98,9 +109,17 @@ CREATE TABLE `ratings` (
 --
 
 INSERT INTO `ratings` (`userid`, `postid`, `rating`) VALUES
+(123456789, 20, 3),
+(123456789, 21, 4),
+(123456789, 22, 5),
+(123456789, 23, 3),
 (151567889, 20, 3),
 (151567889, 21, 4),
 (151567889, 22, 5),
+(234567891, 20, 3),
+(234567891, 21, 3),
+(234567891, 22, 5),
+(234567891, 23, 1),
 (573006510, 20, 2),
 (573006510, 21, 3),
 (573006510, 22, 4),
@@ -131,9 +150,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userid`, `username`, `password`, `profilepic`, `profileintro`, `realname`, `email`, `telno`, `token`) VALUES
-(151567889, 'test', '$2y$12$fjGir6yr2LtvY.6p/QmauODakN89ZhBR8.UelDNbT1/ZqUKMJqNYy', NULL, NULL, 'Tester', 'test@gmail.com', NULL, NULL),
+(123456789, 'derrick_phang', '$2a$12$NLvUlEh8KBjXhy770j.oAOjWqiI14HC4aM/ZExCXrY6XEvM220hD.', 'uploads/a321df2d5e905638a47176c5d418afe6078ca6ac.jpg', 'a coder and a traveler.', 'Phang', 'phang@email.com', '019-8765432', NULL),
+(151567889, 'test', '$2y$12$fjGir6yr2LtvY.6p/QmauODakN89ZhBR8.UelDNbT1/ZqUKMJqNYy', 'uploads/cb56752477cae6405f85b131872c60d21b967c6a.jpg', NULL, 'Tester', 'test@gmail.com', NULL, NULL),
+(234567891, 'bryan_phang', '$2a$12$/cN0FHpgebsidiF4xk.oYO.j4H600GqCh5xPOLUv1VUxJAiDLtS2y', 'uploads/aaec5a8dfdcc991b6f7be67860fb291a4d61c4b6.jpg', 'happy-go-lucky, sunshine everywhere~', 'Bryan', 'bryan@email.com', '013-4567892', NULL),
 (573006510, 'test2', '$2y$12$ksHGI7zzfMyxvlR61N90xezemN5fvQoDoC2xY99WagSaaZl19zvJu', NULL, NULL, 'Test2', 'test@gmail.co', NULL, NULL),
-(2147483647, 'test3', '$2y$12$uSaw8pg6UXH7HpQsXmTxDegi6L1YrdzZ2vFiAIJt4QUHNp.v69lw.', NULL, NULL, 'Test3', 'abc@xyz.co', NULL, NULL);
+(2147483647, 'test3', '$2y$12$uSaw8pg6UXH7HpQsXmTxDegi6L1YrdzZ2vFiAIJt4QUHNp.v69lw.', 'uploads/e5ad2c3df87061a3f41aae84e2343dfc84d34be6.jpg', 'I like to travel around the world during my holidays!', 'Test3', 'abc@xyz.co', '012-3456789', NULL);
 
 --
 -- Indexes for dumped tables
@@ -174,7 +195,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postid` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `postid` int(128) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables
