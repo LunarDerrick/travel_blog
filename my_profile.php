@@ -121,7 +121,7 @@ $userinfo = $result->fetch_assoc();
                                 </div>
                                 <div class="col-md-6 form-label">
                                     <label for="tel"><b>Tel. Number</b></label>
-                                    <input type="text" id="tel" name="tel" class="form-control" minlength="10" value="<?php echo htmlentities($userinfo['telno']); ?>">
+                                    <input type="tel" id="tel" name="tel" class="form-control" minlength="10" value="<?php echo htmlentities($userinfo['telno']); ?>">
                                 </div>
                             </div>
                             <div class="row">

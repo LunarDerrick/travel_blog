@@ -103,7 +103,7 @@ require_once("init_session.php");
                         </div>
                         <div class="col-md-6 form-label">
                             <label for="tel"><b>Tel. Number</b></label>
-                            <input type="text" id="tel" name="tel" class="form-control" minlength="10" required>
+                            <input type="tel" id="tel" name="tel" class="form-control" minlength="10" required>
                         </div>
                     </div>
                     <div class="row">
