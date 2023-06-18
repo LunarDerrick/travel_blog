@@ -130,16 +130,17 @@ $userinfo = $result->fetch_assoc();
                                     <textarea id="message" name="message" rows="4" class="form-control"><?php echo htmlentities($userinfo['profileintro']); ?></textarea>
                                 </div>
                             </div>
-                            <span>Leave blank if you do not want to change password.</span>
                             <div class="row">
+                                <span>Leave blank if you do not want to change password.</span>
                                 <div class="col-md-6 form-label">
                                     <label for="oldpassword"><b>Old Password</b></label>
                                     <input type="password" id="oldpassword" name="oldpassword" class="form-control">
                                 </div>
                                 <div class="col-md-6 form-label">
                                     <label for="newpassword"><b>New Password</b></label>
-                                    <input type="password" id="newpassword" name="newpassword" class="form-control">
+                                    <input type="password" id="newpassword" name="newpassword" class="form-control" onchange="requireOldPassword()">
                                 </div>
+                                <span id="require-password-warning" class="text-warning d-none">Please provide your current password when changing username or password.</span>
                             </div>
                         </div>
                         <div class="col-md-3 form-label float-md-end">
@@ -215,9 +216,13 @@ $userinfo = $result->fetch_assoc();
                 body: new FormData(formProfile)
             }).then((response) => response.json())
             .then((response) => {
-                if (response.OK)
+                if (response.OK) {
                     notyf.success(response.message);
-                else
+                    // reset password field after submit, dont require change
+                    document.getElementById("oldpassword").value = null
+                    document.getElementById("oldpassword").removeAttribute("required")
+                    document.getElementById("newpassword").value = null
+                } else
                     notyf.error(response.data.message);
             });
         } catch (e) {
@@ -225,24 +230,41 @@ $userinfo = $result->fetch_assoc();
         }
     }
 
+    var usernameField = document.getElementById("username")
+    const originalUsername = usernameField.value
     function checkUsernameUsed() {
-            var username = document.getElementById("username").value;
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 406) {
-                    // show username taken warning by removing bootstrap d-none class
-                    document.getElementById("username-warning").classList.remove("d-none");
-                    // set invalid state
-                    document.getElementById("username").setCustomValidity('Username is taken');
-                } else if (this.readyState == 4 && this.status == 202) {
-                    document.getElementById("username-warning").classList.add("d-none");
-                    document.getElementById("username").setCustomValidity('');
-                }
-            };
-            xhttp.open("POST", "api_userinfo.php", true);
-            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhttp.send("usernameverify="+username);
+        var username = usernameField.value;
+        if (username == originalUsername){
+            // username no change, dont show warning
+            document.getElementById("oldpassword").removeAttribute("required")
+            document.getElementById("require-password-warning").classList.add("d-none");
+            // do not do ajax request to check username available coz same username
+            return
         }
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 406) {
+                // show username taken warning by removing bootstrap d-none class
+                document.getElementById("username-warning").classList.remove("d-none");
+                // set invalid state
+                document.getElementById("username").setCustomValidity('Username is taken');
+            } else if (this.readyState == 4 && this.status == 202) {
+                document.getElementById("username-warning").classList.add("d-none");
+                document.getElementById("username").setCustomValidity('');
+                // require password if username is changed
+                requireOldPassword()
+            }
+        };
+        xhttp.open("POST", "api_userinfo.php", true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.send("usernameverify="+username);
+    }
+    
+    function requireOldPassword(){
+        // set to require password
+        document.getElementById("oldpassword").setAttribute("required", true)
+        document.getElementById("require-password-warning").classList.remove("d-none");
+    }
 </script>
 
 </html>
