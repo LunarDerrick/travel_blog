@@ -89,27 +89,27 @@ require_once("init_session.php");
                     <div class="row">
                         <div class="col-md-6 form-label">
                             <label for="fname"><b>First Name</b></label>
-                            <input type="text" id="fname" class="form-control" required>
+                            <input type="text" id="fname" name="firstname" class="form-control" required>
                         </div>
                         <div class="col-md-6 form-label">
                             <label for="lname"><b>Last Name</b></label>
-                            <input type="text" id="lname" class="form-control" required>
+                            <input type="text" id="lname" name="lastname" class="form-control" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 form-label">
                             <label for="email"><b>Email address</b></label>
-                            <input type="text" id="email" class=" form-control" required>
+                            <input type="text" id="email" name="email" class=" form-control" required>
                         </div>
                         <div class="col-md-6 form-label">
                             <label for="tel"><b>Tel. Number</b></label>
-                            <input type="text" id="tel" class="form-control" required>
+                            <input type="text" id="tel" name="tel" class="form-control" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-label">
                             <label for="message"><b>Message</b></label>
-                            <textarea id="message" rows="10" class="form-control"></textarea>
+                            <textarea id="message" rows="10" name="message" class="form-control" required></textarea>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -139,7 +139,33 @@ require_once("init_session.php");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" crossorigin="anonymous">
+    <!-- items for notification toast -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
 </body>
-
+<script>
+    const notyf = new Notyf();
+    //submit form with AJAX
+    let formProfile = document.forms[0]
+    formProfile.onsubmit = (e) => {
+        // do not use built in formsubmit
+        e.preventDefault();
+        // send data from api
+        try{
+            fetch('api_contact.php', {
+                method: 'POST',
+                body: new FormData(formProfile)
+            }).then((response) => response.json())
+            .then((response) => {
+                if (response.OK) {
+                    notyf.success(response.message);
+                } else
+                    notyf.error(response.data.message);
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+</script>
 </html>

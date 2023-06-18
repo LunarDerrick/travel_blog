@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2023 at 04:55 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jun 18, 2023 at 05:58 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -69,6 +69,22 @@ INSERT INTO `comments` (`userid`, `postid`, `commenttime`, `comment`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `contact`
+--
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `telno` varchar(16) NOT NULL,
+  `message` text NOT NULL,
+  `userid` int(128) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `posts`
 --
 
@@ -95,7 +111,7 @@ INSERT INTO `posts` (`postid`, `userid`, `title`, `caption`, `content`, `locatio
 (20, 151567889, 'The UK Travel Guide -- by locals', 'Bus and building of the UK', 'Mysterious and compelling, Stonehenge is England\'s most iconic ancient site. People have been drawn to this myth-laden ring of boulders for more than 5000 years, and we still don\'t know quite why it was built. Just what were ancient Britons playing at when they hauled these giant stones into place all those millennia ago? Stonehenge, on Salisbury Plain near Amesbury, is a monumental, undeniably mind-boggling achievement.', 'United Kingdom', 'Europe', 'uploads/50681fb22f2eb30f638bd478de4b1b10ae409387aa80ca8a49757103131eddfa.jpg', 'UK', 1686752018960, 8),
 (21, 151567889, 'Let\'s go to Korea next year?', 'Witness where your idol lives!', 'Going up the Namsan Tower in Seoul is one of the top things to do in South Korea for many travelers.\r\n\r\nYou do have to do quite a bit of hiking before you reach the lifts that take you up to the top of the tower.\r\n\r\nWhen you reach the top you will see an area full of locks! They are locks of love and thousands of people have left a lock for their loved ones up there.\r\n\r\nThere’s a separate lift that will take you even further up the tower where you can have a fancy dinner overlooking the entire city at the revolving restaurant. It’s beautiful! The restaurant is not cheap as you can imagine, but if it fits your budget it’s well worth it. ', 'Korea', 'Asia', 'uploads/2d880b230b47ae446abdaed6ecef966f7c104c180ca82a686446c9f85f843243.jpg', 'Korea', 1686752018960, 8),
 (22, 151567889, 'Japan', 'Good place to visit! Lots of fun places to go.', 'Soaking in a remote onsen while the snow falls around you is one of the most magical experiences you can have in Japan, and makes braving the cold all the more worthwhile. It’s one of our favorite things about winter in Japan.\r\n\r\nCombined with a stay in a traditional ryokan (Japanese-style inn), and you have all the makings of an unforgettable trip. For more ryokan inspiration, see our Luxury Ryokans & the Japanese Countryside sample trip.', 'Japan', 'Japan', 'uploads/4fee7990f63a47786f13d807c71a990e1caaa9aaace0d40993fa5893b854acd3.jpg', 'Japan', 1686752018960, 8),
-(23, 123456789, 'Sawadeekap Thailand!', 'Enjoy your tropical holidays here!', 'One of the most recommended things to do on your Bangkok holiday is visiting the Floating Markets. Have a delightful experience of sailing to one of the floating markets near Bangkok in those charming boats where you can shop local fruits and souvenirs and feast upon authentic Thai cuisine in one of the floating restaurants in the market. Taling Chan and Khlong Lat Mayom are two of the floating markets within Bangkok city limits.', 'Thailand', 'Asia', 'uploads/3f86f9d97f5a02861c52777fa5cf32836f0ba9f1.jpg', 'Thailand', 1687096753740, 4),
+(23, 123456789, 'Sawadeekap Thailand!', 'Enjoy your tropical holidays here!', 'One of the most recommended things to do on your Bangkok holiday is visiting the Floating Markets. Have a delightful experience of sailing to one of the floating markets near Bangkok in those charming boats where you can shop local fruits and souvenirs and feast upon authentic Thai cuisine in one of the floating restaurants in the market. Taling Chan and Khlong Lat Mayom are two of the floating markets within Bangkok city limits.', 'Thailand', 'Asia', 'uploads/3f86f9d97f5a02861c52777fa5cf32836f0ba9f1.jpg', 'Thailand', 1687096753740, 5),
 (24, 234567891, 'Expect the Unexpected Indonesia', 'explore the beauty Indonesia has to offer!', 'I do not know if you\'ve had the opportunity to dive, but believe me: it\'s an otherworldly experience. I am not the most experienced diver, but I have done dives in Thailand, Fiji, Australia and several other countries. However, it was on the island of [**alor**](https://www.indonesia.travel/gb/en/destinations/bali-nusa-tenggara/alor-island) that I found my favorite diving spot. The Anemone Valley is simply the location with the highest concentration of anemones, and consequently clown fish. No words to describe!', 'Indonesia', 'Asia', 'uploads/77fb1917192c2eba4d06d68dc0d21819c0f9ccdc.jpg', 'Indonesia', 1687098298551, 2),
 (25, 345678912, 'Egypt: The Golden Dunes', 'Top 8 Unsolved Mysteries', 'The [pyramids](https://www.touristegypt.com/giza-pyramids/) are at the top of everyone’s bucket list, but exploring the plateau on horseback is really something else. Horses have been a large part of Egyptian life since around 1700 BC, and were traditionally used for chariots. Additionally, they were viewed as an expression of power and romance. Visiting on horseback means uninterrupted peace. With a clear view of the pyramids and tourists miles from sight, there’s no better way to soak up Egypt. Consider this excursion before or after your [Best of Ancient Cairo Tour](https://www.touristegypt.com/tours/best-of-ancient-cairo-tour/).', 'Egypt', 'Africa', 'uploads/84c4f0b2da532a16d3dd823b9cd9e7c1941b31b6.jpg', 'Egypt', 1687099931839, 1);
 
@@ -181,6 +197,12 @@ ALTER TABLE `comments`
   ADD KEY `postid_comments` (`postid`);
 
 --
+-- Indexes for table `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `posts`
 --
 ALTER TABLE `posts`
@@ -203,6 +225,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `posts`
