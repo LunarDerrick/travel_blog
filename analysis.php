@@ -133,7 +133,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
                                 <picture>
-                                    <canvas id="Locations" style="width:100%;max-width:600px"></canvas>
+                                    <canvas id="Locations" style="width:100%;max-width:220px"></canvas>
                                 </picture>
                                 <div class="card-body">
                                     <h6><a href="#" class="stretched-link">Location </a></h6>

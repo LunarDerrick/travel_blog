@@ -80,6 +80,32 @@ if (!isset($_SESSION["postviewcount"][$postid])){
         die;
     }
 }
+
+$userid = $_SESSION["userid"];
+
+// get user info
+$stmt = $conn->prepare("SELECT userid, profilepic
+ FROM users
+ WHERE userid=?");
+$stmt->bind_param("i", $userid);
+if (!$stmt->execute()){
+    http_response_code(500);
+    die;
+}
+$result = $stmt->get_result();
+if ($row = $result->fetch_object()){
+    $userinfo = $row;
+} else {
+    if ($result->num_rows == 0){
+        // no matching userid
+        http_response_code(404);
+        include('404.php'); // provide your own HTML for the error page
+        die();
+    } else {
+        http_response_code(500);
+        die();
+    }
+}
 ?>
 
 <head>
@@ -290,7 +316,13 @@ foreach ($comments as $comment) {
                 <div class="comment-box py-3 overflow-hidden">
                     <div class="row d-flex flex-row">
                         <div class="comment-user col mx-2 d-flex">
-                            <div class="user-image"><img src="image/profile_woman.jpg" alt="woman"></div>
+                            <div class="user-image">
+                                <?php echo isset($userinfo->profilepic) ? 
+                                '<img src="'.$userinfo->profilepic.'" alt="...">' // photo 1
+                                : 
+                                '<img src="image/profile_woman.jpg" alt="woman">'; // photo 2
+                                ?>
+                            </div>
                             <div class="name"><?php echo htmlentities($_SESSION["username"]); ?></div>
                         </div>
                         

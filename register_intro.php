@@ -3,6 +3,7 @@
 
 <?php
 require_once("init_db.php");
+include("helper_userinfo.php");
 # only run if is set
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     # verify info
