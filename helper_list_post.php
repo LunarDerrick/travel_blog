@@ -89,7 +89,7 @@ function buildHTMLPagination($totalPosts, $currentPage = 1, $postsPerPage = 6, $
     unset($get["page"]);
     $newPagestart = "?" . http_build_query($get) . "&page=";
     
-    $prev = $newPagestart . strval($currentPage - 1);
+    $prev = ($currentPage - 1) >= 1 ? $newPagestart . strval($currentPage - 1) : "#";
     echo <<< NAVHEADER
     <nav aria-label="Post list navigation">
         <ul class="pagination justify-content-center">
@@ -150,7 +150,7 @@ function buildHTMLPagination($totalPosts, $currentPage = 1, $postsPerPage = 6, $
         echo '<li class="page-item"><a class="page-link" href="' . $newPagestart.strval($numberOfPages) . '">' . strval($numberOfPages) . '</a></li>';
     }
     
-    $next = $newPagestart . strval($currentPage + 1);
+    $next = ($currentPage + 1) <= $numberOfPages ? $newPagestart . strval($currentPage + 1) : "#";
     echo <<< NAVFOOTER
             <li class="page-item">
                 <a class="page-link" href="$next" aria-label="Next">
@@ -189,25 +189,41 @@ function listProfilePostPreview($conn, $userid = null){
         }
         return array($resultarr, $count);
     } else {
-        return null;
+        return array(null, 0);
     }
 }
 
-function listLatestPostPreview($conn){
+function listLatestPostPreview($conn, $page = 1, $postPerPage = 6){
+    $isIndex = false;
+    if ($postPerPage = 3) {
+        $isIndex = true;
+    }
+    else {
+        $countquery = $conn->query("SELECT COUNT(*) AS total FROM posts ");
+        $total = $countquery->fetch_object()->total;
+    }
+    // select post
     $myquery="SELECT posts.postid, title, caption, image, realname, username, AVG(ratings.rating) AS avg_rating
     FROM posts 
     LEFT JOIN ratings ON posts.postid=ratings.postid 
     LEFT JOIN users ON posts.userid=users.userid
     GROUP BY posts.postid
-    ORDER BY createdtime DESC limit 3";
+    ORDER BY createdtime DESC";
+    // for pagination
+    $postcount = (intval($page) - 1) * $postPerPage;
+    $myquery .= " LIMIT $postcount, $postPerPage";
+
     $result = $conn->query($myquery);
     if ($result->num_rows){
         while($row = $result->fetch_object()) {
             // use [] format to add to last item in PHP
             $resultarr[] = $row;
         }
-        return $resultarr;
+        if ($isIndex)
+            return array($resultarr, 3);
+        else 
+            return array($resultarr, $total);
     } else {
-        return null;
+        return array(null, 0);
     }
 }

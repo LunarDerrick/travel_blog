@@ -136,7 +136,7 @@ include_once("helper_list_post.php");
                 <div class="container">
                     <div class="row">
                         <?php 
-                        $posts = listLatestPostPreview($conn);
+                        [$posts, $total] = listLatestPostPreview($conn, 1, 3);
                         buildHTMLPostPreview($posts);?>
                     </div>
                 </div>
