@@ -8,9 +8,9 @@
 function buildHTMLPostPreview($posts, $edit=false){
     if ($posts == null) {
         if ($edit) 
-            echo '<p style="">No posts here... Create one?</p>';
+            echo '<em class="text-center">No posts here... Create one?</em>';
         else 
-            echo '<p style="">Hmm... is that a seagull? There is no posts matching the search term.</p>';
+            echo '<em class="text-center">Hmm... is that a seagull? There is no posts matching the search term.</em>';
             
         return;
     }

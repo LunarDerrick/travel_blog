@@ -41,13 +41,14 @@ if(isset($_SESSION["userid"])) {
         $hasUserInfo = true;
         
         // get post item
-        $postInfoStmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, ratings.rating AS user_rating, AVG(ratings.rating) AS avg_rating
+        $postInfoStmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, 
+        (SELECT rating FROM ratings WHERE postid = ? AND userid = ?) AS user_rating, 
+        AVG(ratings.rating) AS avg_rating
         FROM posts 
         JOIN users ON posts.userid=users.userid 
-        JOIN ratings ON posts.postid=ratings.postid
-        WHERE posts.postid = ?
-        AND ratings.userid = ?");
-        $postInfoStmt->bind_param("ii", $postid, $userid);
+        LEFT JOIN ratings ON posts.postid=ratings.postid
+        WHERE posts.postid = ?");
+        $postInfoStmt->bind_param("iii", $postid, $userid, $postid);
     }
 }
     
@@ -60,7 +61,7 @@ if (!$hasUserInfo){
     $postInfoStmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, 0 AS user_rating, AVG(ratings.rating) AS avg_rating
     FROM posts 
     JOIN users ON posts.userid=users.userid 
-    JOIN ratings ON posts.postid=ratings.postid
+    LEFT JOIN ratings ON posts.postid=ratings.postid
     WHERE posts.postid = ?");
     $postInfoStmt->bind_param("i", $postid);
 }
@@ -228,12 +229,8 @@ if (!isset($_SESSION["postviewcount"][$postid])){
                 <p id="article-location" class="mt-1"><i class="fa fa-location-dot h6"></i> <?php echo htmlentities($post->location); ?></p>
 
                 <!-- article -->
-                <h5 id="article-subtitle" class="lead mt-4">
-                    <?php echo htmlentities($post->title); ?>
-                    <br>
-                    <small>
-                        <?php echo htmlentities($post->caption); ?>
-                    </small>
+                <h5 id="article-subtitle" class="lead my-4">
+                    <?php echo htmlentities($post->caption); ?>
                 </h5>
 
                 <article id="article" class="mb-4 center-block">
@@ -320,7 +317,7 @@ foreach ($comments as $comment) {
     COMMENTSTR;
 }
 if (sizeof($comments) == 0){
-    echo '<span class="text-center">No comments here... Take the sofa?</span>';
+    echo '<em class="text-center">No comments here... Take the sofa?</em>';
 }
 
 ?>
