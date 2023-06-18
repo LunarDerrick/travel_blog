@@ -100,10 +100,30 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-0 transform-on-hover">
                                 <picture>
+                                    <canvas id="verticalBarChart2" style="width:100%;max-width:335px"></canvas>
+                                </picture>
+                                <div class="card-body">
+                                    <h6><a href="#" class="stretched-link">Weekly Posts Published</a></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 transform-on-hover">
+                                <picture>
+                                    <canvas id="comments" style="width:100%;max-width:335px"></canvas>
+                                </picture>
+                                <div class="card-body">
+                                    <h6><a href="#" class="stretched-link">Weekly Comments Received</a></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 transform-on-hover">
+                                <picture>
                                     <canvas id="verticalBarChart" style="width:100%;max-width:335px"></canvas>
                                 </picture>
                                 <div class="card-body">
-                                    <h6><a href="#" class="stretched-link">Weekly View Count</a></h6>
+                                    <h6><a href="#" class="stretched-link">Most View Count</a></h6>
                                 </div>
                             </div>
                         </div>
@@ -114,28 +134,6 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                 </picture>
                                 <div class="card-body">
                                     <h6><a href="#" class="stretched-link">Your Top Posts</a></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <canvas id="verticalBarChart2" style="width:100%;max-width:335px"></canvas>
-                                </picture>
-                                <div class="card-body">
-                                    <h6><a href="#" class="stretched-link">Weekly Posts Published</a></h6>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--comments-->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card border-0 transform-on-hover">
-                                <picture>
-                                    <canvas id="comments" style="width:100%;max-width:335px"></canvas>
-                                </picture>
-                                <div class="card-body">
-                                    <h6><a href="#" class="stretched-link">Weekly Comments Published</a></h6>
                                 </div>
                             </div>
                         </div>
@@ -196,16 +194,22 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
 
         const showGraph = () => {
             $.post("api_analysis.php", function(data) {
-                console.log(data);
-                //data = JSON.parse(data); // parse data from JSON string into object
+                Chart.register(ChartDataLabels);
+                //console.log(data);
                 
                 var ratings = data["rating"];
+                const possibleRatings = [1, 2, 3, 4, 5];
+                // loop through each rating and add total = 0
+                possibleRatings.forEach(rating => {
+                    const hasRating = ratings.some(r => r.rating === rating);
+                    if (!hasRating) {
+                        ratings.push({ rating, total: 0 });
+                    }
+                });
                 // sort rating by ascending order
                 ratings.sort((a,b) => a.rating - b.rating);
                 var ratingtitle = ratings.map(rating => rating.rating + " star" + (rating.rating > 1 ? "s" : "")),
                 ratingscore = ratings.map(rating => rating.total);
-                
-                Chart.register(ChartDataLabels);
                 
                 // pie chart
                 new Chart("pieChart", {
@@ -446,7 +450,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                             y: {
                                 title: {
                                     display: true,
-                                    text: 'Posts Published'
+                                    text: 'Comments Received'
                                 },
                                 // make y-axis scale as whole numbers
                                 ticks: {

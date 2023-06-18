@@ -74,10 +74,11 @@ while($row = $result->fetch_object()){
 
 // fetch rating data from database
 $myquery = "SELECT ratings.rating, COUNT(ratings.rating) AS total
-            FROM posts
-            LEFT JOIN ratings ON posts.postid=ratings.postid
+            FROM ratings
+            LEFT JOIN posts ON posts.postid=ratings.postid
             WHERE posts.userid= ?
-            GROUP BY rating";
+            GROUP BY rating
+            ORDER BY rating";
 try {
     $query = $conn->prepare($myquery);
     $query->bind_param('s', $userid);
