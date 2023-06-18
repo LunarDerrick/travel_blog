@@ -127,6 +127,18 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 transform-on-hover">
+                                <picture>
+                                    <canvas id="Locations" style="width:100%;max-width:600px"></canvas>
+                                </picture>
+                                <div class="card-body">
+                                    <h6><a href="#" class="stretched-link">Location </a></h6>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -205,15 +217,22 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                     }
                 });
 
+                var views = data["mostviews"];
+                //views.sort((a,b) => a.mostviews - b.mostviews);
+                var viewstitle = views.map(mostviews => mostviews.mostviews + (mostviews.mostviews > 1 ? "s" : "")),
+                    viewcount = views.map(mostviews => mostviews.viewcount);
+
                 // vertical bar chart
                 new Chart("verticalBarChart", {
                     type: "bar",
                     data: {
                         labels: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], // x axis
+                        //labels: viewstitle,
                         datasets: [{
                             backgroundColor: ["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7"]
 ,
-                            data: [0, 0, 0, 0, 0, 0, 0] // y axis
+                            //data: [0, 0, 0, 0, 0, 0, 0] // y axis
+                            data: viewcount
                         }]
                     },
                     options: {
@@ -243,14 +262,24 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                     }
                 });
 
-                // horizontal bar chart
+
+
+
+                var avgrating = data["topposts"];
+                var viewstitle = avgrating.map(topposts => topposts.title + (topposts.title > 1 ? "s" : "")),
+                    avg_rating = avgrating.map(topposts => topposts.avg_rating);
+
+
+                // horizontal bar chart  avg_rating
                 new Chart("horizontalBarChart", {
                     type: 'bar',
                     data: {
                         labels: ["Japan", "Korea", "UK", "New Zealand"], // x axis
+                        //labels: viewstitle,
                         datasets: [{
                                 backgroundColor: ["lightsalmon", "lightgreen", "deepskyblue", "deepskyblue"],
-                                data: [4.667, 3.667, 3.667, 2.667] // y axis
+                                data: avg_rating // y axis
+                                //data: [4.667, 3.667, 3.667, 2.667] // y axis
                             }
                         ]
                     },
@@ -318,6 +347,36 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                     callback: function(value) {if (value % 1 === 0) {return value;}}
                                 }
                             }
+                        }
+                    }
+                });
+
+
+
+                //Location fake
+                var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+                var yValues = [55, 49, 44, 24, 15];
+                var barColors = [
+                    "#b91d47",
+                    "#00aba9",
+                    "#2b5797",
+                    "#e8c3b9",
+                    "#1e7145"
+                ];
+
+                new Chart("Locations", {
+                    type: "doughnut",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: "World Wide Wine Production 2018"
                         }
                     }
                 });
