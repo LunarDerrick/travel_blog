@@ -21,18 +21,55 @@ if (!isset($_GET["id"]) || empty($_GET["id"])){
 
 $postid = intval($_GET["id"]) ?? die; // try to get integer value, or else die
 
-// get post item
-$stmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, rating AS user_rating, AVG(ratings.rating) AS avg_rating
- FROM posts 
- JOIN users ON posts.userid=users.userid 
- JOIN ratings ON posts.postid=ratings.postid
- WHERE posts.postid = ?");
-$stmt->bind_param("i", $postid);
-if (!$stmt->execute()){
+$hasUserInfo = false;
+if(isset($_SESSION["userid"])) {
+    $userid = $_SESSION["userid"];
+
+    // get user info
+    $stmt = $conn->prepare("SELECT userid, profilepic, realname
+    FROM users
+    WHERE userid=?");
+    $stmt->bind_param("i", $userid);
+    if (!$stmt->execute()){
+        http_response_code(500);
+        die;
+    }
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_object()){
+        $userinfo = $row;
+        // remember has user info
+        $hasUserInfo = true;
+        
+        // get post item
+        $postInfoStmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, ratings.rating AS user_rating, AVG(ratings.rating) AS avg_rating
+        FROM posts 
+        JOIN users ON posts.userid=users.userid 
+        JOIN ratings ON posts.postid=ratings.postid
+        WHERE posts.postid = ?
+        AND ratings.userid = ?");
+        $postInfoStmt->bind_param("ii", $postid, $userid);
+    }
+}
+    
+if (!$hasUserInfo){
+    $userinfo = new \StdClass();
+    $userinfo->profilepic = null;
+    $userinfo->realname = "Guest";
+
+    // get post item without user rating
+    $postInfoStmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, 0 AS user_rating, AVG(ratings.rating) AS avg_rating
+    FROM posts 
+    JOIN users ON posts.userid=users.userid 
+    JOIN ratings ON posts.postid=ratings.postid
+    WHERE posts.postid = ?");
+    $postInfoStmt->bind_param("i", $postid);
+}
+
+if (!$postInfoStmt->execute()){
     http_response_code(500);
     die;
 }
-$result = $stmt->get_result();
+$result = $postInfoStmt->get_result();
 if ($row = $result->fetch_object()){
     $post = $row;
     if (empty($post->postid)) {
@@ -47,16 +84,16 @@ if ($row = $result->fetch_object()){
 }
 
 // get comments
-$stmt = $conn->prepare("SELECT comments.userid, postid, commenttime, comment, username, realname, profilepic
+$postCommentStmt = $conn->prepare("SELECT comments.userid, postid, commenttime, comment, username, realname, profilepic
  FROM comments 
  JOIN users ON comments.userid=users.userid 
  WHERE postid = ?");
-$stmt->bind_param("i", $postid);
-if (!$stmt->execute()){
+$postCommentStmt->bind_param("i", $postid);
+if (!$postCommentStmt->execute()){
     http_response_code(500);
     die;
 }
-$result = $stmt->get_result();
+$result = $postCommentStmt->get_result();
 $comments = [];
 if ($result->num_rows){
     while($row = $result->fetch_object()){
@@ -72,38 +109,12 @@ if (!isset($_SESSION["postviewcount"][$postid])){
     $_SESSION["postviewcount"][$postid] = 1;
     // update viewcount in db
     $stmt = $conn->prepare("UPDATE posts
-    SET viewcount = viewcount + 1
-    WHERE postid = ?");
+        SET viewcount = viewcount + 1
+        WHERE postid = ?");
     $stmt->bind_param("i", $postid);
     if (!$stmt->execute()){
         http_response_code(500);
         die;
-    }
-}
-
-$userid = $_SESSION["userid"];
-
-// get user info
-$stmt = $conn->prepare("SELECT userid, profilepic
- FROM users
- WHERE userid=?");
-$stmt->bind_param("i", $userid);
-if (!$stmt->execute()){
-    http_response_code(500);
-    die;
-}
-$result = $stmt->get_result();
-if ($row = $result->fetch_object()){
-    $userinfo = $row;
-} else {
-    if ($result->num_rows == 0){
-        // no matching userid
-        http_response_code(404);
-        include('404.php'); // provide your own HTML for the error page
-        die();
-    } else {
-        http_response_code(500);
-        die();
     }
 }
 ?>
@@ -308,6 +319,9 @@ foreach ($comments as $comment) {
     </div>
     COMMENTSTR;
 }
+if (sizeof($comments) == 0){
+    echo '<span class="text-center">No comments here... Take the sofa?</span>';
+}
 
 ?>
 
@@ -320,10 +334,14 @@ foreach ($comments as $comment) {
                                 <?php echo isset($userinfo->profilepic) ? 
                                 '<img src="'.$userinfo->profilepic.'" alt="...">' // photo 1
                                 : 
-                                '<img src="image/profile_woman.jpg" alt="woman">'; // photo 2
+                                '<img src="image/profile_man.jpeg" alt="woman">'; // photo 2
                                 ?>
                             </div>
-                            <div class="name"><?php echo htmlentities($_SESSION["username"]); ?></div>
+                            <div class="name"><?php echo htmlentities(
+                                isset($userinfo->realname) && !empty($userinfo->realname)
+                                ? $userinfo->realname
+                                : $_SESSION["username"]
+                            ); ?></div>
                         </div>
                         
                         <!--star rating-->
