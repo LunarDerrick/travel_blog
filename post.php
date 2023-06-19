@@ -88,7 +88,8 @@ if ($row = $result->fetch_object()){
 $postCommentStmt = $conn->prepare("SELECT comments.userid, postid, commenttime, comment, username, realname, profilepic
  FROM comments 
  JOIN users ON comments.userid=users.userid 
- WHERE postid = ?");
+ WHERE postid = ?
+ ORDER BY commenttime DESC");
 $postCommentStmt->bind_param("i", $postid);
 if (!$postCommentStmt->execute()){
     http_response_code(500);
