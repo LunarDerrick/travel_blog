@@ -212,7 +212,7 @@ function listLatestPostPreview($conn, $page = 1, $postPerPage = 6){
     // for pagination
     $postcount = (intval($page) - 1) * $postPerPage;
     $myquery .= " LIMIT $postcount, $postPerPage";
-    echo $myquery;
+    // echo $myquery;
     $result = $conn->query($myquery);
     if ($result->num_rows){
         while($row = $result->fetch_object()) {
