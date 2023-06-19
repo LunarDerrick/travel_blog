@@ -5,7 +5,7 @@ function keepUserLoggedIn($conn, $userID, $username){
     $renew_token = bin2hex(random_bytes(64));
 
     $query = $conn->prepare('UPDATE users SET token=? WHERE userid=?');
-    $query->bind_param("si", $renewtoken, $userID);
+    $query->bind_param("si", $renew_token, $userID);
     $result = $query->execute();
 
     if (!$result) {

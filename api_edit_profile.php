@@ -122,6 +122,14 @@ if(isset($image_path)){
 }
 
 if ($query -> execute()){
+    // update cached username
+    if ($_POST["username"] != $currentinfo->username){
+        $_SESSION["username"] = htmlentities($_POST["username"]);
+        // update cookie username
+        if (isset($_COOKIE["loginname"])){
+            setcookie("loginname", $_POST["username"], time() + (86400 * 30), "/dev/");
+        }
+    }
     // form header for redirect
     JSONresponse(200, ["message" => "Your profile is updated."]);
 
