@@ -128,7 +128,7 @@ require_once("init_check_logged_in.php"); // only for pages that strictly requir
                                     <label for="image"><b>Image</b></label>
                                     <input type="file" accept="image/*" id="image" name="image" class="form-control" required>
                                     <picture>
-                                        <img id="img-preview" src="image/hawaii.jpg" class="img-fluid card-img-top" alt="...">
+                                        <img id="img-preview" src="image/location_placeholder.jpg" class="img-fluid card-img-top" alt="...">
                                     </picture>
                                 </div>
                             </div>
