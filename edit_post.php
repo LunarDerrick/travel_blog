@@ -147,13 +147,12 @@ if ($row = $result->fetch_object()){
                                         <option <?php echo ($post->continent == "South America")?"selected":""; ?>>South America</option>
                                     </select>
                                     </div>
-                                    <input type="text" id="location" name="location" class="form-control" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col form-label">
                                     <label for="tags"><b>Tags</b></label>
-                                    <input type="text" id="tags" name="tags" class="form-control" value="<?php echo $post->location?>">
+                                    <input type="text" id="tags" name="tags" class="form-control" value="<?php echo $post->tag?>">
                                 </div>
                             </div>
                         </div>  
