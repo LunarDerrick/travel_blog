@@ -41,7 +41,7 @@ if(isset($_SESSION["userid"])) {
         $hasUserInfo = true;
         
         // get post item
-        $postInfoStmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, 
+        $postInfoStmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, posts.userid, username, realname, 
         (SELECT rating FROM ratings WHERE postid = ? AND userid = ?) AS user_rating, 
         AVG(ratings.rating) AS avg_rating
         FROM posts 
@@ -58,7 +58,8 @@ if (!$hasUserInfo){
     $userinfo->realname = "Guest";
 
     // get post item without user rating
-    $postInfoStmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, username, realname, 0 AS user_rating, AVG(ratings.rating) AS avg_rating
+    $postInfoStmt = $conn->prepare("SELECT posts.postid, title, caption, content, location, continent, image, tag, createdtime, viewcount, posts.userid, username, realname, 
+    0 AS user_rating, AVG(ratings.rating) AS avg_rating
     FROM posts 
     JOIN users ON posts.userid=users.userid 
     LEFT JOIN ratings ON posts.postid=ratings.postid
@@ -221,9 +222,11 @@ if (!isset($_SESSION["postviewcount"][$postid])){
                     <?php echo htmlentities($post->title); ?>
                 </h2>
                 <p id="article-author" class="d-inline">by 
-                    <?php echo htmlentities(
-                        isset($post->realname) ? $post->realname: $post->username
-                    ); ?>
+                    <a href="profile.php?id=<?php echo $post->userid; ?>">
+                        <?php echo htmlentities(
+                            isset($post->realname) ? $post->realname: $post->username
+                        ); ?>
+                    </a>
                 </p> 
                 | <p id="article-date" class="d-inline"><?php echo date("Y-m-d H:i", substr($post->createdtime, 0, -3)); ?></p>
                 <br>
